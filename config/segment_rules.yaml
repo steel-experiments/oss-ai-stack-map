@@ -1,0 +1,49 @@
+precedence:
+  - serving_runtime
+  - vector_retrieval_infrastructure
+  - orchestration_framework
+  - eval_guardrails_observability
+  - training_finetuning
+  - multimodal_media
+  - rag_search_application
+  - agent_application
+  - ai_developer_tool
+  - ai_application
+  - general_builder_platform
+
+rules:
+  - segment_id: serving_runtime
+    topic_keywords: [inference, serving]
+    description_keywords: [inference, serving, model server]
+    technology_ids: [vllm, tgi, ollama, sglang, bentoml, ray-serve]
+    config_keywords: [docker, helm, k8s]
+  - segment_id: vector_retrieval_infrastructure
+    topic_keywords: [vector-database]
+    description_keywords: [vector database, retrieval]
+    technology_ids: [qdrant, weaviate, chroma, milvus, pgvector, lancedb]
+    config_keywords: [qdrant, weaviate, milvus]
+  - segment_id: orchestration_framework
+    topic_keywords: [agents]
+    description_keywords: [framework, orchestration]
+    technology_ids: [langchain, langgraph, llamaindex, autogen, crewai, pydanticai, semantic-kernel, dspy]
+  - segment_id: eval_guardrails_observability
+    topic_keywords: [evaluation, guardrails]
+    description_keywords: [evaluation, guardrail, observability, tracing]
+    technology_ids: [ragas, deepeval, promptfoo, guardrails, nemo-guardrails, langfuse, phoenix, helicone, weave]
+  - segment_id: training_finetuning
+    description_keywords: [fine-tuning, finetuning, training]
+    technology_ids: [transformers, peft, trl, deepspeed, accelerate]
+  - segment_id: rag_search_application
+    topic_keywords: [rag]
+    description_keywords: [rag, retrieval]
+    technology_ids: [qdrant, weaviate, chroma, milvus, pgvector, lancedb]
+  - segment_id: agent_application
+    topic_keywords: [ai-agent, agents]
+    description_keywords: [agent, assistant, copilot]
+    technology_ids: [langgraph, autogen, crewai, pydanticai]
+  - segment_id: ai_developer_tool
+    description_keywords: [sdk, developer tool, cli]
+  - segment_id: ai_application
+    description_keywords: [assistant, chatbot, copilot, app]
+  - segment_id: general_builder_platform
+    description_keywords: [platform, builder]

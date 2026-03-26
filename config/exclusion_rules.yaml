@@ -1,0 +1,70 @@
+hard_keywords:
+  - demo
+  - example
+  - tutorial
+  - awesome
+  - list
+  - template
+  - starter
+  - boilerplate
+  - workshop
+  - course
+  - benchmark-only
+  - prompt collection
+  - paper list
+  - cheatsheet
+  - playground
+
+educational_keywords:
+  - from scratch
+  - step by step
+  - official code repository for the book
+  - code for the book
+  - companion code
+  - hands-on
+  - workbook
+  - learning materials
+  - course materials
+  - chapter code
+  - textbook
+
+excluded_directories:
+  - examples
+  - example
+  - demo
+  - demos
+  - tutorial
+  - tutorials
+  - benchmarks
+  - benchmark
+  - docs
+  - notebooks
+  - vendor
+  - third_party
+  - .venv
+  - node_modules
+
+source_extensions:
+  - .py
+  - .ts
+  - .tsx
+  - .js
+  - .jsx
+  - .go
+  - .rs
+  - .java
+  - .kt
+  - .rb
+  - .php
+
+manifest_files:
+  - pyproject.toml
+  - requirements.txt
+  - package.json
+  - go.mod
+  - Cargo.toml
+  - pom.xml
+  - build.gradle
+  - build.gradle.kts
+  - Gemfile
+  - composer.json

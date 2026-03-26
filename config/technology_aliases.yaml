@@ -1,0 +1,245 @@
+technologies:
+  - technology_id: openai
+    display_name: OpenAI SDK
+    category_id: model_access_and_providers
+    provider_id: openai
+    aliases: [openai, openai-python, openai-go]
+    import_aliases: [openai, github.com/openai/openai-go]
+  - technology_id: anthropic
+    display_name: Anthropic SDK
+    category_id: model_access_and_providers
+    provider_id: anthropic
+    aliases: [anthropic, "@anthropic-ai/sdk"]
+    import_aliases: [anthropic]
+  - technology_id: google-genai
+    display_name: Google GenAI SDK
+    category_id: model_access_and_providers
+    provider_id: google
+    aliases: [google-genai, "@google/genai", google-generativeai]
+    import_aliases: [google.genai, google.generativeai]
+  - technology_id: langchain
+    display_name: LangChain
+    category_id: orchestration_and_agents
+    aliases: [langchain, langchain-core, langchain-community, "@langchain/core"]
+    import_aliases: [langchain]
+  - technology_id: langchain-openai
+    display_name: LangChain OpenAI Integration
+    category_id: orchestration_and_agents
+    provider_id: openai
+    aliases: [langchain-openai, "@langchain/openai"]
+    import_aliases: [langchain_openai, "@langchain/openai"]
+  - technology_id: langchain-anthropic
+    display_name: LangChain Anthropic Integration
+    category_id: orchestration_and_agents
+    provider_id: anthropic
+    aliases: [langchain-anthropic, "@langchain/anthropic"]
+    import_aliases: [langchain_anthropic, "@langchain/anthropic"]
+  - technology_id: langchain-google-genai
+    display_name: LangChain Google GenAI Integration
+    category_id: orchestration_and_agents
+    provider_id: google
+    aliases: [langchain-google-genai, "@langchain/google-genai"]
+    import_aliases: [langchain_google_genai, "@langchain/google-genai"]
+  - technology_id: langgraph
+    display_name: LangGraph
+    category_id: orchestration_and_agents
+    aliases: [langgraph, "@langchain/langgraph"]
+    import_aliases: [langgraph, "@langchain/langgraph"]
+  - technology_id: llamaindex
+    display_name: LlamaIndex
+    category_id: orchestration_and_agents
+    aliases: [llama-index, llama_index]
+    import_aliases: [llama_index]
+  - technology_id: autogen
+    display_name: AutoGen
+    category_id: orchestration_and_agents
+    aliases: [autogen, pyautogen]
+    import_aliases: [autogen]
+  - technology_id: crewai
+    display_name: CrewAI
+    category_id: orchestration_and_agents
+    aliases: [crewai]
+    import_aliases: [crewai]
+  - technology_id: pydanticai
+    display_name: PydanticAI
+    category_id: orchestration_and_agents
+    aliases: [pydantic-ai, pydantic_ai]
+    import_aliases: [pydantic_ai]
+  - technology_id: semantic-kernel
+    display_name: Semantic Kernel
+    category_id: orchestration_and_agents
+    aliases: [semantic-kernel]
+    import_aliases: [semantic_kernel]
+  - technology_id: dspy
+    display_name: DSPy
+    category_id: orchestration_and_agents
+    aliases: [dspy, dspy-ai]
+    import_aliases: [dspy]
+  - technology_id: litellm
+    display_name: LiteLLM
+    category_id: model_access_and_providers
+    aliases: [litellm]
+    import_aliases: [litellm]
+  - technology_id: instructor
+    display_name: Instructor
+    category_id: orchestration_and_agents
+    aliases: [instructor]
+    import_aliases: [instructor]
+  - technology_id: haystack
+    display_name: Haystack
+    category_id: orchestration_and_agents
+    aliases: [haystack, farm-haystack]
+    import_aliases: [haystack]
+  - technology_id: smolagents
+    display_name: smolagents
+    category_id: orchestration_and_agents
+    aliases: [smolagents]
+    import_aliases: [smolagents]
+  - technology_id: qdrant
+    display_name: Qdrant
+    category_id: vector_and_knowledge_storage
+    aliases: [qdrant-client, qdrant]
+    import_aliases: [qdrant_client, qdrant]
+  - technology_id: weaviate
+    display_name: Weaviate
+    category_id: vector_and_knowledge_storage
+    aliases: [weaviate-client, weaviate]
+    import_aliases: [weaviate]
+  - technology_id: chroma
+    display_name: Chroma
+    category_id: vector_and_knowledge_storage
+    aliases: [chromadb, chroma]
+    import_aliases: [chromadb, chroma]
+  - technology_id: milvus
+    display_name: Milvus
+    category_id: vector_and_knowledge_storage
+    aliases: [pymilvus, milvus]
+    import_aliases: [pymilvus, milvus]
+  - technology_id: pgvector
+    display_name: pgvector
+    category_id: vector_and_knowledge_storage
+    aliases: [pgvector]
+    import_aliases: [pgvector]
+  - technology_id: lancedb
+    display_name: LanceDB
+    category_id: vector_and_knowledge_storage
+    aliases: [lancedb]
+    import_aliases: [lancedb]
+  - technology_id: vllm
+    display_name: vLLM
+    category_id: serving_inference_and_local_runtimes
+    aliases: [vllm]
+    import_aliases: [vllm]
+  - technology_id: tgi
+    display_name: TGI
+    category_id: serving_inference_and_local_runtimes
+    aliases: [text-generation-inference]
+  - technology_id: ollama
+    display_name: Ollama
+    category_id: serving_inference_and_local_runtimes
+    aliases: [ollama]
+    import_aliases: [ollama]
+  - technology_id: llama-cpp
+    display_name: llama.cpp
+    category_id: serving_inference_and_local_runtimes
+    aliases: [llama-cpp-python]
+    import_aliases: [llama_cpp]
+  - technology_id: sglang
+    display_name: SGLang
+    category_id: serving_inference_and_local_runtimes
+    aliases: [sglang]
+    import_aliases: [sglang]
+  - technology_id: bentoml
+    display_name: BentoML
+    category_id: serving_inference_and_local_runtimes
+    aliases: [bentoml]
+    import_aliases: [bentoml]
+  - technology_id: ray-serve
+    display_name: Ray Serve
+    category_id: serving_inference_and_local_runtimes
+    aliases: [ray, ray-serve]
+    import_aliases: [ray]
+  - technology_id: transformers
+    display_name: Transformers
+    category_id: training_finetuning_and_model_ops
+    aliases: [transformers]
+    import_aliases: [transformers]
+  - technology_id: peft
+    display_name: PEFT
+    category_id: training_finetuning_and_model_ops
+    aliases: [peft]
+    import_aliases: [peft]
+  - technology_id: trl
+    display_name: TRL
+    category_id: training_finetuning_and_model_ops
+    aliases: [trl]
+    import_aliases: [trl]
+  - technology_id: deepspeed
+    display_name: DeepSpeed
+    category_id: training_finetuning_and_model_ops
+    aliases: [deepspeed]
+    import_aliases: [deepspeed]
+  - technology_id: accelerate
+    display_name: Accelerate
+    category_id: training_finetuning_and_model_ops
+    aliases: [accelerate]
+    import_aliases: [accelerate]
+  - technology_id: ragas
+    display_name: Ragas
+    category_id: evaluation_guardrails_and_safety
+    aliases: [ragas]
+    import_aliases: [ragas]
+  - technology_id: deepeval
+    display_name: DeepEval
+    category_id: evaluation_guardrails_and_safety
+    aliases: [deepeval]
+    import_aliases: [deepeval]
+  - technology_id: promptfoo
+    display_name: Promptfoo
+    category_id: evaluation_guardrails_and_safety
+    aliases: [promptfoo]
+  - technology_id: guardrails
+    display_name: Guardrails
+    category_id: evaluation_guardrails_and_safety
+    aliases: [guardrails-ai, guardrails]
+    import_aliases: [guardrails]
+  - technology_id: nemo-guardrails
+    display_name: NeMo Guardrails
+    category_id: evaluation_guardrails_and_safety
+    aliases: [nemoguardrails]
+    import_aliases: [nemoguardrails]
+  - technology_id: langfuse
+    display_name: Langfuse
+    category_id: observability_tracing_and_monitoring
+    aliases: [langfuse]
+    import_aliases: [langfuse]
+  - technology_id: phoenix
+    display_name: Arize Phoenix
+    category_id: observability_tracing_and_monitoring
+    aliases: [arize-phoenix, phoenix]
+    import_aliases: [phoenix]
+  - technology_id: helicone
+    display_name: Helicone
+    category_id: observability_tracing_and_monitoring
+    aliases: [helicone]
+    import_aliases: [helicone]
+  - technology_id: weave
+    display_name: Weave
+    category_id: observability_tracing_and_monitoring
+    aliases: [weave]
+    import_aliases: [weave]
+  - technology_id: gradio
+    display_name: Gradio
+    category_id: ui_and_app_frameworks
+    aliases: [gradio]
+    import_aliases: [gradio]
+  - technology_id: streamlit
+    display_name: Streamlit
+    category_id: ui_and_app_frameworks
+    aliases: [streamlit]
+    import_aliases: [streamlit]
+  - technology_id: chainlit
+    display_name: Chainlit
+    category_id: ui_and_app_frameworks
+    aliases: [chainlit]
+    import_aliases: [chainlit]

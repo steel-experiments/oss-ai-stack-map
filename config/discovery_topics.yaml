@@ -1,0 +1,42 @@
+topics:
+  - llm
+  - agents
+  - ai-agent
+  - rag
+  - vector-database
+  - multimodal
+  - inference
+  - serving
+  - evaluation
+  - guardrails
+  - model-context-protocol
+  - mcp
+
+description_keywords:
+  - llm
+  - agent
+  - ai assistant
+  - rag
+  - vector database
+  - inference server
+  - model serving
+  - evaluation
+  - guardrails
+  - multimodal
+  - text-to-speech
+  - speech-to-text
+  - image generation
+
+manual_seed_repos:
+  - openai/openai-python
+  - langchain-ai/langchain
+  - langchain-ai/langgraph
+  - run-llama/llama_index
+  - qdrant/qdrant
+  - milvus-io/milvus
+  - weaviate/weaviate
+  - vllm-project/vllm
+  - ollama/ollama
+  - bentoml/BentoML
+  - crewAIInc/crewAI
+  - microsoft/autogen

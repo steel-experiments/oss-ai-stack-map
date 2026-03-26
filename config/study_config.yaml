@@ -1,0 +1,42 @@
+snapshot_date: 2026-03-25
+
+filters:
+  candidate_stars_min: 1000
+  major_stars_min: 1000
+  freshness_months: 12
+  max_search_pages_per_query: 3
+  max_repos:
+
+classification:
+  serious_pass_score: 3
+  ai_relevance_pass_score: 3
+  strong_serious_override_score: 5
+  readme_mentions_used_for_edges: false
+
+outputs:
+  write_parquet: true
+  write_csv: true
+  publish_major_view: true
+  publish_provider_rollups: true
+
+http:
+  timeout_seconds: 30
+  max_retries: 5
+  user_agent: oss-ai-stack-map/0.1.0
+
+judge:
+  enabled: false
+  hardening_enabled: false
+  validation_enabled: false
+  model: gpt-5.4-nano
+  max_cases_per_run: 25
+  override_on_high_confidence: true
+  min_confidence_to_override: high
+  reasoning_effort: low
+
+initial_ecosystems:
+  - python
+  - javascript
+  - typescript
+  - go
+  - rust
