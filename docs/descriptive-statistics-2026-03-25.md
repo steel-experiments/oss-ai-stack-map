@@ -1,112 +1,111 @@
 # Descriptive Statistics: 2026-03-25
 
-This report summarizes `/home/agent/oss-ai-stack-map/data/run-2026-03-25-resumable` from staged Parquet outputs.
+This report summarizes `/home/agent/oss-ai-stack-map/data/run-2026-03-25-fresh-1mo-v1` from staged Parquet outputs.
 
 | Metric | Count | Share of discovered repos |
 | --- | --- | --- |
-| Discovered repos | 1,522 | 100.0% |
-| Serious repos | 1,257 | 82.6% |
-| AI-relevant repos | 897 | 58.9% |
-| Final repos | 897 | 58.9% |
-| Judge-reviewed repos | 400 | 26.3% |
+| Discovered repos | 1,216 | 100.0% |
+| Serious repos | 963 | 79.2% |
+| AI-relevant repos | 783 | 64.4% |
+| Final repos | 783 | 64.4% |
+| Judge-reviewed repos | 0 | 0.0% |
 
 ## Population profile
 
 | Owner type | All repos | Final repos |
 | --- | --- | --- |
-| Organization | 1,029 (67.6%) | 691 (77.0%) |
-| User | 493 (32.4%) | 206 (23.0%) |
+| Organization | 859 (70.6%) | 617 (78.8%) |
+| User | 357 (29.4%) | 166 (21.2%) |
 
 | Rank | All repos | Final repos |
 | --- | --- | --- |
-| 1 | Python: 691 (45.4%) | Python: 524 (58.4%) |
-| 2 | TypeScript: 265 (17.4%) | TypeScript: 172 (19.2%) |
-| 3 | Unknown: 83 (5.5%) | Jupyter Notebook: 47 (5.2%) |
-| 4 | Go: 81 (5.3%) | Go: 35 (3.9%) |
-| 5 | Jupyter Notebook: 80 (5.3%) | Rust: 33 (3.7%) |
-| 6 | Rust: 66 (4.3%) | JavaScript: 20 (2.2%) |
-| 7 | JavaScript: 58 (3.8%) | C++: 17 (1.9%) |
-| 8 | C++: 39 (2.6%) | Java: 14 (1.6%) |
-| 9 | Java: 29 (1.9%) | C#: 5 (0.6%) |
-| 10 | HTML: 18 (1.2%) | HTML: 5 (0.6%) |
+| 1 | Python: 514 (42.3%) | Python: 397 (50.7%) |
+| 2 | TypeScript: 240 (19.7%) | TypeScript: 176 (22.5%) |
+| 3 | Go: 79 (6.5%) | Go: 49 (6.3%) |
+| 4 | Rust: 63 (5.2%) | Rust: 35 (4.5%) |
+| 5 | Unknown: 52 (4.3%) | Jupyter Notebook: 28 (3.6%) |
+| 6 | JavaScript: 49 (4.0%) | JavaScript: 24 (3.1%) |
+| 7 | Jupyter Notebook: 46 (3.8%) | C++: 17 (2.2%) |
+| 8 | C++: 28 (2.3%) | Java: 14 (1.8%) |
+| 9 | Java: 28 (2.3%) | Kotlin: 8 (1.0%) |
+| 10 | HTML: 18 (1.5%) | C#: 7 (0.9%) |
 
 Top licenses in the final set:
 
-- `Apache-2.0`: `376`
-- `MIT`: `306`
-- `NOASSERTION`: `113`
+- `Apache-2.0`: `322`
+- `MIT`: `271`
+- `NOASSERTION`: `109`
 - `AGPL-3.0`: `40`
-- `Unknown`: `20`
+- `GPL-3.0`: `12`
 
 ## Scores and evidence
 
-- Serious score modes: `8` (324), `7` (319), `9` (222), `6` (199), `5` (125)
-- AI score modes: `1` (305), `2` (248), `3` (93), `16` (92), `15` (75)
-- Repos with manifest paths: `1274` (83.7%)
-- Repos with SBOM dependencies: `1151` (75.6%)
-- Repos with import-derived dependencies: `57` (3.7%)
-- Evidence rows mapped to a known technology: `10435` (2.5%)
+- Serious score modes: `8` (290), `7` (256), `9` (220), `6` (124), `0` (124)
+- AI score modes: `1` (175), `2` (144), `4` (88), `15` (73), `3` (73)
+- Repos with manifest paths: `990` (81.4%)
+- Repos with SBOM dependencies: `921` (75.7%)
+- Repos with import-derived dependencies: `53` (4.4%)
+- Evidence rows mapped to a known technology: `14116` (3.8%)
 
 ## Technology graph inputs
 
 | Metric | Value |
 | --- | --- |
-| Normalized technology edges | 3,819 |
-| Technologies in catalog | 48 |
-| Final repos with at least one edge | 826 |
-| Final repos with no edge | 71 |
+| Normalized technology edges | 4,341 |
+| Technologies in catalog | 63 |
+| Final repos with at least one tracked edge | 778 |
+| Final repos with no tracked edge | 5 |
+| Missing tracked edges with only unmapped evidence | 5 |
+| Missing tracked edges with no dependency evidence | 0 |
 
 Top technologies in final repos:
 
 | Rank | Technology | Repos | Share of final repos |
 | --- | --- | --- | --- |
-| 1 | OpenAI SDK | 550 | 61.3% |
-| 2 | Transformers | 390 | 43.5% |
-| 3 | Anthropic SDK | 275 | 30.7% |
-| 4 | LangChain | 260 | 29.0% |
-| 5 | Google GenAI SDK | 227 | 25.3% |
-| 6 | Accelerate | 214 | 23.9% |
-| 7 | LangChain OpenAI Integration | 159 | 17.7% |
-| 8 | LiteLLM | 138 | 15.4% |
-| 9 | Gradio | 130 | 14.5% |
-| 10 | LangGraph | 121 | 13.5% |
+| 1 | OpenAI SDK | 456 | 58.2% |
+| 2 | Model Context Protocol | 376 | 48.0% |
+| 3 | Transformers | 278 | 35.5% |
+| 4 | PyTorch | 264 | 33.7% |
+| 5 | Anthropic SDK | 259 | 33.1% |
+| 6 | Hugging Face Hub | 250 | 31.9% |
+| 7 | Tokenizers | 220 | 28.1% |
+| 8 | Google GenAI SDK | 192 | 24.5% |
+| 9 | LangChain | 191 | 24.4% |
+| 10 | Accelerate | 151 | 19.3% |
 
 Edge category mix:
 
-- `model_access_and_providers`: `1190` (31.2%)
-- `orchestration_and_agents`: `852` (22.3%)
-- `training_finetuning_and_model_ops`: `809` (21.2%)
-- `vector_and_knowledge_storage`: `390` (10.2%)
-- `serving_inference_and_local_runtimes`: `250` (6.5%)
-- `ui_and_app_frameworks`: `239` (6.3%)
-- `observability_tracing_and_monitoring`: `55` (1.4%)
-- `evaluation_guardrails_and_safety`: `34` (0.9%)
+- `training_finetuning_and_model_ops`: `1309` (30.2%)
+- `model_access_and_providers`: `1022` (23.5%)
+- `orchestration_and_agents`: `699` (16.1%)
+- `ai_developer_tools_and_sdk_families`: `467` (10.8%)
+- `vector_and_knowledge_storage`: `309` (7.1%)
+- `serving_inference_and_local_runtimes`: `223` (5.1%)
+- `ui_and_app_frameworks`: `145` (3.3%)
+- `observability_tracing_and_monitoring`: `65` (1.5%)
+- `sandbox_and_isolated_execution`: `38` (0.9%)
+- `browser_and_computer_use_infra`: `33` (0.8%)
+- `evaluation_guardrails_and_safety`: `29` (0.7%)
+- `runtime_and_agent_deployment`: `2` (0.0%)
 
 Final primary segment mix:
 
-- `serving_runtime`: `310` (34.6%)
-- `training_finetuning`: `167` (18.6%)
-- `orchestration_framework`: `139` (15.5%)
-- `vector_retrieval_infrastructure`: `114` (12.7%)
-- `agent_application`: `75` (8.4%)
-- `rag_search_application`: `51` (5.7%)
-- `eval_guardrails_observability`: `14` (1.6%)
-- `unassigned`: `10` (1.1%)
-- `ai_application`: `6` (0.7%)
-- `ai_developer_tool`: `4` (0.4%)
-- `developer_tools`: `1` (0.1%)
-- `llm_cli_and_chat_application`: `1` (0.1%)
-- `inference_optimization`: `1` (0.1%)
-- `Image Generation`: `1` (0.1%)
-- `developer_tools_plugin`: `1` (0.1%)
-- `model_zoo_and_pretrained_models`: `1` (0.1%)
-- `AI tool integrations / agent tooling`: `1` (0.1%)
+- `serving_runtime`: `256` (32.7%)
+- `training_finetuning`: `217` (27.7%)
+- `orchestration_framework`: `99` (12.6%)
+- `vector_retrieval_infrastructure`: `76` (9.7%)
+- `agent_application`: `61` (7.8%)
+- `ai_developer_tool`: `34` (4.3%)
+- `rag_search_application`: `17` (2.2%)
+- `unassigned`: `9` (1.1%)
+- `eval_guardrails_observability`: `8` (1.0%)
+- `ai_application`: `6` (0.8%)
 
 Final repo stars summary:
 
-- min `1,003`, median `5,264`, p75 `13,186`, max `335,512`
+- min `1,011`, median `4,995`, p75 `13,503`, max `338,092`
 
 Final repo contexts:
 
-- Final repos with manifest paths: `884` (98.6%)
-- Final repos with SBOM dependencies: `766` (85.4%)
+- Final repos with manifest paths: `776` (99.1%)
+- Final repos with SBOM dependencies: `664` (84.8%)

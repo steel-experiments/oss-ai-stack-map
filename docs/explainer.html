@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OSS AI Stack Map Explainer</title>
+    <meta
+      name="description"
+      content="Explainer for the OSS AI Stack Map methodology, normalization pipeline, and architecture."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cloud: '#F0EEE9',
+              paper: '#FBFAF7',
+              ink: '#1A1816',
+              line: '#CBC3B7',
+              muted: '#766E64',
+              'muted-strong': '#A89E91',
+              'tropic-coral': '#E78B72',
+              'tropic-papaya': '#E5A36F',
+              'tropic-sun': '#D8BF6A',
+              'tropic-kiwi': '#9EAF73',
+              'tropic-seafoam': '#9EC3B5',
+              'tropic-lagoon': '#6FA7A3',
+              'tropic-flamingo': '#D7A0AA',
+            },
+            fontFamily: {
+              sans: ['Instrument Sans', 'sans-serif'],
+              mono: ['IBM Plex Mono', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'neutral',
+        securityLevel: 'loose',
+      });
+    </script>
+  </head>
+  <body class="min-h-screen overflow-x-hidden bg-cloud font-sans text-ink antialiased">
+    <main class="mx-auto max-w-7xl px-6 py-8 sm:px-8 lg:px-10">
+      <nav class="mb-8 flex flex-col gap-4 border border-line bg-paper px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">OSS AI Stack Map</div>
+          <div class="mt-1 text-sm text-muted">Methodology, normalization model, and system architecture.</div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href="index.html" class="border border-line bg-cloud px-4 py-2 text-sm font-medium text-ink">Report</a>
+          <a href="explainer.html" class="border border-ink bg-ink px-4 py-2 text-sm font-medium text-paper">Explainer</a>
+        </div>
+      </nav>
+
+      <section class="overflow-hidden border border-line bg-ink px-6 py-8 text-paper sm:px-8 lg:px-10">
+        <div class="grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_22rem]">
+          <div>
+            <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[explainer]</div>
+            <h1 class="mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
+              How this map is built and why the results are credible.
+            </h1>
+            <p class="mt-6 max-w-3xl text-base leading-8 text-paper/80 sm:text-lg">
+              This page explains the exact method behind the OSS AI Stack Map: how repositories are discovered,
+              how technology evidence is extracted, how raw package signals become canonical technologies, and how
+              benchmarks plus graph analysis drive the next round of research.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="index.html" class="border border-white/20 px-4 py-2 text-sm font-medium text-paper">Open the latest report</a>
+              <a href="#method" class="border border-white/20 px-4 py-2 text-sm font-medium text-paper">Jump to method</a>
+            </div>
+          </div>
+
+          <aside class="border border-white/10 p-6">
+            <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[reference snapshot]</div>
+            <div class="mt-4 text-2xl font-semibold tracking-tight text-paper">run-2026-03-25-repaired-v13</div>
+            <div class="mt-4 text-sm leading-7 text-paper/80">
+              Generated 2026-03-26 14:36 UTC and aligned to <span class="break-all font-mono text-paper">data/run-2026-03-25-repaired-v13</span>.
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="mt-8 border border-line bg-paper px-5 py-4">
+        <div class="flex flex-wrap gap-3 text-sm">
+          <a href="#overview" class="border border-line bg-cloud px-3 py-2 text-ink">Overview</a>
+          <a href="#method" class="border border-line bg-cloud px-3 py-2 text-ink">Method</a>
+          <a href="#evidence" class="border border-line bg-cloud px-3 py-2 text-ink">Evidence</a>
+          <a href="#architecture" class="border border-line bg-cloud px-3 py-2 text-ink">Architecture</a>
+          <a href="#operations" class="border border-line bg-cloud px-3 py-2 text-ink">Operations</a>
+          <a href="#faq" class="border border-line bg-cloud px-3 py-2 text-ink">FAQ</a>
+        </div>
+      </section>
+
+      <section id="overview" class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Research object</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">AI tech stacks</div>
+      <div class="mt-2 text-sm leading-6 text-muted">The unit of study is how major OSS AI repos compose their stack, not just which repos exist.</div>
+    </div>
+    
+        
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Primary surface</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">Registry</div>
+      <div class="mt-2 text-sm leading-6 text-muted">technology_registry.yaml is the main curated research asset for canonical technologies.</div>
+    </div>
+    
+        
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Iteration mode</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">Repair-first</div>
+      <div class="mt-2 text-sm leading-6 text-muted">We improve normalization and reporting by repairing snapshots without requiring a new GitHub crawl every time.</div>
+    </div>
+    
+        
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Discovery mode</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">Graph-guided</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Network analysis ranks unmatched package families so research effort follows the data.</div>
+    </div>
+    
+      </section>
+
+      <section class="mt-8 grid gap-6 lg:grid-cols-3">
+        
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ frame</div>
+          <h2 class="mt-3 text-xl font-semibold tracking-tight text-ink">What this map is</h2>
+          <p class="mt-4 text-sm leading-7 text-muted">A normalized graph of technologies used by serious OSS AI repos, not just a list of repositories.</p>
+        </article>
+        
+
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ frame</div>
+          <h2 class="mt-3 text-xl font-semibold tracking-tight text-ink">What this map is not</h2>
+          <p class="mt-4 text-sm leading-7 text-muted">It is not a generic dependency census, README keyword scrape, or popularity leaderboard.</p>
+        </article>
+        
+
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ frame</div>
+          <h2 class="mt-3 text-xl font-semibold tracking-tight text-ink">Why repair-first matters</h2>
+          <p class="mt-4 text-sm leading-7 text-muted">Normalization and research quality improve faster than discovery, so we iterate by repairing snapshots against the current registry.</p>
+        </article>
+        
+      </section>
+
+      <section id="method" class="mt-14">
+        <div class="max-w-3xl">
+          <div class="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">+ method</div>
+          <h2 class="mt-3 text-3xl font-semibold tracking-[-0.03em] text-ink">The workflow in six concrete steps</h2>
+        </div>
+        <div class="mt-8 grid gap-5 lg:grid-cols-3">
+          
+        <article class="border border-line bg-paper p-5">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">step 1</div>
+          <div class="mt-3 text-sm leading-7 text-ink">Discover a broad GitHub universe from topics, description keywords, and manual seed repos.</div>
+        </article>
+        
+
+        <article class="border border-line bg-paper p-5">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">step 2</div>
+          <div class="mt-3 text-sm leading-7 text-ink">Build repo context from README, file tree, manifests, SBOMs, and imports.</div>
+        </article>
+        
+
+        <article class="border border-line bg-paper p-5">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">step 3</div>
+          <div class="mt-3 text-sm leading-7 text-ink">Classify which repos are serious, AI-relevant, and worth publishing in the final map.</div>
+        </article>
+        
+
+        <article class="border border-line bg-paper p-5">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">step 4</div>
+          <div class="mt-3 text-sm leading-7 text-ink">Extract dependency evidence and normalize it into canonical technologies and provider signals.</div>
+        </article>
+        
+
+        <article class="border border-line bg-paper p-5">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">step 5</div>
+          <div class="mt-3 text-sm leading-7 text-ink">Repair snapshots so new registry logic can be applied without doing a new GitHub crawl.</div>
+        </article>
+        
+
+        <article class="border border-line bg-paper p-5">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">step 6</div>
+          <div class="mt-3 text-sm leading-7 text-ink">Use gap reports, benchmarks, and graph analysis to decide what the registry should learn next.</div>
+        </article>
+        
+        </div>
+      </section>
+
+      <section id="evidence" class="mt-14 grid gap-6 lg:grid-cols-2">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ evidence</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">What counts as stack evidence</h2>
+          <div class="mt-6">
+            
+        <div class="border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="text-sm leading-7 text-ink">Manifest dependencies from Python, JavaScript/TypeScript, Go, and Rust manifests.</div>
+        </div>
+        
+
+        <div class="border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="text-sm leading-7 text-ink">SBOM direct dependencies from GitHub dependency graph exports.</div>
+        </div>
+        
+
+        <div class="border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="text-sm leading-7 text-ink">Import-derived fallback detection when manifest coverage is incomplete.</div>
+        </div>
+        
+
+        <div class="border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="text-sm leading-7 text-ink">Repo identity edges for upstream canonical projects.</div>
+        </div>
+        
+
+        <div class="border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="text-sm leading-7 text-ink">Low-confidence README fallback only when a final repo would otherwise remain unmapped.</div>
+        </div>
+        
+          </div>
+        </article>
+
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ curation</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">What stays automatic and what stays curated</h2>
+          <div class="mt-6">
+            
+        <div class="border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="text-sm leading-7 text-ink">The canonical registry is the primary research surface. It tracks provider, product, sdk_family, package-family, aliases, package prefixes, repo identities, and capabilities.</div>
+        </div>
+        
+
+        <div class="border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="text-sm leading-7 text-ink">Auto-discovery finds and ranks candidate families, but does not promote them directly into the registry.</div>
+        </div>
+        
+
+        <div class="border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="text-sm leading-7 text-ink">Benchmarks measure recall against known AI stack entities so regressions become visible immediately.</div>
+        </div>
+        
+
+        <div class="border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="text-sm leading-7 text-ink">Optional LLM judges narrow review queues for repo classification and registry suggestions, but do not replace curation.</div>
+        </div>
+        
+          </div>
+          <div class="mt-6 border border-line bg-cloud p-5 text-sm leading-7 text-muted">
+            <p><span class="font-medium text-ink">Matching order:</span> exact alias, registry alias, package-family prefix, provider inference, repo identity, then low-confidence README fallback.</p>
+            <p class="mt-3"><span class="font-medium text-ink">Judge usage:</span> repo judges and registry judges are optional, conservative, and used to narrow review queues rather than replace curation.</p>
+          </div>
+        </article>
+      </section>
+
+      <section id="architecture" class="mt-14">
+        <div class="max-w-3xl">
+          <div class="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">+ architecture</div>
+          <h2 class="mt-3 text-3xl font-semibold tracking-[-0.03em] text-ink">The pipeline and the feedback loops that improve it</h2>
+        </div>
+
+        <article class="mt-8 border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[top-level flow]</div>
+          <div class="mt-6 overflow-x-auto">
+            <pre class="mermaid min-w-[48rem] bg-cloud p-4 font-mono text-sm">flowchart LR
+    A[GitHub Search + Manual Seeds] --&gt; B[Discovery]
+    B --&gt; C[repos.parquet]
+    C --&gt; D[Classification Context Build]
+    D --&gt; E[repo_contexts.parquet]
+    E --&gt; F[Rule-Based Classification]
+    F --&gt; G[repo_inclusion_decisions.parquet]
+    E --&gt; H[Dependency Evidence]
+    H --&gt; I[repo_dependency_evidence.parquet]
+    E --&gt; J[Normalization]
+    G --&gt; J
+    J --&gt; K[repo_technology_edges.parquet]
+    J --&gt; L[technologies.parquet]
+    C --&gt; M[Snapshot Repair]
+    E --&gt; M
+    G --&gt; M
+    K --&gt; M
+    L --&gt; M
+    M --&gt; N[gap_report.json]
+    M --&gt; O[benchmark_recall_report.json]
+    M --&gt; P[technology_discovery_report.json]
+    M --&gt; Q[registry_suggestions.json]
+    N --&gt; R[Report + Explainer]
+    O --&gt; R
+    P --&gt; R
+    Q --&gt; R</pre>
+          </div>
+        </article>
+
+        <article class="mt-6 border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[artifact lineage]</div>
+          <div class="mt-6 overflow-x-auto">
+            <pre class="mermaid min-w-[48rem] bg-cloud p-4 font-mono text-sm">flowchart TD
+    A[repos.parquet] --&gt; B[repo_contexts.parquet]
+    B --&gt; C[repo_dependency_evidence.parquet]
+    B --&gt; D[repo_inclusion_decisions.parquet]
+    C --&gt; E[repo_technology_edges.parquet]
+    D --&gt; E
+    E --&gt; F[technologies.parquet]
+    A --&gt; G[gap_report.json]
+    C --&gt; G
+    D --&gt; G
+    E --&gt; G
+    A --&gt; H[benchmark_recall_report.json]
+    C --&gt; H
+    E --&gt; H
+    A --&gt; I[technology_discovery_report.json]
+    C --&gt; I
+    D --&gt; I
+    E --&gt; I
+    I --&gt; J[registry_suggestions.json]
+    H --&gt; J
+    J --&gt; K[docs output]</pre>
+          </div>
+        </article>
+
+        <article class="mt-6 border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[improvement loop]</div>
+          <div class="mt-6 overflow-x-auto">
+            <pre class="mermaid min-w-[48rem] bg-cloud p-4 font-mono text-sm">flowchart LR
+    A[Discovery Queries and Manual Seeds] --&gt; B[Candidate Repo Universe]
+    B --&gt; C[Rule Classifier]
+    C --&gt; D{Optional Judge}
+    D --&gt; E[Final Repo Set]
+    E --&gt; F[Dependency Evidence and Normalization]
+    F --&gt; G[Canonical Technology Map]
+    G --&gt; H[Gap Report + Benchmark Recall + Registry Suggestions]
+    H --&gt; I{Which lever is weak?}
+    I --&gt; J[Discovery Updates]
+    I --&gt; K[Classifier Updates]
+    I --&gt; L[Judge Prompt and Routing Updates]
+    I --&gt; M[Registry Updates]
+    J --&gt; A
+    K --&gt; C
+    L --&gt; D
+    M --&gt; F</pre>
+          </div>
+        </article>
+
+        <article class="mt-6 border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[registry curation loop]</div>
+          <div class="mt-6 overflow-x-auto">
+            <pre class="mermaid min-w-[48rem] bg-cloud p-4 font-mono text-sm">flowchart LR
+    A[Unmatched dependency evidence] --&gt; B[NetworkX candidate graph]
+    B --&gt; C[Ranked family backlog]
+    C --&gt; D[Registry suggestion filter]
+    D --&gt; E{LLM judge enabled?}
+    E -- yes --&gt; F[OpenAIRegistryJudge review]
+    E -- no --&gt; G[Curator review]
+    F --&gt; H[Accept / Review / Reject]
+    G --&gt; H
+    H --&gt; I[technology_registry.yaml]
+    I --&gt; J[snapshot-repair]
+    J --&gt; K[Improved edges, gaps, and benchmarks]</pre>
+          </div>
+        </article>
+      </section>
+
+      <section id="operations" class="mt-14 grid gap-6 lg:grid-cols-2">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ operating model</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">How to work with the system</h2>
+          <div class="mt-6 space-y-4 text-sm leading-7 text-muted">
+            <p><span class="font-medium text-ink">Fresh universe:</span> use `discover` and `classify` when you need a new GitHub crawl.</p>
+            <p><span class="font-medium text-ink">Research iteration:</span> use `snapshot-repair` when the registry, normalization rules, or reporting logic improves faster than discovery.</p>
+            <p><span class="font-medium text-ink">Publication:</span> render the report to `docs/`, serve the directory over Tailscale, and keep the stable entrypoints at `index.html`, `oss-ai-stack-report-latest.html`, and `report-latest.json`.</p>
+          </div>
+        </article>
+
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ implementation map</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Where the code and config live</h2>
+          <div class="mt-6 space-y-4 text-sm leading-7 text-muted">
+            <p><span class="font-medium text-ink">Config:</span> `config/study_config.yaml`, `config/discovery_topics.yaml`, `config/technology_aliases.yaml`, `config/technology_registry.yaml`, `config/benchmark_entities.yaml`, `config/segment_rules.yaml`</p>
+            <p><span class="font-medium text-ink">Pipeline:</span> `discovery.py`, `classification.py`, `normalize.py`, `reporting.py`, `technology_discovery.py`, `registry_suggestions.py`</p>
+            <p><span class="font-medium text-ink">OpenAI review:</span> `openai/judge.py` and `openai/registry_judge.py`</p>
+            <p><span class="font-medium text-ink">Docs and publication:</span> `analysis/snapshot.py`, `scripts/render_html_report.py`, `scripts/render_explainer_page.py`, `ARCHITECTURE.md`</p>
+          </div>
+        </article>
+      </section>
+
+      <section id="faq" class="mt-14">
+        <article class="border border-line bg-paper p-6 sm:p-8">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ faq</div>
+          <h2 class="mt-3 text-3xl font-semibold tracking-[-0.03em] text-ink">Common questions about the project</h2>
+          <div class="mt-8">
+            
+        <details class="group border-t border-line py-4 first:border-t-0 first:pt-0">
+          <summary class="cursor-pointer list-none pr-8 text-base font-medium leading-7 text-ink marker:hidden">
+            Does discovery expand recursively through dependency graphs?
+          </summary>
+          <div class="mt-3 max-w-3xl text-sm leading-7 text-muted">
+            Not today. Discovery starts from GitHub topics, description queries, and manual seed repos. Dependency evidence is collected later during classification and normalization, where it helps map technologies rather than recursively discover more repositories.
+          </div>
+        </details>
+        
+
+        <details class="group border-t border-line py-4 first:border-t-0 first:pt-0">
+          <summary class="cursor-pointer list-none pr-8 text-base font-medium leading-7 text-ink marker:hidden">
+            What is the judge actually doing?
+          </summary>
+          <div class="mt-3 max-w-3xl text-sm leading-7 text-muted">
+            The judge is an optional reviewer for repo inclusion or registry suggestion triage. It is not the primary classifier and it does not define the technology map on its own. Its job is to narrow the queue of ambiguous cases.
+          </div>
+        </details>
+        
+
+        <details class="group border-t border-line py-4 first:border-t-0 first:pt-0">
+          <summary class="cursor-pointer list-none pr-8 text-base font-medium leading-7 text-ink marker:hidden">
+            What is the registry and why is it so important?
+          </summary>
+          <div class="mt-3 max-w-3xl text-sm leading-7 text-muted">
+            The registry is the curated canonical list of technologies the project knows how to recognize. It stores aliases, package prefixes, import aliases, repo identities, category metadata, and entity type. Improving the registry is the fastest way to reduce unmapped evidence and missing edges.
+          </div>
+        </details>
+        
+
+        <details class="group border-t border-line py-4 first:border-t-0 first:pt-0">
+          <summary class="cursor-pointer list-none pr-8 text-base font-medium leading-7 text-ink marker:hidden">
+            Why does the project have a repair-first workflow?
+          </summary>
+          <div class="mt-3 max-w-3xl text-sm leading-7 text-muted">
+            Normalization, registry curation, and reporting usually improve faster than GitHub discovery. Snapshot repair lets the project reapply better logic to an existing snapshot without paying for a new crawl every time.
+          </div>
+        </details>
+        
+
+        <details class="group border-t border-line py-4 first:border-t-0 first:pt-0">
+          <summary class="cursor-pointer list-none pr-8 text-base font-medium leading-7 text-ink marker:hidden">
+            What does the benchmark measure?
+          </summary>
+          <div class="mt-3 max-w-3xl text-sm leading-7 text-muted">
+            The benchmark measures whether known important entities are discovered, included, identity-mapped, observed in third-party adoption, and supported by dependency evidence. It is the main regression guard for recall.
+          </div>
+        </details>
+        
+
+        <details class="group border-t border-line py-4 first:border-t-0 first:pt-0">
+          <summary class="cursor-pointer list-none pr-8 text-base font-medium leading-7 text-ink marker:hidden">
+            What counts as a good improvement?
+          </summary>
+          <div class="mt-3 max-w-3xl text-sm leading-7 text-muted">
+            A good improvement raises benchmark recall, reduces final repos missing normalized edges, improves precision on hard cases, or simplifies the system without hurting the scorecard.
+          </div>
+        </details>
+        
+
+        <details class="group border-t border-line py-4 first:border-t-0 first:pt-0">
+          <summary class="cursor-pointer list-none pr-8 text-base font-medium leading-7 text-ink marker:hidden">
+            Can the registry suggestions be accepted automatically?
+          </summary>
+          <div class="mt-3 max-w-3xl text-sm leading-7 text-muted">
+            No. Registry suggestions are ranked candidates inferred from real evidence, but they still require curator review. The project treats automatic candidate generation and curated promotion as separate steps.
+          </div>
+        </details>
+        
+
+        <details class="group border-t border-line py-4 first:border-t-0 first:pt-0">
+          <summary class="cursor-pointer list-none pr-8 text-base font-medium leading-7 text-ink marker:hidden">
+            What is the ideal final output of the project?
+          </summary>
+          <div class="mt-3 max-w-3xl text-sm leading-7 text-muted">
+            The ideal output is a credible map of the enabling AI stack used across serious OSS AI projects: providers, model access layers, orchestration frameworks, runtimes, vector systems, training tools, observability systems, and other canonical technology entities.
+          </div>
+        </details>
+        
+          </div>
+        </article>
+      </section>
+
+      <footer class="mt-14 border border-line bg-paper px-6 py-5 text-sm leading-7 text-muted">
+        <span class="font-mono text-ink">[source]</span> this explainer is generated from the current project architecture and methodology, and paired with the latest repaired snapshot under <span class="break-all font-mono text-ink">data/run-2026-03-25-repaired-v13</span>.
+      </footer>
+    </main>
+  </body>
+</html>

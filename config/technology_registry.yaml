@@ -1,0 +1,171 @@
+technologies:
+  - technology_id: vercel-ai-sdk
+    display_name: Vercel AI SDK
+    category_id: ai_developer_tools_and_sdk_families
+    entity_type: sdk_family
+    aliases: [ai-sdk, vercel ai sdk]
+    import_aliases: ["ai"]
+    package_prefixes: ["@ai-sdk/"]
+    repo_names: [vercel/ai]
+    capabilities: [model_access]
+
+  - technology_id: steel-browser
+    display_name: Steel Browser
+    category_id: browser_and_computer_use_infra
+    entity_type: product
+    aliases: [steel, steel-browser, steel sdk, steel-sdk]
+    package_prefixes: ["@steel-browser/", steel-sdk]
+    repo_names: [steel-dev/steel-browser]
+    capabilities: [browser_sandbox, browser_automation]
+
+  - technology_id: databend
+    display_name: Databend
+    category_id: vector_and_knowledge_storage
+    entity_type: product
+    aliases: [databend]
+    package_prefixes: [databend-]
+    repo_names: [databendlabs/databend]
+    capabilities: [vector_search, analytics_storage]
+
+  - technology_id: dingo
+    display_name: DingoDB
+    category_id: vector_and_knowledge_storage
+    entity_type: product
+    aliases: [dingo, dingodb, dingo-db]
+    repo_names: [dingodb/dingo]
+    capabilities: [vector_search, vector_database]
+
+  - technology_id: evidently
+    display_name: Evidently
+    category_id: observability_tracing_and_monitoring
+    entity_type: product
+    aliases: [evidently, evidently-ai]
+    package_prefixes: [evidently]
+    repo_names: [evidentlyai/evidently]
+    capabilities: [evaluation, observability, llm_observability]
+
+  - technology_id: browserbase
+    display_name: Browserbase
+    category_id: browser_and_computer_use_infra
+    entity_type: product
+    aliases: [browserbase, stagehand]
+    package_prefixes: ["@browserbasehq/", browserbase, stagehand]
+    repo_names: [browserbase/stagehand, browserbase/mcp-server-browserbase]
+    capabilities: [browser_automation, browser_runtime]
+
+  - technology_id: browser-use
+    display_name: Browser Use
+    category_id: browser_and_computer_use_infra
+    entity_type: product
+    aliases: [browser-use]
+    package_prefixes: [browser-use]
+    repo_names: [browser-use/browser-use, browser-use/web-ui]
+    capabilities: [browser_automation]
+
+  - technology_id: cloudflare-agents
+    display_name: Cloudflare Agents
+    category_id: runtime_and_agent_deployment
+    entity_type: product
+    aliases: [cloudflare agents, workers ai]
+    package_prefixes: [workers-ai, "@cloudflare/ai", "@cloudflare/ai-chat"]
+    repo_names: [cloudflare/agents, cloudflare/agents-starter]
+    capabilities: [agent_runtime, agent_deployment]
+
+  - technology_id: e2b
+    display_name: E2B
+    category_id: sandbox_and_isolated_execution
+    entity_type: product
+    aliases: [e2b]
+    package_prefixes: [e2b]
+    repo_names: [e2b-dev/E2B, e2b-dev/fragments]
+    capabilities: [sandbox, code_interpreter]
+
+  - technology_id: daytona
+    display_name: Daytona
+    category_id: sandbox_and_isolated_execution
+    entity_type: product
+    aliases: [daytona]
+    package_prefixes: [daytona]
+    repo_names: [daytonaio/daytona]
+    capabilities: [sandbox, dev_environment]
+
+  - technology_id: model-context-protocol
+    display_name: Model Context Protocol
+    category_id: ai_developer_tools_and_sdk_families
+    entity_type: sdk_family
+    aliases: [model-context-protocol, modelcontextprotocol, mcp]
+    package_prefixes: ["@modelcontextprotocol/", mcp]
+    repo_names:
+      [
+        modelcontextprotocol/registry,
+        modelcontextprotocol/go-sdk,
+        modelcontextprotocol/ext-apps,
+        modelcontextprotocol/swift-sdk,
+        modelcontextprotocol/kotlin-sdk,
+      ]
+    capabilities: [agent_interoperability, tool_protocol, mcp]
+
+  - technology_id: mastra
+    display_name: Mastra
+    category_id: orchestration_and_agents
+    entity_type: product
+    aliases: [mastra]
+    import_aliases: [mastra]
+    package_prefixes: ["@mastra/", "@composio/mastra"]
+    repo_names: [mastra-ai/mastra]
+    capabilities: [agent_orchestration, mcp, workflows]
+
+  - technology_id: pytorch
+    display_name: PyTorch
+    category_id: training_finetuning_and_model_ops
+    entity_type: product
+    aliases: [pytorch, torch]
+    import_aliases: [torch]
+    package_prefixes: [torch, torchvision, torchaudio, torchtext]
+    capabilities: [training, model_runtime, tensors]
+
+  - technology_id: huggingface-hub
+    display_name: Hugging Face Hub
+    category_id: training_finetuning_and_model_ops
+    entity_type: product
+    aliases: [huggingface-hub, huggingface_hub, huggingface hub]
+    import_aliases: [huggingface_hub]
+    package_prefixes: [huggingface-hub, huggingface_hub]
+    capabilities: [model_distribution, model_ops, datasets]
+
+  - technology_id: tokenizers
+    display_name: Tokenizers
+    category_id: training_finetuning_and_model_ops
+    entity_type: product
+    aliases: [tokenizers]
+    import_aliases: [tokenizers]
+    package_prefixes: [tokenizers]
+    capabilities: [tokenization]
+
+  - technology_id: openai-agents
+    display_name: OpenAI Agents
+    category_id: orchestration_and_agents
+    provider_id: openai
+    entity_type: product
+    aliases: [openai-agents, openai agents, "@openai/agents"]
+    package_prefixes: ["@openai/agents", openai-agents]
+    repo_names: [openai/openai-agents-python, openai/openai-agents-js]
+    capabilities: [agent_orchestration, voice_agents, workflows]
+
+  - technology_id: logfire
+    display_name: Logfire
+    category_id: observability_tracing_and_monitoring
+    entity_type: product
+    aliases: [logfire, pydantic logfire]
+    import_aliases: [logfire]
+    package_prefixes: ["@pydantic/logfire", logfire]
+    repo_names: [pydantic/logfire]
+    capabilities: [observability, tracing, llm_observability]
+
+  - technology_id: primeintellect-verifiers
+    display_name: PrimeIntellect Verifiers
+    category_id: training_finetuning_and_model_ops
+    entity_type: product
+    aliases: [primeintellect verifiers]
+    repo_names: [PrimeIntellect-ai/verifiers]
+    capabilities: [rl_training, verification]

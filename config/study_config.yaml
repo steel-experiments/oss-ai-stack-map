@@ -3,7 +3,7 @@ snapshot_date: 2026-03-25
 filters:
   candidate_stars_min: 1000
   major_stars_min: 1000
-  freshness_months: 12
+  freshness_months: 1
   max_search_pages_per_query: 3
   max_repos:
 
@@ -11,7 +11,7 @@ classification:
   serious_pass_score: 3
   ai_relevance_pass_score: 3
   strong_serious_override_score: 5
-  readme_mentions_used_for_edges: false
+  readme_mentions_used_for_edges: true
 
 outputs:
   write_parquet: true

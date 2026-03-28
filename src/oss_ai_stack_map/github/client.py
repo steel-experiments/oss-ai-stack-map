@@ -14,6 +14,8 @@ from oss_ai_stack_map.storage.cache import CacheStore
 
 class GitHubClient:
     def __init__(self, runtime: RuntimeConfig) -> None:
+        if not runtime.env.github_token:
+            raise ValueError("GITHUB_TOKEN is required for GitHub API commands")
         self.runtime = runtime
         self.cache = CacheStore(
             Path("data/raw/github_cache") / runtime.study.snapshot_date.isoformat()
@@ -64,7 +66,7 @@ class GitHubClient:
         if not full_names:
             return {}
 
-        cache_key = "repo-batch:" + json.dumps(sorted(full_names))
+        cache_key = "repo-batch:v2:" + json.dumps(sorted(full_names))
         cached = self.cache.get_json("graphql", cache_key)
         if cached is not None:
             return cached
@@ -82,6 +84,9 @@ class GitHubClient:
     nameWithOwner
     url
     description
+    defaultBranchRef {{
+      name
+    }}
     isFork
     isArchived
     isTemplate
@@ -132,8 +137,10 @@ class GitHubClient:
         return base64.b64decode(content).decode("utf-8", errors="ignore")
 
     def get_tree(self, owner: str, repo: str, branch: str | None = None) -> list[str]:
-        repo_payload = self.get_repo(owner, repo)
-        sha = branch or repo_payload.get("default_branch", "HEAD")
+        sha = branch
+        if sha is None:
+            repo_payload = self.get_repo(owner, repo)
+            sha = repo_payload.get("default_branch", "HEAD")
         payload = self._get_json(
             f"/repos/{owner}/{repo}/git/trees/{sha}",
             params={"recursive": "1"},

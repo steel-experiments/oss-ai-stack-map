@@ -2,17 +2,27 @@ from __future__ import annotations
 
 import json
 
+import httpx
 import pytest
 
 from oss_ai_stack_map.config.loader import TechnologyAlias
-from oss_ai_stack_map.models.core import ClassificationDecision, DiscoveredRepo, RepoContext
+from oss_ai_stack_map.models.core import (
+    ClassificationDecision,
+    DiscoveredRepo,
+    ManifestDependency,
+    RepoContext,
+)
 from oss_ai_stack_map.pipeline.classification import (
+    _parse_go_mod,
     _parse_package_json,
     _parse_pyproject,
+    build_repo_context,
     classify_candidates,
     educational_material_signal,
     extract_package_candidates_from_sbom,
     parse_sbom_dependencies,
+    rebind_package_dependency,
+    safe_call,
     score_serious,
 )
 from oss_ai_stack_map.pipeline.imports import parse_import_dependencies
@@ -33,7 +43,7 @@ def test_parse_pyproject_maps_known_ai_dependency() -> None:
 [project]
 dependencies = ["openai>=1.0.0", "httpx>=0.28"]
 """
-    deps = _parse_pyproject("pyproject.toml", text, alias_lookup)
+    deps = _parse_pyproject("pyproject.toml", text, alias_lookup, {}, [])
     assert [dep.package_name for dep in deps] == ["openai", "httpx"]
     assert deps[0].technology_id == "openai"
     assert deps[0].evidence_type == "manifest"
@@ -54,11 +64,130 @@ def test_parse_package_json_keeps_dev_scope() -> None:
   "devDependencies": {"typescript": "^5.0.0"}
 }
 """
-    deps = _parse_package_json("package.json", text, alias_lookup)
+    deps = _parse_package_json("package.json", text, alias_lookup, {}, [])
     by_name = {dep.package_name: dep for dep in deps}
     assert by_name["langgraph"].technology_id == "langgraph"
     assert by_name["langgraph"].dependency_scope == "runtime"
     assert by_name["typescript"].dependency_scope == "dev"
+
+
+def test_parse_go_mod_supports_multiline_require_blocks() -> None:
+    alias_lookup = {
+        "openai-go": TechnologyAlias(
+            technology_id="openai",
+            display_name="OpenAI SDK",
+            category_id="model_access_and_providers",
+            aliases=["openai-go"],
+        )
+    }
+    text = """
+module example.com/app
+
+require (
+    github.com/openai/openai-go v1.0.0
+    github.com/stretchr/testify v1.9.0 // indirect
+)
+"""
+    deps = _parse_go_mod("go.mod", text, alias_lookup, {}, [])
+    by_name = {dep.package_name: dep for dep in deps}
+
+    assert set(by_name) == {"openai-go", "testify"}
+    assert by_name["openai-go"].technology_id == "openai"
+
+
+def test_build_repo_context_persists_repo_default_branch(runtime_config) -> None:
+    runtime = runtime_config["runtime"]
+    repo = DiscoveredRepo(
+        repo_id=1,
+        full_name="owner/repo",
+        html_url="https://github.com/owner/repo",
+        stars=1000,
+        forks=10,
+        is_archived=False,
+        is_fork=False,
+        is_template=False,
+        created_at="2026-01-01T00:00:00Z",
+        updated_at="2026-01-01T00:00:00Z",
+        pushed_at="2026-01-01T00:00:00Z",
+        default_branch="main",
+        snapshot_date="2026-03-25",
+    )
+
+    class FakeClient:
+        def get_readme(self, owner: str, name: str) -> str:
+            return "# Example"
+
+        def get_tree(self, owner: str, name: str, branch: str | None = None) -> list[str]:
+            assert branch == "main"
+            return ["pyproject.toml", "src/app.py"]
+
+        def get_file_text(self, owner: str, name: str, path: str) -> str:
+            return "[project]\ndependencies = []\n"
+
+        def get_sbom(self, owner: str, name: str) -> dict:
+            return {}
+
+    context = build_repo_context(
+        runtime=runtime,
+        client=FakeClient(),
+        repo=repo,
+        alias_lookup={},
+    )
+
+    assert context.default_branch == "main"
+    assert context.manifest_paths == ["pyproject.toml"]
+
+
+def test_safe_call_reraises_rate_limit_http_errors() -> None:
+    request = httpx.Request("GET", "https://api.github.com/rate_limit")
+    response = httpx.Response(403, request=request)
+    error = httpx.HTTPStatusError("forbidden", request=request, response=response)
+
+    with pytest.raises(httpx.HTTPStatusError):
+        safe_call(lambda: (_ for _ in ()).throw(error), default=[])
+
+
+def test_safe_call_can_suppress_server_errors_for_non_critical_fetches() -> None:
+    request = httpx.Request("GET", "https://api.github.com/repos/example/repo/dependency-graph/sbom")
+    response = httpx.Response(500, request=request)
+    error = httpx.HTTPStatusError("server error", request=request, response=response)
+
+    result = safe_call(
+        lambda: (_ for _ in ()).throw(error),
+        default={},
+        reraise_status_codes={403, 429},
+    )
+
+    assert result == {}
+
+
+def test_rebind_package_dependency_preserves_purl_derived_matches() -> None:
+    alias_lookup = {
+        "openai-go": TechnologyAlias(
+            technology_id="openai",
+            display_name="OpenAI SDK",
+            category_id="model_access_and_providers",
+            provider_id="openai",
+            aliases=["openai-go"],
+        )
+    }
+    dependency = ManifestDependency(
+        package_name="github.com/openai/openai-go",
+        dependency_scope="runtime",
+        source_path="sbom",
+        evidence_type="sbom",
+        confidence="high",
+        purl="pkg:golang/github.com/openai/openai-go@1.12.0",
+    )
+
+    rebound = rebind_package_dependency(
+        dependency,
+        alias_lookup=alias_lookup,
+        registry_lookup={},
+        registry_prefix_rules=[],
+    )
+
+    assert rebound.technology_id == "openai"
 
 
 def test_parse_sbom_dependencies_uses_described_root() -> None:
@@ -131,7 +260,7 @@ def test_parse_sbom_dependencies_uses_described_root() -> None:
             },
         ],
     }
-    deps = parse_sbom_dependencies(sbom, alias_lookup)
+    deps = parse_sbom_dependencies(sbom, alias_lookup, {}, [])
     assert {dep.package_name for dep in deps} == {"openai", "langfuse"}
     assert all(dep.evidence_type == "sbom" for dep in deps)
     assert next(dep for dep in deps if dep.package_name == "openai").provider_id == "openai"
@@ -348,6 +477,10 @@ def test_classify_candidates_resumes_from_checkpoints(
         fake_build_repo_context,
     )
     monkeypatch.setattr(
+        "oss_ai_stack_map.pipeline.classification.context_cache_path",
+        lambda runtime: tmp_path / "context-cache.parquet",
+    )
+    monkeypatch.setattr(
         "oss_ai_stack_map.pipeline.classification.classify_repo",
         fake_classify_repo,
     )
@@ -389,6 +522,173 @@ def test_classify_candidates_resumes_from_checkpoints(
         run_state = json.load(handle)
     assert run_state["status"] == "completed"
     assert run_state["processed_repo_count"] == 3
+
+
+def test_classify_candidates_reuses_persistent_context_cache_across_fresh_runs(
+    tmp_path, runtime_config, monkeypatch
+) -> None:
+    runtime = runtime_config["runtime"]
+    runtime.study.outputs.write_csv = False
+    cache_path = tmp_path / "context-cache.parquet"
+    output_dir1 = tmp_path / "run-1"
+    output_dir2 = tmp_path / "run-2"
+    repo = DiscoveredRepo(
+        repo_id=1,
+        full_name="owner/repo-1",
+        html_url="https://github.com/owner/repo-1",
+        stars=1001,
+        forks=10,
+        is_archived=False,
+        is_fork=False,
+        is_template=False,
+        created_at="2026-01-01T00:00:00Z",
+        updated_at="2026-01-01T00:00:00Z",
+        pushed_at="2026-01-01T00:00:00Z",
+        snapshot_date="2026-03-25",
+        description="repo",
+    )
+    for output_dir in [output_dir1, output_dir2]:
+        write_rows(output_dir, "repos", [repo.to_row()], write_csv=False)
+
+    build_calls: list[int] = []
+
+    def fake_build_repo_context(runtime, client, repo, alias_lookup):
+        build_calls.append(repo.repo_id)
+        return RepoContext(
+            repo_id=repo.repo_id,
+            full_name=repo.full_name,
+            readme_text="cached readme",
+            tree_paths=["src/app.py"],
+            manifest_paths=["requirements.txt"],
+            manifest_dependencies=[],
+            sbom_dependencies=[],
+            import_dependencies=[],
+        )
+
+    def fake_classify_repo(runtime, repo, context, alias_lookup):
+        return ClassificationDecision(
+            repo_id=repo.repo_id,
+            full_name=repo.full_name,
+            passed_candidate_filter=True,
+            passed_serious_filter=True,
+            passed_ai_relevance_filter=True,
+            passed_major_filter=True,
+            score_serious=5,
+            score_ai=5,
+            primary_segment="serving_runtime",
+            notes=[],
+        )
+
+    monkeypatch.setattr(
+        "oss_ai_stack_map.pipeline.classification.context_cache_path",
+        lambda runtime: cache_path,
+    )
+    monkeypatch.setattr(
+        "oss_ai_stack_map.pipeline.classification.build_repo_context",
+        fake_build_repo_context,
+    )
+    monkeypatch.setattr(
+        "oss_ai_stack_map.pipeline.classification.classify_repo",
+        fake_classify_repo,
+    )
+
+    classify_candidates(
+        runtime=runtime,
+        client=object(),
+        input_dir=output_dir1,
+        output_dir=output_dir1,
+    )
+    classify_candidates(
+        runtime=runtime,
+        client=object(),
+        input_dir=output_dir2,
+        output_dir=output_dir2,
+    )
+
+    assert build_calls == [1]
+    assert cache_path.exists()
+
+
+def test_classify_candidates_invalidates_persistent_context_cache_when_repo_changes(
+    tmp_path, runtime_config, monkeypatch
+) -> None:
+    runtime = runtime_config["runtime"]
+    runtime.study.outputs.write_csv = False
+    cache_path = tmp_path / "context-cache.parquet"
+    output_dir1 = tmp_path / "run-1"
+    output_dir2 = tmp_path / "run-2"
+    repo1 = DiscoveredRepo(
+        repo_id=1,
+        full_name="owner/repo-1",
+        html_url="https://github.com/owner/repo-1",
+        stars=1001,
+        forks=10,
+        is_archived=False,
+        is_fork=False,
+        is_template=False,
+        created_at="2026-01-01T00:00:00Z",
+        updated_at="2026-01-01T00:00:00Z",
+        pushed_at="2026-01-01T00:00:00Z",
+        snapshot_date="2026-03-25",
+        description="repo",
+    )
+    repo2 = repo1.model_copy(update={"pushed_at": "2026-01-02T00:00:00Z"})
+    write_rows(output_dir1, "repos", [repo1.to_row()], write_csv=False)
+    write_rows(output_dir2, "repos", [repo2.to_row()], write_csv=False)
+
+    build_calls: list[str] = []
+
+    def fake_build_repo_context(runtime, client, repo, alias_lookup):
+        build_calls.append(repo.pushed_at)
+        return RepoContext(
+            repo_id=repo.repo_id,
+            full_name=repo.full_name,
+            manifest_dependencies=[],
+            sbom_dependencies=[],
+            import_dependencies=[],
+        )
+
+    def fake_classify_repo(runtime, repo, context, alias_lookup):
+        return ClassificationDecision(
+            repo_id=repo.repo_id,
+            full_name=repo.full_name,
+            passed_candidate_filter=True,
+            passed_serious_filter=True,
+            passed_ai_relevance_filter=True,
+            passed_major_filter=True,
+            score_serious=5,
+            score_ai=5,
+            primary_segment="serving_runtime",
+            notes=[],
+        )
+
+    monkeypatch.setattr(
+        "oss_ai_stack_map.pipeline.classification.context_cache_path",
+        lambda runtime: cache_path,
+    )
+    monkeypatch.setattr(
+        "oss_ai_stack_map.pipeline.classification.build_repo_context",
+        fake_build_repo_context,
+    )
+    monkeypatch.setattr(
+        "oss_ai_stack_map.pipeline.classification.classify_repo",
+        fake_classify_repo,
+    )
+
+    classify_candidates(
+        runtime=runtime,
+        client=object(),
+        input_dir=output_dir1,
+        output_dir=output_dir1,
+    )
+    classify_candidates(
+        runtime=runtime,
+        client=object(),
+        input_dir=output_dir2,
+        output_dir=output_dir2,
+    )
+
+    assert build_calls == ["2026-01-01T00:00:00Z", "2026-01-02T00:00:00Z"]
 
 
 def test_classify_candidates_skips_large_rewrites_on_finalize_only(

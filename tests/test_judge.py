@@ -30,6 +30,7 @@ def test_apply_judge_decision_overrides_on_high_confidence(runtime_config) -> No
     runtime = runtime_config["runtime"]
     runtime.study.judge.override_on_high_confidence = True
     runtime.study.judge.min_confidence_to_override = "high"
+    runtime.segments.precedence = ["ai_application"]
     decision = ClassificationDecision(
         repo_id=1,
         full_name="owner/repo",
@@ -62,6 +63,7 @@ def test_apply_judge_decision_overrides_on_high_confidence(runtime_config) -> No
     assert decision.judge_mode == "hardening"
     assert decision.primary_segment == "ai_application"
     assert decision.rule_passed_major_filter is False
+    assert judge.applied is True
 
 
 def test_validation_judge_applies_when_it_disagrees_with_rule(runtime_config) -> None:
@@ -181,6 +183,46 @@ def test_low_confidence_hardening_judge_does_not_override(runtime_config) -> Non
     assert decision.passed_ai_relevance_filter is True
     assert decision.passed_major_filter is True
     assert decision.judge_override_applied is False
+    assert judge.applied is False
+
+
+def test_invalid_judge_segment_is_ignored(runtime_config) -> None:
+    runtime = runtime_config["runtime"]
+    runtime.study.judge.override_on_high_confidence = True
+    runtime.study.judge.min_confidence_to_override = "high"
+    runtime.segments.precedence = ["serving_runtime"]
+    decision = ClassificationDecision(
+        repo_id=1,
+        full_name="owner/repo",
+        passed_candidate_filter=True,
+        passed_serious_filter=True,
+        passed_ai_relevance_filter=True,
+        passed_major_filter=True,
+        score_serious=6,
+        score_ai=6,
+        primary_segment="serving_runtime",
+        notes=[],
+    )
+    judge = JudgeDecision(
+        repo_id=1,
+        full_name="owner/repo",
+        judge_mode="validation",
+        serious_project=True,
+        ai_relevant=True,
+        include_in_final_set=True,
+        primary_segment="agent_platform",
+        confidence="high",
+        override_rule_decision=True,
+        reasons=["segment only"],
+        model="gpt-5.4-nano",
+    )
+
+    apply_judge_decisions(runtime=runtime, decisions=[decision], judge_decisions=[judge])
+
+    assert decision.primary_segment == "serving_runtime"
+    assert decision.judge_primary_segment is None
+    assert judge.applied is False
+    assert "validation judge segment ignored: agent_platform" in decision.notes
 
 
 def test_merge_judge_decisions_replaces_by_repo_id() -> None:

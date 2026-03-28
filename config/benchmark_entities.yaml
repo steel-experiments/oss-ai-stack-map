@@ -1,0 +1,79 @@
+thresholds:
+  min_repo_discovered_rate: 0.85
+  min_repo_included_rate: 0.50
+  min_repo_identity_mapped_rate: 0.50
+  min_third_party_adoption_rate: 0.40
+  min_dependency_evidence_rate: 0.70
+  severity: warning
+
+entities:
+  - entity_id: vercel-ai-sdk
+    display_name: Vercel AI SDK
+    technology_ids: [vercel-ai-sdk, openai, anthropic, google-genai]
+    repo_names: [vercel/ai]
+    package_prefixes: ["@ai-sdk/"]
+
+  - entity_id: steel-browser
+    display_name: Steel Browser
+    technology_ids: [steel-browser]
+    repo_names: [steel-dev/steel-browser]
+    package_prefixes: ["@steel-browser/", steel-sdk]
+
+  - entity_id: browserbase
+    display_name: Browserbase
+    technology_ids: [browserbase]
+    repo_names: [browserbase/stagehand, browserbase/mcp-server-browserbase]
+    package_prefixes: ["@browserbasehq/", browserbase, stagehand]
+
+  - entity_id: browser-use
+    display_name: Browser Use
+    technology_ids: [browser-use]
+    repo_names: [browser-use/browser-use, browser-use/web-ui]
+    package_prefixes: [browser-use]
+
+  - entity_id: cloudflare-agents
+    display_name: Cloudflare Agents
+    technology_ids: [cloudflare-agents]
+    repo_names: [cloudflare/agents, cloudflare/agents-starter]
+    package_prefixes: [workers-ai, "@cloudflare/ai", "@cloudflare/ai-chat"]
+
+  - entity_id: e2b
+    display_name: E2B
+    technology_ids: [e2b]
+    repo_names: [e2b-dev/E2B, e2b-dev/fragments]
+    package_prefixes: [e2b]
+
+  - entity_id: daytona
+    display_name: Daytona
+    technology_ids: [daytona]
+    repo_names: [daytonaio/daytona]
+    package_prefixes: [daytona]
+
+  - entity_id: model-context-protocol
+    display_name: Model Context Protocol
+    technology_ids: [model-context-protocol]
+    repo_names:
+      [
+        modelcontextprotocol/registry,
+        modelcontextprotocol/go-sdk,
+        modelcontextprotocol/ext-apps,
+      ]
+    package_prefixes: ["@modelcontextprotocol/", mcp]
+
+  - entity_id: mastra
+    display_name: Mastra
+    technology_ids: [mastra]
+    repo_names: [mastra-ai/mastra]
+    package_prefixes: ["@mastra/", "@composio/mastra"]
+
+  - entity_id: openai-agents
+    display_name: OpenAI Agents
+    technology_ids: [openai-agents]
+    repo_names: [openai/openai-agents-python, openai/openai-agents-js]
+    package_prefixes: ["@openai/agents", openai-agents]
+
+  - entity_id: logfire
+    display_name: Logfire
+    technology_ids: [logfire]
+    repo_names: [pydantic/logfire]
+    package_prefixes: ["@pydantic/logfire", logfire]

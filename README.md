@@ -104,6 +104,12 @@ Inspect rate limits:
 uv run oss-ai-stack-map rate-limit
 ```
 
+Validate config integrity:
+
+```bash
+uv run oss-ai-stack-map validate-config
+```
+
 Discovery only:
 
 ```bash
@@ -137,6 +143,23 @@ Summary report:
 uv run oss-ai-stack-map report --input-dir data/staged --top-n 15
 ```
 
+Compare two repaired snapshots with the current scorecard:
+
+```bash
+uv run oss-ai-stack-map snapshot-compare --left-dir data/run-a --right-dir data/run-b
+```
+
+Append a scored experiment entry to the ledger:
+
+```bash
+uv run oss-ai-stack-map experiment-log \
+  --left-dir data/run-a \
+  --right-dir data/run-b \
+  --lever registry-normalization \
+  --files-changed config/technology_registry.yaml \
+  --decision keep
+```
+
 NetworkX graph analysis for a finished snapshot:
 
 ```bash
@@ -158,7 +181,7 @@ Default study settings:
 
 - `candidate_stars_min: 1000`
 - `major_stars_min: 1000`
-- `freshness_months: 12`
+- `freshness_months: 1`
 - `max_search_pages_per_query: 3`
 - hardening and validation judge modes disabled by default
 - initial ecosystems: Python, JavaScript, TypeScript, Go, Rust

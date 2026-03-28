@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import Counter
 from datetime import date
 from pathlib import Path
 from typing import Literal
@@ -12,7 +13,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class FilterConfig(BaseModel):
     candidate_stars_min: int = 1000
     major_stars_min: int = 1000
-    freshness_months: int = 12
+    freshness_months: int = 1
     max_search_pages_per_query: int = 3
     max_repos: int | None = None
 
@@ -92,12 +93,17 @@ class TechnologyAlias(BaseModel):
     display_name: str
     category_id: str
     provider_id: str | None = None
+    entity_type: str = "technology"
+    canonical_product_id: str | None = None
     aliases: list[str]
     import_aliases: list[str] = Field(default_factory=list)
+    package_prefixes: list[str] = Field(default_factory=list)
+    repo_names: list[str] = Field(default_factory=list)
+    capabilities: list[str] = Field(default_factory=list)
 
 
 class TechnologyAliasConfig(BaseModel):
-    technologies: list[TechnologyAlias]
+    technologies: list[TechnologyAlias] = Field(default_factory=list)
 
     def alias_lookup(self) -> dict[str, TechnologyAlias]:
         lookup: dict[str, TechnologyAlias] = {}
@@ -115,6 +121,22 @@ class TechnologyAliasConfig(BaseModel):
                     lookup[key] = tech
         return lookup
 
+    def package_prefix_rules(self) -> list[tuple[str, TechnologyAlias]]:
+        rules: list[tuple[str, TechnologyAlias]] = []
+        for tech in self.technologies:
+            for prefix in tech.package_prefixes:
+                normalized = prefix.casefold().strip()
+                if normalized:
+                    rules.append((normalized, tech))
+        return sorted(rules, key=lambda item: (-len(item[0]), item[0]))
+
+    def repo_lookup(self) -> dict[str, TechnologyAlias]:
+        lookup: dict[str, TechnologyAlias] = {}
+        for tech in self.technologies:
+            for repo_name in tech.repo_names:
+                lookup[repo_name.casefold()] = tech
+        return lookup
+
 
 class SegmentRule(BaseModel):
     segment_id: str
@@ -129,10 +151,32 @@ class SegmentConfig(BaseModel):
     rules: list[SegmentRule]
 
 
+class BenchmarkEntity(BaseModel):
+    entity_id: str
+    display_name: str
+    technology_ids: list[str] = Field(default_factory=list)
+    repo_names: list[str] = Field(default_factory=list)
+    package_prefixes: list[str] = Field(default_factory=list)
+
+
+class BenchmarkThresholds(BaseModel):
+    min_repo_discovered_rate: float = 1.0
+    min_repo_included_rate: float = 0.5
+    min_repo_identity_mapped_rate: float = 0.5
+    min_third_party_adoption_rate: float = 0.5
+    min_dependency_evidence_rate: float = 0.75
+    severity: Literal["warning", "error"] = "warning"
+
+
+class BenchmarkConfig(BaseModel):
+    entities: list[BenchmarkEntity] = Field(default_factory=list)
+    thresholds: BenchmarkThresholds = Field(default_factory=BenchmarkThresholds)
+
+
 class EnvSettings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
-    github_token: str
+    github_token: str | None = None
     openai_api_key: str | None = None
 
 
@@ -142,8 +186,14 @@ class RuntimeConfig(BaseModel):
     discovery: DiscoveryConfig
     exclusions: ExclusionConfig
     aliases: TechnologyAliasConfig
+    registry: TechnologyAliasConfig = Field(default_factory=TechnologyAliasConfig)
+    benchmarks: BenchmarkConfig = Field(default_factory=BenchmarkConfig)
     segments: SegmentConfig
     env: EnvSettings
+
+
+class ConfigValidationError(ValueError):
+    pass
 
 
 def load_runtime(config_dir: Path = Path("config")) -> RuntimeConfig:
@@ -154,17 +204,106 @@ def load_runtime(config_dir: Path = Path("config")) -> RuntimeConfig:
     aliases = TechnologyAliasConfig.model_validate(
         _load_yaml(config_dir / "technology_aliases.yaml")
     )
+    registry_path = config_dir / "technology_registry.yaml"
+    registry = TechnologyAliasConfig.model_validate(
+        _load_yaml(registry_path) if registry_path.exists() else {}
+    )
+    benchmarks_path = config_dir / "benchmark_entities.yaml"
+    benchmarks = BenchmarkConfig.model_validate(
+        _load_yaml(benchmarks_path) if benchmarks_path.exists() else {}
+    )
     segments = SegmentConfig.model_validate(_load_yaml(config_dir / "segment_rules.yaml"))
     env = EnvSettings()
-    return RuntimeConfig(
+    runtime = RuntimeConfig(
         config_dir=config_dir,
         study=study,
         discovery=discovery,
         exclusions=exclusions,
         aliases=aliases,
+        registry=registry,
+        benchmarks=benchmarks,
         segments=segments,
         env=env,
     )
+    validate_runtime_config(runtime)
+    return runtime
+
+
+def validate_runtime_config(runtime: RuntimeConfig) -> None:
+    issues = collect_runtime_config_issues(runtime)
+    if not issues:
+        return
+    formatted = "\n".join(f"- {issue}" for issue in issues)
+    raise ConfigValidationError(f"invalid runtime config:\n{formatted}")
+
+
+def collect_runtime_config_issues(runtime: RuntimeConfig) -> list[str]:
+    issues: list[str] = []
+
+    alias_ids = {tech.technology_id for tech in runtime.aliases.technologies}
+    registry_ids = {tech.technology_id for tech in runtime.registry.technologies}
+    known_technology_ids = alias_ids | registry_ids
+
+    overlapping_technology_ids = sorted(alias_ids & registry_ids)
+    if overlapping_technology_ids:
+        issues.append(
+            "technology ids are duplicated across aliases and registry: "
+            + ", ".join(overlapping_technology_ids)
+        )
+
+    segment_rule_ids = [rule.segment_id for rule in runtime.segments.rules]
+    duplicate_segment_rule_ids = sorted(
+        segment_id for segment_id, count in Counter(segment_rule_ids).items() if count > 1
+    )
+    if duplicate_segment_rule_ids:
+        issues.append(
+            "segment rule ids are duplicated: " + ", ".join(duplicate_segment_rule_ids)
+        )
+
+    duplicate_precedence_ids = sorted(
+        segment_id
+        for segment_id, count in Counter(runtime.segments.precedence).items()
+        if count > 1
+    )
+    if duplicate_precedence_ids:
+        issues.append(
+            "segment precedence contains duplicates: " + ", ".join(duplicate_precedence_ids)
+        )
+
+    unknown_precedence_ids = sorted(set(runtime.segments.precedence) - set(segment_rule_ids))
+    if unknown_precedence_ids:
+        issues.append(
+            "segment precedence references undefined segment rules: "
+            + ", ".join(unknown_precedence_ids)
+        )
+
+    for rule in runtime.segments.rules:
+        unknown_technology_ids = sorted(set(rule.technology_ids) - known_technology_ids)
+        if unknown_technology_ids:
+            issues.append(
+                f"segment rule '{rule.segment_id}' references unknown technology ids: "
+                + ", ".join(unknown_technology_ids)
+            )
+
+    for entity in runtime.benchmarks.entities:
+        technology_ids = entity.technology_ids or [entity.entity_id]
+        unknown_technology_ids = sorted(set(technology_ids) - known_technology_ids)
+        if unknown_technology_ids:
+            issues.append(
+                f"benchmark entity '{entity.entity_id}' references unknown technology ids: "
+                + ", ".join(unknown_technology_ids)
+            )
+        for repo_name in entity.repo_names:
+            if not _looks_like_full_repo_name(repo_name):
+                issues.append(
+                    f"benchmark entity '{entity.entity_id}' has invalid repo name '{repo_name}'"
+                )
+
+    for repo_name in runtime.discovery.manual_seed_repos:
+        if not _looks_like_full_repo_name(repo_name):
+            issues.append(f"manual seed repo '{repo_name}' is not in owner/name format")
+
+    return issues
 
 
 def _load_yaml(path: Path) -> dict:
@@ -180,3 +319,8 @@ def normalized_alias_keys(alias: str) -> set[str]:
     if "_" in alias:
         values.add(alias.replace("_", "-").casefold())
     return values
+
+
+def _looks_like_full_repo_name(repo_name: str) -> bool:
+    owner, separator, repo = repo_name.strip().partition("/")
+    return bool(separator and owner and repo and "/" not in repo)

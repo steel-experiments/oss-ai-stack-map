@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OSS AI Stack Report · 2026-03-25</title>
+    <meta
+      name="description"
+      content="A minimal static report summarizing the 2026-03-25 OSS AI Stack Map snapshot."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cloud: '#F0EEE9',
+              paper: '#FBFAF7',
+              ink: '#1A1816',
+              line: '#CBC3B7',
+              muted: '#766E64',
+              'muted-strong': '#A89E91',
+              'tropic-coral': '#E78B72',
+              'tropic-papaya': '#E5A36F',
+              'tropic-sun': '#D8BF6A',
+              'tropic-kiwi': '#9EAF73',
+              'tropic-seafoam': '#9EC3B5',
+              'tropic-lagoon': '#6FA7A3',
+              'tropic-flamingo': '#D7A0AA',
+            },
+            fontFamily: {
+              sans: ['Instrument Sans', 'sans-serif'],
+              mono: ['IBM Plex Mono', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="min-h-screen overflow-x-hidden bg-cloud font-sans text-ink antialiased">
+    <main class="mx-auto max-w-7xl px-6 py-8 sm:px-8 lg:px-10">
+      <nav class="mb-8 flex flex-col gap-4 border border-line bg-paper px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">OSS AI Stack Map</div>
+          <div class="mt-1 text-sm text-muted">Research publication layer for the current repaired snapshot.</div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href="index.html" class="border border-ink bg-ink px-4 py-2 text-sm font-medium text-paper">Report</a>
+          <a href="explainer.html" class="border border-line bg-cloud px-4 py-2 text-sm font-medium text-ink">Explainer</a>
+        </div>
+      </nav>
+      <section class="overflow-hidden border border-line bg-ink px-6 py-8 text-paper sm:px-8 lg:px-10">
+        <div class="grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_22rem]">
+          <div class="min-w-0">
+            <div class="w-full max-w-full overflow-x-auto overscroll-x-contain">
+              <pre class="inline-block whitespace-pre font-mono text-[10px] leading-5 text-muted-strong sm:text-[11px]">+--------------------------------------------------------------+
+| OSS AI STACK MAP :: SNAPSHOT REPORT                          |
+| SOURCE: data/run-2026-03-25-fresh-1mo-v3                     |
+| LENS: major, active, public OSS AI repos on GitHub           |
++--------------------------------------------------------------+</pre>
+            </div>
+            <h1 class="mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
+              What major open source AI repos actually use.
+            </h1>
+            <p class="mt-6 max-w-3xl text-base leading-8 text-paper/80 sm:text-lg">
+              This report reads directly from <span class="break-all font-mono text-paper">data/run-2026-03-25-fresh-1mo-v3</span> and summarizes the current
+              stack choices across the project’s final GitHub AI set.
+            </p>
+            <p class="mt-5 max-w-3xl text-sm leading-7 text-muted-strong">
+              Study frame: GitHub-only, public, non-fork, non-archived, active within 1 month, and at least 1,000 stars. Published stack edges come from manifests, SBOMs, and bounded import fallback, not README mentions.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="explainer.html" class="border border-white/20 px-4 py-2 text-sm font-medium text-paper">Read the explainer</a>
+            </div>
+          </div>
+
+          <aside class="border border-white/10 p-6">
+            <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[snapshot]</div>
+            <div class="mt-4 text-3xl font-semibold tracking-tight text-paper">2026-03-25</div>
+            <div class="mt-6 space-y-4">
+              
+        <div class="flex flex-col gap-1 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+          <div class="text-sm text-paper">Run status</div>
+          <div class="break-all font-mono text-xs text-muted-strong sm:max-w-[11rem] sm:text-right">Completed</div>
+        </div>
+        
+
+        <div class="flex flex-col gap-1 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+          <div class="text-sm text-paper">Started</div>
+          <div class="break-all font-mono text-xs text-muted-strong sm:max-w-[11rem] sm:text-right">2026-03-27 11:38:02.010459 UTC</div>
+        </div>
+        
+
+        <div class="flex flex-col gap-1 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+          <div class="text-sm text-paper">Updated</div>
+          <div class="break-all font-mono text-xs text-muted-strong sm:max-w-[11rem] sm:text-right">2026-03-27 22:45:21.866396 UTC</div>
+        </div>
+        
+
+        <div class="flex flex-col gap-1 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+          <div class="text-sm text-paper">Generated</div>
+          <div class="break-all font-mono text-xs text-muted-strong sm:max-w-[11rem] sm:text-right">2026-03-27 22:46 UTC</div>
+        </div>
+        
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Discovered repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">1,216</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Candidate universe collected from GitHub discovery queries and manual seeds.</div>
+    </div>
+    
+        
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Final major AI repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">783</div>
+      <div class="mt-2 text-sm leading-6 text-muted">64.4% of discovered repos survive the full inclusion filter.</div>
+    </div>
+    
+        
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Normalized technology edges</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">4,355</div>
+      <div class="mt-2 text-sm leading-6 text-muted">781 repos map to at least one of 66 tracked technologies.</div>
+    </div>
+    
+        
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Median final repo stars</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">4,995</div>
+      <div class="mt-2 text-sm leading-6 text-muted">P75 is 13,503 stars across the published final set.</div>
+    </div>
+    
+      </section>
+
+      <section class="mt-14">
+        <div class="max-w-3xl">
+          <div class="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">+ main findings</div>
+          <h2 class="mt-3 text-3xl font-semibold tracking-[-0.03em] text-ink">The modern OSS AI stack is provider-first, orchestration-heavy, and surprisingly multi-vendor.</h2>
+        </div>
+        <div class="mt-8 grid gap-5 lg:grid-cols-3">
+          
+        <article class="border border-line bg-ink p-6 text-paper">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[finding]</div>
+          <h3 class="mt-3 text-xl font-semibold tracking-tight">Providers sit at the center</h3>
+          <p class="mt-3 text-sm leading-7 text-paper/80">Provider SDKs account for 31.2% of all normalized edges, and OpenAI appears in 550 final repos. The provider layer is the most common and the most connective part of the stack.</p>
+        </article>
+        
+
+        <article class="border border-line bg-ink p-6 text-paper">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[finding]</div>
+          <h3 class="mt-3 text-xl font-semibold tracking-tight">Multi-provider stacks are common</h3>
+          <p class="mt-3 text-sm leading-7 text-paper/80">The strongest repeated pairing is Anthropic SDK plus OpenAI SDK in 251 repos, followed by OpenAI plus Google GenAI in 209. Major OSS projects are not clustering around a single vendor.</p>
+        </article>
+        
+
+        <article class="border border-line bg-ink p-6 text-paper">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[finding]</div>
+          <h3 class="mt-3 text-xl font-semibold tracking-tight">The ecosystem is backend-heavy</h3>
+          <p class="mt-3 text-sm leading-7 text-paper/80">Training, orchestration, providers, and retrieval dominate the graph. Evaluation and observability remain comparatively thin, with only 34 guardrail/eval edges and 55 observability edges.</p>
+        </article>
+        
+        </div>
+      </section>
+
+      <section class="mt-14 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ stack profile</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">A compact read on the default stack shape</h2>
+          <p class="mt-4 max-w-2xl text-sm leading-7 text-muted">Inference from the aggregate counts: the modal major OSS AI repo in this snapshot is organization-owned, Python-first, anchored on a provider SDK, often layers in Hugging Face training tools, and then adds orchestration, retrieval, and a lightweight UI shell.</p>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div class="border border-line bg-ink p-5 text-paper">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[who ships it]</div>
+              <div class="mt-4 space-y-4">
+                
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Organization</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">617 <span class="text-muted">/ 78.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 78.8%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">User</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">166 <span class="text-muted">/ 21.2%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 21.2%"></div>
+              </div>
+            </div>
+            
+              </div>
+            </div>
+            <div class="border border-line bg-ink p-5 text-paper">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[language mix]</div>
+              <div class="mt-4 space-y-4">
+                
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Python</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">397 <span class="text-muted">/ 50.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-coral to-tropic-papaya" style="width: 50.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">TypeScript</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">176 <span class="text-muted">/ 22.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-coral to-tropic-papaya" style="width: 22.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Go</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">49 <span class="text-muted">/ 6.3%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-coral to-tropic-papaya" style="width: 6.3%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Rust</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">35 <span class="text-muted">/ 4.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-coral to-tropic-papaya" style="width: 4.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Jupyter Notebook</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">28 <span class="text-muted">/ 3.6%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-coral to-tropic-papaya" style="width: 3.6%"></div>
+              </div>
+            </div>
+            
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ coverage and method</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">What the dataset captures well, and where it still undercounts</h2>
+          <div class="mt-6 space-y-4">
+            <div class="border border-line bg-cloud p-5">
+              <div class="text-sm font-medium text-ink">[1] Direct evidence dominates</div>
+              <p class="mt-2 text-sm leading-7 text-muted">776 final repos have manifests and 664 have SBOM dependency evidence. 22 final repos map only through README fallback, so direct evidence still dominates but does not fully cover the published set.</p>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="text-sm font-medium text-ink">[2] Normalization still leaves gaps</div>
+              <p class="mt-2 text-sm leading-7 text-muted">2 included repos (0.3%) have no normalized technology edge, so graph-like analysis describes the mapped subset, not the entire final population.</p>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="text-sm font-medium text-ink">[3] Judge usage stays explicit</div>
+              <p class="mt-2 text-sm leading-7 text-muted">0 repos were judge-reviewed and 0 judge overrides were applied in this snapshot. The published set remains rule-driven.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14 grid gap-6 xl:grid-cols-[0.92fr_1.08fr]">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ research gaps</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Where normalization still misses stack evidence</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-3">
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Missing-edge repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">2</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Final repos that still have no normalized technology edge.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Unmapped dep gaps</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">2</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Missing-edge finals that do have dependency evidence, but none of it normalizes yet.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ No-dependency gaps</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">0</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Missing-edge finals that have no dependency evidence at all.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ AI-specific prefixes</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">10</div>
+      <div class="mt-2 text-sm leading-6 text-muted">High-signal unresolved package families that still look AI-stack specific.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Commodity prefixes</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">10</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Generic tooling and ecosystem noise separated from the research backlog.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Vendor-like repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">10</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Repos that look vendor-related but are not mapped to a canonical identity.</div>
+    </div>
+    
+          </div>
+          <div class="mt-6 grid gap-5 lg:grid-cols-2">
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[ai-specific unmatched prefixes]</div>
+              <div class="mt-4">
+                
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">google</div>
+          <div class="font-mono text-xs text-muted">2,503</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">pydantic</div>
+          <div class="font-mono text-xs text-muted">2,168</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">@activepieces/</div>
+          <div class="font-mono text-xs text-muted">1,989</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">nvidia</div>
+          <div class="font-mono text-xs text-muted">1,807</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">windows</div>
+          <div class="font-mono text-xs text-muted">1,724</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">llama</div>
+          <div class="font-mono text-xs text-muted">1,703</div>
+        </div>
+        
+              </div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[largest missing-edge repos]</div>
+              <div class="mt-4">
+                
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+            <div class="min-w-0">
+            <div class="break-all text-sm font-medium text-ink">mufeedvh/code2prompt</div>
+            <div class="mt-1 text-xs text-muted">unmapped dependency evidence • unmatched deps 444</div>
+          </div>
+          <div class="font-mono text-xs text-muted">7,247 stars</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+            <div class="min-w-0">
+            <div class="break-all text-sm font-medium text-ink">onecli/onecli</div>
+            <div class="mt-1 text-xs text-muted">unmapped dependency evidence • unmatched deps 88</div>
+          </div>
+          <div class="font-mono text-xs text-muted">1,354 stars</div>
+        </div>
+        
+              </div>
+            </div>
+            <div class="border border-line bg-cloud p-5 lg:col-span-2">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[commodity and tooling backlog]</div>
+              <div class="mt-4">
+                
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">@rollup/</div>
+          <div class="font-mono text-xs text-muted">4,017</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">typescript</div>
+          <div class="font-mono text-xs text-muted">3,196</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">opentelemetry</div>
+          <div class="font-mono text-xs text-muted">3,102</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">python</div>
+          <div class="font-mono text-xs text-muted">2,906</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">github</div>
+          <div class="font-mono text-xs text-muted">2,870</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">serde</div>
+          <div class="font-mono text-xs text-muted">2,786</div>
+        </div>
+        
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ benchmark recall</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">How well the map covers the known AI stack benchmark set</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-3">
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Benchmarked entities</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">11</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Curated AI stack entities tracked for recall across each snapshot.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Failed thresholds</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">0</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Recall metrics currently below configured minimums.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Prioritized gaps</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">0</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Benchmarks needing the next registry or discovery fixes.</div>
+    </div>
+    
+          </div>
+          <div class="mt-6 grid gap-5 lg:grid-cols-2">
+            <div class="border border-line bg-ink p-5 text-paper">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[coverage rates]</div>
+              <div class="mt-4">
+                
+        <div class="flex items-center justify-between gap-4 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 text-sm text-paper">Repo discovered</div>
+          <div class="shrink-0 border border-white/10 px-2 py-1 font-mono text-[11px] text-muted-strong">100.0%</div>
+        </div>
+        
+
+        <div class="flex items-center justify-between gap-4 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 text-sm text-paper">Repo included</div>
+          <div class="shrink-0 border border-white/10 px-2 py-1 font-mono text-[11px] text-muted-strong">100.0%</div>
+        </div>
+        
+
+        <div class="flex items-center justify-between gap-4 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 text-sm text-paper">Identity mapped</div>
+          <div class="shrink-0 border border-white/10 px-2 py-1 font-mono text-[11px] text-muted-strong">100.0%</div>
+        </div>
+        
+
+        <div class="flex items-center justify-between gap-4 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 text-sm text-paper">Third-party adoption</div>
+          <div class="shrink-0 border border-white/10 px-2 py-1 font-mono text-[11px] text-muted-strong">100.0%</div>
+        </div>
+        
+
+        <div class="flex items-center justify-between gap-4 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 text-sm text-paper">Dependency evidence</div>
+          <div class="shrink-0 border border-white/10 px-2 py-1 font-mono text-[11px] text-muted-strong">100.0%</div>
+        </div>
+        
+              </div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[top benchmark gaps]</div>
+              <div class="mt-4">
+                <div class="text-sm text-muted">No prioritized benchmark gaps in this snapshot.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ technology discovery</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Post-filtered canonical candidates from the raw unmatched package graph</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-3">
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Raw candidate families</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">6</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Unmatched technology families inferred from scraped dependency evidence before curation filters.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Graph nodes</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">6</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Package-family nodes in the projected co-usage graph.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Filtered candidates</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">0</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Canonical vendor, product, or package-family candidates that survive the registry filter.</div>
+    </div>
+    
+          </div>
+          <div class="mt-6 border border-line bg-cloud p-5">
+            <div class="text-sm text-muted">No post-filtered canonical discovery candidates available for this snapshot.</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ registry suggestions</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Canonical vendor, product, and package-family suggestions</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-3">
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Suggestions</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">0</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Candidates produced after filtering already-covered families and suppressing abstract capability labels.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ LLM reviewed</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">0</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Optional OpenAI registry reviews attached to candidate suggestions.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Shown here</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">0</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Top suggestion rows displayed in this report.</div>
+    </div>
+    
+          </div>
+          <div class="mt-6 border border-line bg-cloud p-5">
+            <div class="text-sm text-muted">No registry suggestions available for this snapshot.</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14">
+        <div class="max-w-3xl">
+          <div class="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">+ modern ai stack layers</div>
+          <h2 class="mt-3 text-3xl font-semibold tracking-[-0.03em] text-ink">Where the weight of the stack actually sits</h2>
+        </div>
+        <div class="mt-8 grid gap-5 lg:grid-cols-2 2xl:grid-cols-3">
+          
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Training and model ops</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">1,311</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[30.1% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Transformers</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">280 <span class="text-muted">/ 35.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-lagoon" style="width: 35.8%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">PyTorch</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">264 <span class="text-muted">/ 33.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-lagoon" style="width: 33.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Hugging Face Hub</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">250 <span class="text-muted">/ 31.9%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-lagoon" style="width: 31.9%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Tokenizers</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">220 <span class="text-muted">/ 28.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-lagoon" style="width: 28.1%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Accelerate</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">151 <span class="text-muted">/ 19.3%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-lagoon" style="width: 19.3%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Providers and access</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">1,022</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[23.5% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">OpenAI SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">456 <span class="text-muted">/ 58.2%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 58.2%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Anthropic SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">259 <span class="text-muted">/ 33.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 33.1%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Google GenAI SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">192 <span class="text-muted">/ 24.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 24.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LiteLLM</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">115 <span class="text-muted">/ 14.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 14.7%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Orchestration and agents</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">700</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[16.1% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LangChain</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">191 <span class="text-muted">/ 24.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-papaya" style="width: 24.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LangChain OpenAI Integration</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">121 <span class="text-muted">/ 15.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-papaya" style="width: 15.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LangGraph</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">104 <span class="text-muted">/ 13.3%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-papaya" style="width: 13.3%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LangChain Anthropic Integration</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">52 <span class="text-muted">/ 6.6%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-papaya" style="width: 6.6%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LangChain Google GenAI Integration</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">43 <span class="text-muted">/ 5.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-papaya" style="width: 5.5%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Ai Developer Tools And Sdk Families</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">467</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[10.7% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Model Context Protocol</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">376 <span class="text-muted">/ 48.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 48.0%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Vercel AI SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">91 <span class="text-muted">/ 11.6%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 11.6%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Retrieval and vector storage</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">315</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[7.2% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Qdrant</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">76 <span class="text-muted">/ 9.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 9.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Chroma</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">75 <span class="text-muted">/ 9.6%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 9.6%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">pgvector</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">43 <span class="text-muted">/ 5.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 5.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Weaviate</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">40 <span class="text-muted">/ 5.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 5.1%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Milvus</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">40 <span class="text-muted">/ 5.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 5.1%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Serving and local runtimes</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">224</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[5.1% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Ollama</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">107 <span class="text-muted">/ 13.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-sun to-tropic-coral" style="width: 13.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Ray Serve</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">48 <span class="text-muted">/ 6.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-sun to-tropic-coral" style="width: 6.1%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">vLLM</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">43 <span class="text-muted">/ 5.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-sun to-tropic-coral" style="width: 5.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">llama.cpp</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">15 <span class="text-muted">/ 1.9%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-sun to-tropic-coral" style="width: 1.9%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">SGLang</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">9 <span class="text-muted">/ 1.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-sun to-tropic-coral" style="width: 1.1%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ UI and app frameworks</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">145</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[3.3% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Gradio</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">70 <span class="text-muted">/ 8.9%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-lagoon" style="width: 8.9%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Streamlit</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">67 <span class="text-muted">/ 8.6%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-lagoon" style="width: 8.6%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Chainlit</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">8 <span class="text-muted">/ 1.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-lagoon" style="width: 1.0%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Observability</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">66</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[1.5% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Langfuse</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">37 <span class="text-muted">/ 4.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-sun" style="width: 4.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Logfire</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">19 <span class="text-muted">/ 2.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-sun" style="width: 2.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Arize Phoenix</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">5 <span class="text-muted">/ 0.6%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-sun" style="width: 0.6%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Weave</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">4 <span class="text-muted">/ 0.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-sun" style="width: 0.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Evidently</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">1 <span class="text-muted">/ 0.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-sun" style="width: 0.1%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Sandbox And Isolated Execution</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">38</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[0.9% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">E2B</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">27 <span class="text-muted">/ 3.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 3.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Daytona</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">11 <span class="text-muted">/ 1.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 1.4%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Browser And Computer Use Infra</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">35</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[0.8% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Browserbase</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">25 <span class="text-muted">/ 3.2%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 3.2%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Browser Use</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">8 <span class="text-muted">/ 1.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 1.0%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Steel Browser</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">2 <span class="text-muted">/ 0.3%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 0.3%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Evaluation and guardrails</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">30</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[0.7% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Ragas</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">13 <span class="text-muted">/ 1.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-flamingo" style="width: 1.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">DeepEval</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">8 <span class="text-muted">/ 1.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-flamingo" style="width: 1.0%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Guardrails</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">4 <span class="text-muted">/ 0.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-flamingo" style="width: 0.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Promptfoo</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">3 <span class="text-muted">/ 0.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-flamingo" style="width: 0.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">NeMo Guardrails</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">2 <span class="text-muted">/ 0.3%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-flamingo" style="width: 0.3%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Runtime And Agent Deployment</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">2</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[0.0% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Cloudflare Agents</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">2 <span class="text-muted">/ 0.3%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 0.3%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+        </div>
+      </section>
+
+      <section class="mt-14 grid gap-6 xl:grid-cols-[0.92fr_1.08fr]">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ top technologies</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">The most repeated building blocks</h2>
+          <div class="mt-6 border border-line bg-ink p-5">
+            <div class="space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">OpenAI SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">456 <span class="text-muted">/ 58.2%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 58.2%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Model Context Protocol</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">376 <span class="text-muted">/ 48.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 48.0%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Transformers</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">280 <span class="text-muted">/ 35.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 35.8%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">PyTorch</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">264 <span class="text-muted">/ 33.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 33.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Anthropic SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">259 <span class="text-muted">/ 33.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 33.1%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Hugging Face Hub</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">250 <span class="text-muted">/ 31.9%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 31.9%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Tokenizers</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">220 <span class="text-muted">/ 28.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 28.1%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Google GenAI SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">192 <span class="text-muted">/ 24.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 24.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LangChain</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">191 <span class="text-muted">/ 24.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 24.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Accelerate</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">151 <span class="text-muted">/ 19.3%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 19.3%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ provider and segment mix</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Who dominates, and what gets built</h2>
+          <div class="mt-6 grid gap-5 lg:grid-cols-2">
+            <div class="border border-line bg-ink p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[provider prevalence]</div>
+              <div class="mt-4 space-y-4">
+                
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">openai</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">437 <span class="text-muted">/ 55.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 55.8%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">anthropic</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">240 <span class="text-muted">/ 30.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 30.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">google</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">210 <span class="text-muted">/ 26.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 26.8%"></div>
+              </div>
+            </div>
+            
+              </div>
+            </div>
+            <div class="border border-line bg-ink p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[primary segments]</div>
+              <div class="mt-4 space-y-4">
+                
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Serving runtime</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">257 <span class="text-muted">/ 32.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-papaya" style="width: 32.8%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Training and finetuning</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">217 <span class="text-muted">/ 27.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-papaya" style="width: 27.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Orchestration framework</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">98 <span class="text-muted">/ 12.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-papaya" style="width: 12.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Vector and retrieval infra</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">76 <span class="text-muted">/ 9.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-papaya" style="width: 9.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Agent application</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">61 <span class="text-muted">/ 7.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-papaya" style="width: 7.8%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">AI developer tool</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">34 <span class="text-muted">/ 4.3%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-papaya" style="width: 4.3%"></div>
+              </div>
+            </div>
+            
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ repeated combinations</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">The strongest co-usage patterns</h2>
+          <div class="mt-6 border border-line bg-cloud p-5">
+            
+        <div class="grid grid-cols-1 gap-2 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-3">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Anthropic SDK <span class="text-muted">::</span> OpenAI SDK</div>
+            <div class="mt-1 text-xs text-muted">Shared by major OSS AI repos in the normalized graph.</div>
+          </div>
+          <div class="font-mono text-sm text-ink sm:text-right">[237]</div>
+        </div>
+        
+
+        <div class="grid grid-cols-1 gap-2 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-3">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Model Context Protocol <span class="text-muted">::</span> OpenAI SDK</div>
+            <div class="mt-1 text-xs text-muted">Shared by major OSS AI repos in the normalized graph.</div>
+          </div>
+          <div class="font-mono text-sm text-ink sm:text-right">[235]</div>
+        </div>
+        
+
+        <div class="grid grid-cols-1 gap-2 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-3">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">PyTorch <span class="text-muted">::</span> Transformers</div>
+            <div class="mt-1 text-xs text-muted">Shared by major OSS AI repos in the normalized graph.</div>
+          </div>
+          <div class="font-mono text-sm text-ink sm:text-right">[221]</div>
+        </div>
+        
+
+        <div class="grid grid-cols-1 gap-2 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-3">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Hugging Face Hub <span class="text-muted">::</span> OpenAI SDK</div>
+            <div class="mt-1 text-xs text-muted">Shared by major OSS AI repos in the normalized graph.</div>
+          </div>
+          <div class="font-mono text-sm text-ink sm:text-right">[194]</div>
+        </div>
+        
+
+        <div class="grid grid-cols-1 gap-2 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-3">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">OpenAI SDK <span class="text-muted">::</span> Transformers</div>
+            <div class="mt-1 text-xs text-muted">Shared by major OSS AI repos in the normalized graph.</div>
+          </div>
+          <div class="font-mono text-sm text-ink sm:text-right">[193]</div>
+        </div>
+        
+
+        <div class="grid grid-cols-1 gap-2 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-3">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Hugging Face Hub <span class="text-muted">::</span> Tokenizers</div>
+            <div class="mt-1 text-xs text-muted">Shared by major OSS AI repos in the normalized graph.</div>
+          </div>
+          <div class="font-mono text-sm text-ink sm:text-right">[189]</div>
+        </div>
+        
+          </div>
+        </article>
+
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ at a glance</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">A few stable signals from the snapshot</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Serious repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">963</div>
+      <div class="mt-2 text-sm leading-6 text-muted">79.2%</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ AI-relevant repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">783</div>
+      <div class="mt-2 text-sm leading-6 text-muted">64.4%</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Repos with normalized techs</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">781</div>
+      <div class="mt-2 text-sm leading-6 text-muted">99.7%</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Median mapped tech count</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">4</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Across the technology-connected subset only.</div>
+    </div>
+    
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ graph structure</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Which technologies sit at the center of the mapped stack</h2>
+          <p class="mt-4 max-w-3xl text-sm leading-7 text-muted">These visuals summarize the technology-connected subset of the final population. Eigenvector highlights the core hubs, betweenness isolates bridge technologies, repo degree shows stack breadth per mapped repo, and category mixing shows which layers of the stack actually co-occur.</p>
+          <div class="mt-6 grid gap-5 xl:grid-cols-2">
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[top eigenvector technologies]</div>
+              <div class="mt-3 text-sm leading-6 text-muted">High-eigenvector technologies are not just common. They sit next to other highly connected technologies and define the graph’s center of gravity.</div>
+              <div class="mt-4 overflow-x-auto"><svg viewBox="0 0 720 368" class="w-full" role="img" aria-label="Bar chart"><rect x="0" y="0" width="720" height="368" fill="#FBFAF7" /><line x1="190.0" y1="10" x2="190.0" y2="354" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="190.0" y="10" fill="#766E64" font-size="10" text-anchor="middle">0</text><line x1="345.3" y1="10" x2="345.3" y2="354" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="345.3" y="10" fill="#766E64" font-size="10" text-anchor="middle">0.1</text><line x1="500.7" y1="10" x2="500.7" y2="354" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="500.7" y="10" fill="#766E64" font-size="10" text-anchor="middle">0.3</text><line x1="656.0" y1="10" x2="656.0" y2="354" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="656.0" y="10" fill="#766E64" font-size="10" text-anchor="middle">0.4</text><text x="180" y="31" fill="#1A1816" font-size="11" text-anchor="end">OpenAI SDK</text><rect x="190" y="21" width="466.0" height="12" rx="3" fill="#6FA7A3" /><text x="664.0" y="31" fill="#766E64" font-size="10">0.4</text><text x="180" y="59" fill="#1A1816" font-size="11" text-anchor="end">Hugging Face Hub</text><rect x="190" y="49" width="366.3" height="12" rx="3" fill="#6FA7A3" /><text x="564.3" y="59" fill="#766E64" font-size="10">0.3</text><text x="180" y="87" fill="#1A1816" font-size="11" text-anchor="end">Transformers</text><rect x="190" y="77" width="358.4" height="12" rx="3" fill="#6FA7A3" /><text x="556.4" y="87" fill="#766E64" font-size="10">0.3</text><text x="180" y="115" fill="#1A1816" font-size="11" text-anchor="end">Model Context Protocol</text><rect x="190" y="105" width="352.5" height="12" rx="3" fill="#6FA7A3" /><text x="550.5" y="115" fill="#766E64" font-size="10">0.3</text><text x="180" y="143" fill="#1A1816" font-size="11" text-anchor="end">Tokenizers</text><rect x="190" y="133" width="337.2" height="12" rx="3" fill="#6FA7A3" /><text x="535.2" y="143" fill="#766E64" font-size="10">0.3</text><text x="180" y="171" fill="#1A1816" font-size="11" text-anchor="end">Anthropic SDK</text><rect x="190" y="161" width="334.8" height="12" rx="3" fill="#6FA7A3" /><text x="532.8" y="171" fill="#766E64" font-size="10">0.3</text><text x="180" y="199" fill="#1A1816" font-size="11" text-anchor="end">PyTorch</text><rect x="190" y="189" width="329.2" height="12" rx="3" fill="#6FA7A3" /><text x="527.2" y="199" fill="#766E64" font-size="10">0.3</text><text x="180" y="227" fill="#1A1816" font-size="11" text-anchor="end">LangChain</text><rect x="190" y="217" width="284.9" height="12" rx="3" fill="#6FA7A3" /><text x="482.9" y="227" fill="#766E64" font-size="10">0.2</text><text x="180" y="255" fill="#1A1816" font-size="11" text-anchor="end">Google GenAI SDK</text><rect x="190" y="245" width="280.4" height="12" rx="3" fill="#6FA7A3" /><text x="478.4" y="255" fill="#766E64" font-size="10">0.2</text><text x="180" y="283" fill="#1A1816" font-size="11" text-anchor="end">Accelerate</text><rect x="190" y="273" width="233.1" height="12" rx="3" fill="#6FA7A3" /><text x="431.1" y="283" fill="#766E64" font-size="10">0.2</text><text x="180" y="311" fill="#1A1816" font-size="11" text-anchor="end">LangChain OpenAI Integration</text><rect x="190" y="301" width="199.5" height="12" rx="3" fill="#6FA7A3" /><text x="397.5" y="311" fill="#766E64" font-size="10">0.2</text><text x="180" y="339" fill="#1A1816" font-size="11" text-anchor="end">LiteLLM</text><rect x="190" y="329" width="188.8" height="12" rx="3" fill="#6FA7A3" /><text x="386.8" y="339" fill="#766E64" font-size="10">0.2</text></svg></div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[betweenness vs prevalence]</div>
+              <div class="mt-3 text-sm leading-6 text-muted">Points higher on the chart bridge otherwise different tool combinations. Point size reflects weighted co-occurrence strength.</div>
+              <div class="mt-4 overflow-x-auto"><svg viewBox="0 0 720 320" class="w-full" role="img" aria-label="Scatter plot"><rect x="0" y="0" width="720" height="320" fill="#FBFAF7" /><line x1="54" y1="278" x2="702" y2="278" stroke="#CBC3B7" /><line x1="54" y1="18" x2="54" y2="278" stroke="#CBC3B7" /><line x1="54.0" y1="18" x2="54.0" y2="278" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="54.0" y="294" fill="#766E64" font-size="10" text-anchor="middle">0</text><line x1="378.0" y1="18" x2="378.0" y2="278" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="378.0" y="294" fill="#766E64" font-size="10" text-anchor="middle">228</text><line x1="702.0" y1="18" x2="702.0" y2="278" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="702.0" y="294" fill="#766E64" font-size="10" text-anchor="middle">456</text><line x1="54" y1="278.0" x2="702" y2="278.0" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="48" y="282.0" fill="#766E64" font-size="10" text-anchor="end">0.000</text><line x1="54" y1="148.0" x2="702" y2="148.0" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="48" y="152.0" fill="#766E64" font-size="10" text-anchor="end">0.379</text><line x1="54" y1="18.0" x2="702" y2="18.0" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="48" y="22.0" fill="#766E64" font-size="10" text-anchor="end">0.758</text><circle cx="89.5" cy="278.0" r="5.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="409.3" cy="277.9" r="11.4" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="153.5" cy="278.0" r="6.1" fill="#9EC3B5" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="422.1" cy="276.9" r="10.8" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="436.9" y="264.1" fill="#1A1816" font-size="10">Anthropic SDK</text><circle cx="62.5" cy="278.0" r="4.3" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="59.7" cy="278.0" r="4.2" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.4" cy="278.0" r="4.0" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.4" cy="278.0" r="4.0" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="201.8" cy="278.0" r="7.7" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="56.8" cy="278.0" r="4.1" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="85.3" cy="278.0" r="4.8" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="65.4" cy="278.0" r="4.2" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="183.3" cy="278.0" r="6.6" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="326.8" cy="278.0" r="9.6" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="66.8" cy="278.0" r="4.3" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.4" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="110.8" cy="277.9" r="5.7" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="99.5" cy="278.0" r="5.4" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="69.6" cy="278.0" r="4.5" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="56.8" cy="278.0" r="4.0" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="81.0" cy="278.0" r="4.7" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="72.5" cy="278.0" r="4.6" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="106.6" cy="267.5" r="5.4" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="115.9" y="260.1" fill="#1A1816" font-size="10">Langfuse</text><circle cx="56.8" cy="278.0" r="4.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="217.4" cy="278.0" r="7.9" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="58.3" cy="278.0" r="4.1" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="62.5" cy="278.0" r="4.3" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="76.7" cy="278.0" r="4.8" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="160.6" cy="278.0" r="7.2" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="225.9" cy="278.0" r="8.2" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="58.3" cy="278.0" r="4.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="65.4" cy="278.0" r="4.3" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="65.4" cy="278.0" r="4.5" fill="#9EC3B5" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="115.1" cy="278.0" r="5.4" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="98.1" cy="278.0" r="5.2" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="149.2" cy="278.0" r="6.2" fill="#9EC3B5" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="366.6" cy="277.9" r="10.8" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="122.2" cy="278.0" r="5.4" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="702.0" cy="18.0" r="14.0" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="720.0" y="2.0" fill="#1A1816" font-size="10">OpenAI SDK</text><circle cx="56.8" cy="278.0" r="4.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="59.7" cy="278.0" r="4.2" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="66.8" cy="278.0" r="4.3" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="206.1" cy="278.0" r="7.0" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="89.5" cy="278.0" r="5.3" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="99.5" cy="278.0" r="4.8" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="127.9" cy="278.0" r="6.0" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="588.3" cy="267.1" r="11.2" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="603.5" y="254.0" fill="#1A1816" font-size="10">Model Context Protocol</text><circle cx="61.1" cy="278.0" r="4.3" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="73.9" cy="278.0" r="4.6" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="110.8" cy="277.9" r="5.6" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="75.3" cy="278.0" r="4.8" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="92.4" cy="278.0" r="4.8" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="115.1" cy="278.0" r="5.6" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="115.1" cy="278.0" r="5.6" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="325.4" cy="256.3" r="10.0" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="339.5" y="244.2" fill="#1A1816" font-size="10">LangChain</text><circle cx="162.0" cy="267.7" r="7.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="173.1" y="258.7" fill="#1A1816" font-size="10">Qdrant</text><circle cx="55.4" cy="278.0" r="4.0" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="106.6" cy="278.0" r="5.6" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="451.9" cy="216.8" r="11.3" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="467.2" y="203.6" fill="#1A1816" font-size="10">Transformers</text><circle cx="108.0" cy="278.0" r="5.7" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="268.6" cy="278.0" r="8.6" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="429.2" cy="276.6" r="10.6" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="443.7" y="264.0" fill="#1A1816" font-size="10">PyTorch</text><circle cx="69.6" cy="278.0" r="4.4" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="183.3" cy="277.9" r="5.8" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="378.0" y="312" fill="#766E64" font-size="11" text-anchor="middle">Repo count</text><text x="14" y="148.0" fill="#766E64" font-size="11" text-anchor="middle" transform="rotate(-90 14 148.0)">Betweenness centrality</text></svg></div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[repo degree distribution]</div>
+              <div class="mt-3 text-sm leading-6 text-muted">This is the distribution of tracked technologies per mapped repo, not the full final set including no-edge repos.</div>
+              <div class="mt-4 overflow-x-auto"><svg viewBox="0 0 720 260" class="w-full" role="img" aria-label="Histogram"><rect x="0" y="0" width="720" height="260" fill="#FBFAF7" /><line x1="44" y1="218" x2="704" y2="218" stroke="#CBC3B7" /><line x1="44" y1="16" x2="44" y2="218" stroke="#CBC3B7" /><rect x="48.0" y="16.0" width="65.3" height="202.0" fill="#E5A36F" rx="3" /><text x="80.7" y="234" fill="#766E64" font-size="10" text-anchor="middle">1</text><rect x="121.3" y="103.6" width="65.3" height="114.4" fill="#E5A36F" rx="3" /><text x="154.0" y="234" fill="#766E64" font-size="10" text-anchor="middle">2</text><rect x="194.7" y="111.7" width="65.3" height="106.3" fill="#E5A36F" rx="3" /><text x="227.3" y="234" fill="#766E64" font-size="10" text-anchor="middle">3</text><rect x="268.0" y="132.8" width="65.3" height="85.2" fill="#E5A36F" rx="3" /><text x="300.7" y="234" fill="#766E64" font-size="10" text-anchor="middle">4</text><rect x="341.3" y="152.6" width="65.3" height="65.4" fill="#E5A36F" rx="3" /><text x="374.0" y="234" fill="#766E64" font-size="10" text-anchor="middle">5</text><rect x="414.7" y="129.3" width="65.3" height="88.7" fill="#E5A36F" rx="3" /><text x="447.3" y="234" fill="#766E64" font-size="10" text-anchor="middle">6-7</text><rect x="488.0" y="105.9" width="65.3" height="112.1" fill="#E5A36F" rx="3" /><text x="520.7" y="234" fill="#766E64" font-size="10" text-anchor="middle">8-10</text><rect x="561.3" y="132.8" width="65.3" height="85.2" fill="#E5A36F" rx="3" /><text x="594.0" y="234" fill="#766E64" font-size="10" text-anchor="middle">11-15</text><rect x="634.7" y="165.5" width="65.3" height="52.5" fill="#E5A36F" rx="3" /><text x="667.3" y="234" fill="#766E64" font-size="10" text-anchor="middle">16+</text><line x1="44" y1="218.0" x2="704" y2="218.0" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="38" y="222.0" fill="#766E64" font-size="10" text-anchor="end">0</text><line x1="44" y1="117.0" x2="704" y2="117.0" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="38" y="121.0" fill="#766E64" font-size="10" text-anchor="end">86.5</text><line x1="44" y1="16.0" x2="704" y2="16.0" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="38" y="20.0" fill="#766E64" font-size="10" text-anchor="end">173</text></svg></div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[category mixing heatmap]</div>
+              <div class="mt-3 text-sm leading-6 text-muted">Weighted co-occurrence between the biggest stack categories. Darker cells indicate heavier cross-category coupling in the technology projection.</div>
+              <div class="mt-4 overflow-x-auto"><svg viewBox="0 0 414 362" class="w-full" role="img" aria-label="Heatmap"><rect x="0" y="0" width="414" height="362" fill="#FBFAF7" /><text x="143.0" y="62" fill="#766E64" font-size="10" text-anchor="middle">Training</text><text x="177.0" y="62" fill="#766E64" font-size="10" text-anchor="middle">Providers</text><text x="211.0" y="62" fill="#766E64" font-size="10" text-anchor="middle">Orchestration</text><text x="245.0" y="62" fill="#766E64" font-size="10" text-anchor="middle">ai_develop</text><text x="279.0" y="62" fill="#766E64" font-size="10" text-anchor="middle">Retrieval</text><text x="313.0" y="62" fill="#766E64" font-size="10" text-anchor="middle">Serving</text><text x="347.0" y="62" fill="#766E64" font-size="10" text-anchor="middle">UI</text><text x="381.0" y="62" fill="#766E64" font-size="10" text-anchor="middle">Observability</text><text x="118" y="95.0" fill="#766E64" font-size="10" text-anchor="end">Training</text><rect x="126" y="74" width="32" height="32" fill="rgb(114,149,154)" stroke="#FBFAF7" /><text x="143.0" y="95.0" fill="#1A1816" font-size="9" text-anchor="middle">2,141</text><rect x="160" y="74" width="32" height="32" fill="rgb(112,148,153)" stroke="#FBFAF7" /><text x="177.0" y="95.0" fill="#1A1816" font-size="9" text-anchor="middle">2,176</text><rect x="194" y="74" width="32" height="32" fill="rgb(142,169,171)" stroke="#FBFAF7" /><text x="211.0" y="95.0" fill="#1A1816" font-size="9" text-anchor="middle">1,661</text><rect x="228" y="74" width="32" height="32" fill="rgb(203,212,210)" stroke="#FBFAF7" /><text x="245.0" y="95.0" fill="#1A1816" font-size="9" text-anchor="middle">617</text><rect x="262" y="74" width="32" height="32" fill="rgb(181,197,196)" stroke="#FBFAF7" /><text x="279.0" y="95.0" fill="#1A1816" font-size="9" text-anchor="middle">991</text><rect x="296" y="74" width="32" height="32" fill="rgb(195,206,205)" stroke="#FBFAF7" /><text x="313.0" y="95.0" fill="#1A1816" font-size="9" text-anchor="middle">758</text><rect x="330" y="74" width="32" height="32" fill="rgb(210,216,214)" stroke="#FBFAF7" /><text x="347.0" y="95.0" fill="#1A1816" font-size="9" text-anchor="middle">509</text><rect x="364" y="74" width="32" height="32" fill="rgb(230,231,227)" stroke="#FBFAF7" /><text x="381.0" y="95.0" fill="#1A1816" font-size="9" text-anchor="middle">162</text><text x="118" y="129.0" fill="#766E64" font-size="10" text-anchor="end">Providers</text><rect x="126" y="108" width="32" height="32" fill="rgb(112,148,153)" stroke="#FBFAF7" /><text x="143.0" y="129.0" fill="#1A1816" font-size="9" text-anchor="middle">2,176</text><rect x="160" y="108" width="32" height="32" fill="rgb(194,206,204)" stroke="#FBFAF7" /><text x="177.0" y="129.0" fill="#1A1816" font-size="9" text-anchor="middle">771</text><rect x="194" y="108" width="32" height="32" fill="rgb(144,170,173)" stroke="#FBFAF7" /><text x="211.0" y="129.0" fill="#1A1816" font-size="9" text-anchor="middle">1,629</text><rect x="228" y="108" width="32" height="32" fill="rgb(191,204,202)" stroke="#FBFAF7" /><text x="245.0" y="129.0" fill="#1A1816" font-size="9" text-anchor="middle">817</text><rect x="262" y="108" width="32" height="32" fill="rgb(193,205,203)" stroke="#FBFAF7" /><text x="279.0" y="129.0" fill="#1A1816" font-size="9" text-anchor="middle">791</text><rect x="296" y="108" width="32" height="32" fill="rgb(214,219,216)" stroke="#FBFAF7" /><text x="313.0" y="129.0" fill="#1A1816" font-size="9" text-anchor="middle">438</text><rect x="330" y="108" width="32" height="32" fill="rgb(223,226,222)" stroke="#FBFAF7" /><text x="347.0" y="129.0" fill="#1A1816" font-size="9" text-anchor="middle">274</text><rect x="364" y="108" width="32" height="32" fill="rgb(229,230,226)" stroke="#FBFAF7" /><text x="381.0" y="129.0" fill="#1A1816" font-size="9" text-anchor="middle">185</text><text x="118" y="163.0" fill="#766E64" font-size="10" text-anchor="end">Orchestration</text><rect x="126" y="142" width="32" height="32" fill="rgb(142,169,171)" stroke="#FBFAF7" /><text x="143.0" y="163.0" fill="#1A1816" font-size="9" text-anchor="middle">1,661</text><rect x="160" y="142" width="32" height="32" fill="rgb(144,170,173)" stroke="#FBFAF7" /><text x="177.0" y="163.0" fill="#1A1816" font-size="9" text-anchor="middle">1,629</text><rect x="194" y="142" width="32" height="32" fill="rgb(170,189,189)" stroke="#FBFAF7" /><text x="211.0" y="163.0" fill="#1A1816" font-size="9" text-anchor="middle">1,182</text><rect x="228" y="142" width="32" height="32" fill="rgb(204,213,211)" stroke="#FBFAF7" /><text x="245.0" y="163.0" fill="#1A1816" font-size="9" text-anchor="middle">598</text><rect x="262" y="142" width="32" height="32" fill="rgb(195,206,205)" stroke="#FBFAF7" /><text x="279.0" y="163.0" fill="#1A1816" font-size="9" text-anchor="middle">750</text><rect x="296" y="142" width="32" height="32" fill="rgb(220,224,220)" stroke="#FBFAF7" /><text x="313.0" y="163.0" fill="#1A1816" font-size="9" text-anchor="middle">329</text><rect x="330" y="142" width="32" height="32" fill="rgb(223,226,222)" stroke="#FBFAF7" /><text x="347.0" y="163.0" fill="#1A1816" font-size="9" text-anchor="middle">277</text><rect x="364" y="142" width="32" height="32" fill="rgb(229,230,226)" stroke="#FBFAF7" /><text x="381.0" y="163.0" fill="#1A1816" font-size="9" text-anchor="middle">181</text><text x="118" y="197.0" fill="#766E64" font-size="10" text-anchor="end">ai_develop</text><rect x="126" y="176" width="32" height="32" fill="rgb(203,212,210)" stroke="#FBFAF7" /><text x="143.0" y="197.0" fill="#1A1816" font-size="9" text-anchor="middle">617</text><rect x="160" y="176" width="32" height="32" fill="rgb(191,204,202)" stroke="#FBFAF7" /><text x="177.0" y="197.0" fill="#1A1816" font-size="9" text-anchor="middle">817</text><rect x="194" y="176" width="32" height="32" fill="rgb(204,213,211)" stroke="#FBFAF7" /><text x="211.0" y="197.0" fill="#1A1816" font-size="9" text-anchor="middle">598</text><rect x="228" y="176" width="32" height="32" fill="rgb(236,235,230)" stroke="#FBFAF7" /><text x="245.0" y="197.0" fill="#1A1816" font-size="9" text-anchor="middle">62</text><rect x="262" y="176" width="32" height="32" fill="rgb(225,227,223)" stroke="#FBFAF7" /><text x="279.0" y="197.0" fill="#1A1816" font-size="9" text-anchor="middle">252</text><rect x="296" y="176" width="32" height="32" fill="rgb(232,232,228)" stroke="#FBFAF7" /><text x="313.0" y="197.0" fill="#1A1816" font-size="9" text-anchor="middle">124</text><rect x="330" y="176" width="32" height="32" fill="rgb(235,234,229)" stroke="#FBFAF7" /><text x="347.0" y="197.0" fill="#1A1816" font-size="9" text-anchor="middle">85</text><rect x="364" y="176" width="32" height="32" fill="rgb(236,235,230)" stroke="#FBFAF7" /><text x="381.0" y="197.0" fill="#1A1816" font-size="9" text-anchor="middle">67</text><text x="118" y="231.0" fill="#766E64" font-size="10" text-anchor="end">Retrieval</text><rect x="126" y="210" width="32" height="32" fill="rgb(181,197,196)" stroke="#FBFAF7" /><text x="143.0" y="231.0" fill="#1A1816" font-size="9" text-anchor="middle">991</text><rect x="160" y="210" width="32" height="32" fill="rgb(193,205,203)" stroke="#FBFAF7" /><text x="177.0" y="231.0" fill="#1A1816" font-size="9" text-anchor="middle">791</text><rect x="194" y="210" width="32" height="32" fill="rgb(195,206,205)" stroke="#FBFAF7" /><text x="211.0" y="231.0" fill="#1A1816" font-size="9" text-anchor="middle">750</text><rect x="228" y="210" width="32" height="32" fill="rgb(225,227,223)" stroke="#FBFAF7" /><text x="245.0" y="231.0" fill="#1A1816" font-size="9" text-anchor="middle">252</text><rect x="262" y="210" width="32" height="32" fill="rgb(220,224,221)" stroke="#FBFAF7" /><text x="279.0" y="231.0" fill="#1A1816" font-size="9" text-anchor="middle">325</text><rect x="296" y="210" width="32" height="32" fill="rgb(228,229,225)" stroke="#FBFAF7" /><text x="313.0" y="231.0" fill="#1A1816" font-size="9" text-anchor="middle">201</text><rect x="330" y="210" width="32" height="32" fill="rgb(231,231,227)" stroke="#FBFAF7" /><text x="347.0" y="231.0" fill="#1A1816" font-size="9" text-anchor="middle">149</text><rect x="364" y="210" width="32" height="32" fill="rgb(234,234,229)" stroke="#FBFAF7" /><text x="381.0" y="231.0" fill="#1A1816" font-size="9" text-anchor="middle">90</text><text x="118" y="265.0" fill="#766E64" font-size="10" text-anchor="end">Serving</text><rect x="126" y="244" width="32" height="32" fill="rgb(195,206,205)" stroke="#FBFAF7" /><text x="143.0" y="265.0" fill="#1A1816" font-size="9" text-anchor="middle">758</text><rect x="160" y="244" width="32" height="32" fill="rgb(214,219,216)" stroke="#FBFAF7" /><text x="177.0" y="265.0" fill="#1A1816" font-size="9" text-anchor="middle">438</text><rect x="194" y="244" width="32" height="32" fill="rgb(220,224,220)" stroke="#FBFAF7" /><text x="211.0" y="265.0" fill="#1A1816" font-size="9" text-anchor="middle">329</text><rect x="228" y="244" width="32" height="32" fill="rgb(232,232,228)" stroke="#FBFAF7" /><text x="245.0" y="265.0" fill="#1A1816" font-size="9" text-anchor="middle">124</text><rect x="262" y="244" width="32" height="32" fill="rgb(228,229,225)" stroke="#FBFAF7" /><text x="279.0" y="265.0" fill="#1A1816" font-size="9" text-anchor="middle">201</text><rect x="296" y="244" width="32" height="32" fill="rgb(236,235,230)" stroke="#FBFAF7" /><text x="313.0" y="265.0" fill="#1A1816" font-size="9" text-anchor="middle">59</text><rect x="330" y="244" width="32" height="32" fill="rgb(235,234,229)" stroke="#FBFAF7" /><text x="347.0" y="265.0" fill="#1A1816" font-size="9" text-anchor="middle">84</text><rect x="364" y="244" width="32" height="32" fill="rgb(237,236,231)" stroke="#FBFAF7" /><text x="381.0" y="265.0" fill="#1A1816" font-size="9" text-anchor="middle">38</text><text x="118" y="299.0" fill="#766E64" font-size="10" text-anchor="end">UI</text><rect x="126" y="278" width="32" height="32" fill="rgb(210,216,214)" stroke="#FBFAF7" /><text x="143.0" y="299.0" fill="#1A1816" font-size="9" text-anchor="middle">509</text><rect x="160" y="278" width="32" height="32" fill="rgb(223,226,222)" stroke="#FBFAF7" /><text x="177.0" y="299.0" fill="#1A1816" font-size="9" text-anchor="middle">274</text><rect x="194" y="278" width="32" height="32" fill="rgb(223,226,222)" stroke="#FBFAF7" /><text x="211.0" y="299.0" fill="#1A1816" font-size="9" text-anchor="middle">277</text><rect x="228" y="278" width="32" height="32" fill="rgb(235,234,229)" stroke="#FBFAF7" /><text x="245.0" y="299.0" fill="#1A1816" font-size="9" text-anchor="middle">85</text><rect x="262" y="278" width="32" height="32" fill="rgb(231,231,227)" stroke="#FBFAF7" /><text x="279.0" y="299.0" fill="#1A1816" font-size="9" text-anchor="middle">149</text><rect x="296" y="278" width="32" height="32" fill="rgb(235,234,229)" stroke="#FBFAF7" /><text x="313.0" y="299.0" fill="#1A1816" font-size="9" text-anchor="middle">84</text><rect x="330" y="278" width="32" height="32" fill="rgb(238,237,232)" stroke="#FBFAF7" /><text x="347.0" y="299.0" fill="#1A1816" font-size="9" text-anchor="middle">24</text><rect x="364" y="278" width="32" height="32" fill="rgb(238,236,232)" stroke="#FBFAF7" /><text x="381.0" y="299.0" fill="#1A1816" font-size="9" text-anchor="middle">26</text><text x="118" y="333.0" fill="#766E64" font-size="10" text-anchor="end">Observability</text><rect x="126" y="312" width="32" height="32" fill="rgb(230,231,227)" stroke="#FBFAF7" /><text x="143.0" y="333.0" fill="#1A1816" font-size="9" text-anchor="middle">162</text><rect x="160" y="312" width="32" height="32" fill="rgb(229,230,226)" stroke="#FBFAF7" /><text x="177.0" y="333.0" fill="#1A1816" font-size="9" text-anchor="middle">185</text><rect x="194" y="312" width="32" height="32" fill="rgb(229,230,226)" stroke="#FBFAF7" /><text x="211.0" y="333.0" fill="#1A1816" font-size="9" text-anchor="middle">181</text><rect x="228" y="312" width="32" height="32" fill="rgb(236,235,230)" stroke="#FBFAF7" /><text x="245.0" y="333.0" fill="#1A1816" font-size="9" text-anchor="middle">67</text><rect x="262" y="312" width="32" height="32" fill="rgb(234,234,229)" stroke="#FBFAF7" /><text x="279.0" y="333.0" fill="#1A1816" font-size="9" text-anchor="middle">90</text><rect x="296" y="312" width="32" height="32" fill="rgb(237,236,231)" stroke="#FBFAF7" /><text x="313.0" y="333.0" fill="#1A1816" font-size="9" text-anchor="middle">38</text><rect x="330" y="312" width="32" height="32" fill="rgb(238,236,232)" stroke="#FBFAF7" /><text x="347.0" y="333.0" fill="#1A1816" font-size="9" text-anchor="middle">26</text><rect x="364" y="312" width="32" height="32" fill="rgb(239,237,232)" stroke="#FBFAF7" /><text x="381.0" y="333.0" fill="#1A1816" font-size="9" text-anchor="middle">6</text></svg></div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ community structure</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">How the technology graph breaks into stack families</h2>
+          <div class="mt-4 max-w-3xl text-sm leading-7 text-muted">
+            Greedy modularity on the technology projection found <span class="font-mono text-ink">5</span> communities with modularity <span class="font-mono text-ink">0.0884</span>. Lower modularity means the graph is still heavily cross-linked, so these are useful stack families rather than cleanly isolated islands.
+          </div>
+          <div class="mt-6 grid gap-5 xl:grid-cols-3">
+            
+            <article class="border border-line bg-cloud p-5">
+              <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[community 1]</div>
+                  <h3 class="mt-2 text-xl font-semibold tracking-tight text-ink">Provider And Orchestration Layer</h3>
+                  <div class="mt-1 text-sm leading-6 text-muted">The dominant application-layer cluster where provider SDKs, orchestration frameworks, guardrails, and observability tools co-occur.</div>
+                </div>
+                <div class="border border-line bg-paper px-3 py-2 font-mono text-[11px] text-muted">share 54.7%</div>
+              </div>
+              <div class="mt-4 border border-line bg-paper px-3 py-2 font-mono text-[11px] text-muted">35 technologies</div>
+              <div class="mt-4">
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">top categories</div>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Orchestration (15)</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Providers (4)</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Observability (4)</span>
+                </div>
+              </div>
+              <div class="mt-4">
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">top technologies</div>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Anthropic SDK</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Arize Phoenix</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">AutoGen</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Browser Use</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Browserbase</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Cloudflare Agents</span>
+                </div>
+              </div>
+              <div class="mt-4">
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">exemplar repos</div>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">ComposioHQ/composio</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Arize-ai/phoenix</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">langflow-ai/langflow</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">comet-ml/opik</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">ag-ui-protocol/ag-ui</span>
+                </div>
+              </div>
+            </article>
+            
+            <article class="border border-line bg-cloud p-5">
+              <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[community 2]</div>
+                  <h3 class="mt-2 text-xl font-semibold tracking-tight text-ink">Training And Inference Core</h3>
+                  <div class="mt-1 text-sm leading-6 text-muted">Model-training and inference-runtime technologies clustered around finetuning, serving, and heavyweight model execution.</div>
+                </div>
+                <div class="border border-line bg-paper px-3 py-2 font-mono text-[11px] text-muted">share 26.6%</div>
+              </div>
+              <div class="mt-4 border border-line bg-paper px-3 py-2 font-mono text-[11px] text-muted">17 technologies</div>
+              <div class="mt-4">
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">top categories</div>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Training (9)</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Serving (5)</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">UI (2)</span>
+                </div>
+              </div>
+              <div class="mt-4">
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">top technologies</div>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Accelerate</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">BentoML</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">DeepSpeed</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Gradio</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Hugging Face Hub</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">llama.cpp</span>
+                </div>
+              </div>
+              <div class="mt-4">
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">exemplar repos</div>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">run-llama/llama_index</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">microsoft/LMOps</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">ray-project/ray</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">hpcaitech/ColossalAI</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">adithya-s-k/AI-Engineering.academy</span>
+                </div>
+              </div>
+            </article>
+            
+            <article class="border border-line bg-cloud p-5">
+              <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[community 3]</div>
+                  <h3 class="mt-2 text-xl font-semibold tracking-tight text-ink">Retrieval And App Surface</h3>
+                  <div class="mt-1 text-sm leading-6 text-muted">Vector storage, retrieval plumbing, and lightweight app frameworks that often sit at the presentation edge of AI systems.</div>
+                </div>
+                <div class="border border-line bg-paper px-3 py-2 font-mono text-[11px] text-muted">share 15.6%</div>
+              </div>
+              <div class="mt-4 border border-line bg-paper px-3 py-2 font-mono text-[11px] text-muted">10 technologies</div>
+              <div class="mt-4">
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">top categories</div>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Retrieval (7)</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Orchestration (1)</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">browser_and_computer_use_infra (1)</span>
+                </div>
+              </div>
+              <div class="mt-4">
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">top technologies</div>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Chainlit</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Chroma</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Databend</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">LanceDB</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Milvus</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">pgvector</span>
+                </div>
+              </div>
+              <div class="mt-4">
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">exemplar repos</div>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">mem0ai/mem0</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">mindsdb/mindsdb</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">microsoft/semantic-kernel</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">run-llama/llama_index</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">langroid/langroid</span>
+                </div>
+              </div>
+            </article>
+            
+          </div>
+        </article>
+      </section>
+
+      <footer class="mt-14 border border-line bg-paper px-6 py-5 text-sm leading-7 text-muted">
+        <span class="font-mono text-ink">[source]</span> staged Parquet outputs in <span class="break-all font-mono text-ink">data/run-2026-03-25-fresh-1mo-v3</span>. This file is a static publication layer on top of the existing research pipeline, not a separate data source.
+      </footer>
+    </main>
+    <script>
+      (() => {
+        const buildId = "run-2026-03-25-fresh-1mo-v3";
+        const manifestPath = "report-latest.json";
+        const stablePaths = new Set(["/", "/index.html", "/oss-ai-stack-report-latest.html"]);
+        const pollMs = 15000;
+
+        async function poll() {
+          try {
+            const response = await fetch(`${manifestPath}?ts=${Date.now()}`, { cache: "no-store" });
+            if (!response.ok) return;
+            const manifest = await response.json();
+            if (!manifest?.build_id || manifest.build_id === buildId) return;
+
+            const path = window.location.pathname || "/";
+            if (stablePaths.has(path)) {
+              window.location.reload();
+              return;
+            }
+            window.location.replace(manifest.stable_report || "oss-ai-stack-report-latest.html");
+          } catch (_error) {
+          }
+        }
+
+        window.setInterval(poll, pollMs);
+      })();
+    </script>
+  </body>
+</html>

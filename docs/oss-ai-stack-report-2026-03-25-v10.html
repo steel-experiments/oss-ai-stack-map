@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OSS AI Stack Report · 2026-03-25</title>
+    <meta
+      name="description"
+      content="A minimal static report summarizing the 2026-03-25 OSS AI Stack Map snapshot."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cloud: '#F0EEE9',
+              paper: '#FBFAF7',
+              ink: '#1A1816',
+              line: '#CBC3B7',
+              muted: '#766E64',
+              'muted-strong': '#A89E91',
+              'tropic-coral': '#E78B72',
+              'tropic-papaya': '#E5A36F',
+              'tropic-sun': '#D8BF6A',
+              'tropic-kiwi': '#9EAF73',
+              'tropic-seafoam': '#9EC3B5',
+              'tropic-lagoon': '#6FA7A3',
+              'tropic-flamingo': '#D7A0AA',
+            },
+            fontFamily: {
+              sans: ['Instrument Sans', 'sans-serif'],
+              mono: ['IBM Plex Mono', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="min-h-screen overflow-x-hidden bg-cloud font-sans text-ink antialiased">
+    <main class="mx-auto max-w-7xl px-6 py-8 sm:px-8 lg:px-10">
+      <section class="overflow-hidden border border-line bg-ink px-6 py-8 text-paper sm:px-8 lg:px-10">
+        <div class="grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_22rem]">
+          <div>
+            <pre class="max-w-full whitespace-pre-wrap break-words font-mono text-[10px] leading-5 text-muted-strong sm:text-[11px]">+--------------------------------------------------------------+
+| OSS AI STACK MAP :: SNAPSHOT REPORT                          |
+| SOURCE: data/run-2026-03-25-repaired-v10                     |
+| LENS: major, active, public OSS AI repos on GitHub           |
++--------------------------------------------------------------+</pre>
+            <h1 class="mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
+              What major open source AI repos actually use.
+            </h1>
+            <p class="mt-6 max-w-3xl text-base leading-8 text-paper/80 sm:text-lg">
+              This report reads directly from <span class="break-all font-mono text-paper">data/run-2026-03-25-repaired-v10</span> and summarizes the current
+              stack choices across the project’s final GitHub AI set.
+            </p>
+            <p class="mt-5 max-w-3xl text-sm leading-7 text-muted-strong">
+              Study frame: GitHub-only, public, non-fork, non-archived, active within 12 months, and at least 1,000 stars. Published stack edges come from manifests, SBOMs, and bounded import fallback, not README mentions.
+            </p>
+          </div>
+
+          <aside class="border border-white/10 p-6">
+            <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[snapshot]</div>
+            <div class="mt-4 text-3xl font-semibold tracking-tight text-paper">2026-03-25</div>
+            <div class="mt-6 space-y-4">
+              
+        <div class="flex flex-col gap-1 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+          <div class="text-sm text-paper">Run status</div>
+          <div class="break-all font-mono text-xs text-muted-strong sm:max-w-[11rem] sm:text-right">Completed</div>
+        </div>
+        
+
+        <div class="flex flex-col gap-1 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+          <div class="text-sm text-paper">Started</div>
+          <div class="break-all font-mono text-xs text-muted-strong sm:max-w-[11rem] sm:text-right">2026-03-25 17:26:48.424431 UTC</div>
+        </div>
+        
+
+        <div class="flex flex-col gap-1 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+          <div class="text-sm text-paper">Updated</div>
+          <div class="break-all font-mono text-xs text-muted-strong sm:max-w-[11rem] sm:text-right">2026-03-26 12:21:25.271720 UTC</div>
+        </div>
+        
+
+        <div class="flex flex-col gap-1 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+          <div class="text-sm text-paper">Generated</div>
+          <div class="break-all font-mono text-xs text-muted-strong sm:max-w-[11rem] sm:text-right">2026-03-26 12:21 UTC</div>
+        </div>
+        
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Discovered repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">1,522</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Candidate universe collected from GitHub discovery queries and manual seeds.</div>
+    </div>
+    
+        
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Final major AI repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">969</div>
+      <div class="mt-2 text-sm leading-6 text-muted">63.7% of discovered repos survive the full inclusion filter.</div>
+    </div>
+    
+        
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Normalized technology edges</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">4,951</div>
+      <div class="mt-2 text-sm leading-6 text-muted">900 repos map to at least one of 63 tracked technologies.</div>
+    </div>
+    
+        
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Median final repo stars</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">4,903</div>
+      <div class="mt-2 text-sm leading-6 text-muted">P75 is 12,576 stars across the published final set.</div>
+    </div>
+    
+      </section>
+
+      <section class="mt-14">
+        <div class="max-w-3xl">
+          <div class="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">+ main findings</div>
+          <h2 class="mt-3 text-3xl font-semibold tracking-[-0.03em] text-ink">The modern OSS AI stack is provider-first, orchestration-heavy, and surprisingly multi-vendor.</h2>
+        </div>
+        <div class="mt-8 grid gap-5 lg:grid-cols-3">
+          
+        <article class="border border-line bg-ink p-6 text-paper">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[finding]</div>
+          <h3 class="mt-3 text-xl font-semibold tracking-tight">Providers sit at the center</h3>
+          <p class="mt-3 text-sm leading-7 text-paper/80">Provider SDKs account for 31.2% of all normalized edges, and OpenAI appears in 550 final repos. The provider layer is the most common and the most connective part of the stack.</p>
+        </article>
+        
+
+        <article class="border border-line bg-ink p-6 text-paper">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[finding]</div>
+          <h3 class="mt-3 text-xl font-semibold tracking-tight">Multi-provider stacks are common</h3>
+          <p class="mt-3 text-sm leading-7 text-paper/80">The strongest repeated pairing is Anthropic SDK plus OpenAI SDK in 251 repos, followed by OpenAI plus Google GenAI in 209. Major OSS projects are not clustering around a single vendor.</p>
+        </article>
+        
+
+        <article class="border border-line bg-ink p-6 text-paper">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[finding]</div>
+          <h3 class="mt-3 text-xl font-semibold tracking-tight">The ecosystem is backend-heavy</h3>
+          <p class="mt-3 text-sm leading-7 text-paper/80">Training, orchestration, providers, and retrieval dominate the graph. Evaluation and observability remain comparatively thin, with only 34 guardrail/eval edges and 55 observability edges.</p>
+        </article>
+        
+        </div>
+      </section>
+
+      <section class="mt-14 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ stack profile</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">A compact read on the default stack shape</h2>
+          <p class="mt-4 max-w-2xl text-sm leading-7 text-muted">Inference from the aggregate counts: the modal major OSS AI repo in this snapshot is organization-owned, Python-first, anchored on a provider SDK, often layers in Hugging Face training tools, and then adds orchestration, retrieval, and a lightweight UI shell.</p>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div class="border border-line bg-ink p-5 text-paper">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[who ships it]</div>
+              <div class="mt-4 space-y-4">
+                
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Organization</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">738 <span class="text-muted">/ 76.2%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 76.2%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">User</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">231 <span class="text-muted">/ 23.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 23.8%"></div>
+              </div>
+            </div>
+            
+              </div>
+            </div>
+            <div class="border border-line bg-ink p-5 text-paper">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[language mix]</div>
+              <div class="mt-4 space-y-4">
+                
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Python</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">543 <span class="text-muted">/ 56.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-coral to-tropic-papaya" style="width: 56.0%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">TypeScript</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">203 <span class="text-muted">/ 20.9%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-coral to-tropic-papaya" style="width: 20.9%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Rust</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">42 <span class="text-muted">/ 4.3%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-coral to-tropic-papaya" style="width: 4.3%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Jupyter Notebook</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">41 <span class="text-muted">/ 4.2%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-coral to-tropic-papaya" style="width: 4.2%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Go</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">39 <span class="text-muted">/ 4.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-coral to-tropic-papaya" style="width: 4.0%"></div>
+              </div>
+            </div>
+            
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ coverage and method</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">What the dataset captures well, and where it still undercounts</h2>
+          <div class="mt-6 space-y-4">
+            <div class="border border-line bg-cloud p-5">
+              <div class="text-sm font-medium text-ink">[1] Direct evidence dominates</div>
+              <p class="mt-2 text-sm leading-7 text-muted">954 final repos have manifests and 824 have SBOM dependency evidence. 16,337 raw evidence rows map to a curated technology.</p>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="text-sm font-medium text-ink">[2] Normalization still leaves gaps</div>
+              <p class="mt-2 text-sm leading-7 text-muted">69 included repos (7.1%) have no normalized technology edge, so graph-like analysis describes the mapped subset, not the entire final population.</p>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="text-sm font-medium text-ink">[3] Published set stays deterministic</div>
+              <p class="mt-2 text-sm leading-7 text-muted">581 judge rows exist for review, but 0 were applied in this snapshot. The final published set is still rule-driven.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14 grid gap-6 xl:grid-cols-[0.92fr_1.08fr]">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ research gaps</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Where normalization still misses stack evidence</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-3">
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Missing-edge repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">69</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Final repos that still have no normalized technology edge.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Unmatched prefixes</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">10</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Top unresolved package families from dependency evidence.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Vendor-like repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">10</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Repos that look vendor-related but are not mapped to a canonical identity.</div>
+    </div>
+    
+          </div>
+          <div class="mt-6 grid gap-5 lg:grid-cols-2">
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[top unmatched prefixes]</div>
+              <div class="mt-4">
+                
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">@rollup/</div>
+          <div class="font-mono text-xs text-muted">4,114</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">typescript</div>
+          <div class="font-mono text-xs text-muted">3,528</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">opentelemetry</div>
+          <div class="font-mono text-xs text-muted">3,366</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">github</div>
+          <div class="font-mono text-xs text-muted">3,349</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">python</div>
+          <div class="font-mono text-xs text-muted">3,318</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">serde</div>
+          <div class="font-mono text-xs text-muted">2,855</div>
+        </div>
+        
+              </div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[largest missing-edge repos]</div>
+              <div class="mt-4">
+                
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-all text-sm font-medium text-ink">Kong/kong</div>
+            <div class="mt-1 text-xs text-muted">Included repo with no normalized edge</div>
+          </div>
+          <div class="font-mono text-xs text-muted">43,037 stars</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-all text-sm font-medium text-ink">farion1231/cc-switch</div>
+            <div class="mt-1 text-xs text-muted">Included repo with no normalized edge</div>
+          </div>
+          <div class="font-mono text-xs text-muted">33,306 stars</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-all text-sm font-medium text-ink">songquanpeng/one-api</div>
+            <div class="mt-1 text-xs text-muted">Included repo with no normalized edge</div>
+          </div>
+          <div class="font-mono text-xs text-muted">30,975 stars</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-all text-sm font-medium text-ink">SillyTavern/SillyTavern</div>
+            <div class="mt-1 text-xs text-muted">Included repo with no normalized edge</div>
+          </div>
+          <div class="font-mono text-xs text-muted">24,811 stars</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-all text-sm font-medium text-ink">vanna-ai/vanna</div>
+            <div class="mt-1 text-xs text-muted">Included repo with no normalized edge</div>
+          </div>
+          <div class="font-mono text-xs text-muted">23,107 stars</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-all text-sm font-medium text-ink">charmbracelet/crush</div>
+            <div class="mt-1 text-xs text-muted">Included repo with no normalized edge</div>
+          </div>
+          <div class="font-mono text-xs text-muted">21,953 stars</div>
+        </div>
+        
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ benchmark recall</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">How well the map covers the known AI stack benchmark set</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-3">
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Benchmarked entities</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">11</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Curated AI stack entities tracked for recall across each snapshot.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Failed thresholds</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">0</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Recall metrics currently below configured minimums.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Prioritized gaps</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">2</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Benchmarks needing the next registry or discovery fixes.</div>
+    </div>
+    
+          </div>
+          <div class="mt-6 grid gap-5 lg:grid-cols-2">
+            <div class="border border-line bg-ink p-5 text-paper">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[coverage rates]</div>
+              <div class="mt-4">
+                
+        <div class="flex items-center justify-between gap-4 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 text-sm text-paper">Repo discovered</div>
+          <div class="shrink-0 border border-white/10 px-2 py-1 font-mono text-[11px] text-muted-strong">90.9%</div>
+        </div>
+        
+
+        <div class="flex items-center justify-between gap-4 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 text-sm text-paper">Repo included</div>
+          <div class="shrink-0 border border-white/10 px-2 py-1 font-mono text-[11px] text-muted-strong">90.9%</div>
+        </div>
+        
+
+        <div class="flex items-center justify-between gap-4 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 text-sm text-paper">Identity mapped</div>
+          <div class="shrink-0 border border-white/10 px-2 py-1 font-mono text-[11px] text-muted-strong">90.9%</div>
+        </div>
+        
+
+        <div class="flex items-center justify-between gap-4 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 text-sm text-paper">Third-party adoption</div>
+          <div class="shrink-0 border border-white/10 px-2 py-1 font-mono text-[11px] text-muted-strong">90.9%</div>
+        </div>
+        
+
+        <div class="flex items-center justify-between gap-4 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 text-sm text-paper">Dependency evidence</div>
+          <div class="shrink-0 border border-white/10 px-2 py-1 font-mono text-[11px] text-muted-strong">100.0%</div>
+        </div>
+        
+              </div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[top benchmark gaps]</div>
+              <div class="mt-4">
+                
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Daytona</div>
+            <div class="mt-1 text-xs text-muted">benchmark repo not discovered</div>
+          </div>
+          <div class="font-mono text-xs text-muted">score 100</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Steel Browser</div>
+            <div class="mt-1 text-xs text-muted">dependency evidence exists but no third-party adoption edge was created</div>
+          </div>
+          <div class="font-mono text-xs text-muted">score 60</div>
+        </div>
+        
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ technology discovery</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Candidate technology families ranked from scraped package evidence</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-3">
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Candidate families</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">74</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Unmatched technology families inferred from scraped dependency evidence.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Graph nodes</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">74</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Package-family nodes in the projected co-usage graph.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Graph edges</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">343</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Co-usage links between candidate families across repos.</div>
+    </div>
+    
+          </div>
+          <div class="mt-6 border border-line bg-cloud p-5">
+            
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Prompt</div>
+            <div class="mt-1 text-xs text-muted">prompt-toolkit, prompt_toolkit, @coze-common/prompt-kit</div>
+          </div>
+          <div class="font-mono text-xs text-muted">score 71.3</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Global</div>
+            <div class="mt-1 text-xs text-muted">global-agent, @happy-dom/global-registrator, @fastgpt/global</div>
+          </div>
+          <div class="font-mono text-xs text-muted">score 45.2</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Prompts</div>
+            <div class="mt-1 text-xs text-muted">@clack/prompts, @inquirer/prompts, prompts</div>
+          </div>
+          <div class="font-mono text-xs text-muted">score 40.5</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Logger</div>
+            <div class="mt-1 text-xs text-muted">@coze-arch/logger, @agent-infra/logger, logger</div>
+          </div>
+          <div class="font-mono text-xs text-muted">score 38.1</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Openai</div>
+            <div class="mt-1 text-xs text-muted">openai-whisper, openai-harmony, @llamaindex/openai</div>
+          </div>
+          <div class="font-mono text-xs text-muted">score 28.8</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Dev</div>
+            <div class="mt-1 text-xs text-muted">@react-router/dev, @genkit-ai/dev-local-vectorstore, dev.langchain4j/langchain4j-open-ai</div>
+          </div>
+          <div class="font-mono text-xs text-muted">score 28.6</div>
+        </div>
+        
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14">
+        <div class="max-w-3xl">
+          <div class="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">+ modern ai stack layers</div>
+          <h2 class="mt-3 text-3xl font-semibold tracking-[-0.03em] text-ink">Where the weight of the stack actually sits</h2>
+        </div>
+        <div class="mt-8 grid gap-5 lg:grid-cols-2 2xl:grid-cols-3">
+          
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Training and model ops</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">1,594</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[32.2% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Transformers</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">349 <span class="text-muted">/ 36.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-lagoon" style="width: 36.0%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">PyTorch</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">324 <span class="text-muted">/ 33.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-lagoon" style="width: 33.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Hugging Face Hub</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">278 <span class="text-muted">/ 28.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-lagoon" style="width: 28.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Tokenizers</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">240 <span class="text-muted">/ 24.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-lagoon" style="width: 24.8%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Accelerate</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">208 <span class="text-muted">/ 21.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-lagoon" style="width: 21.5%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Providers and access</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">1,139</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[23.0% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">OpenAI SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">527 <span class="text-muted">/ 54.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 54.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Anthropic SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">268 <span class="text-muted">/ 27.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 27.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Google GenAI SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">217 <span class="text-muted">/ 22.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 22.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LiteLLM</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">127 <span class="text-muted">/ 13.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 13.1%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Orchestration and agents</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">823</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[16.6% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LangChain</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">243 <span class="text-muted">/ 25.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-papaya" style="width: 25.1%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LangChain OpenAI Integration</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">147 <span class="text-muted">/ 15.2%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-papaya" style="width: 15.2%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LangGraph</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">112 <span class="text-muted">/ 11.6%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-papaya" style="width: 11.6%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LangChain Anthropic Integration</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">58 <span class="text-muted">/ 6.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-papaya" style="width: 6.0%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LangChain Google GenAI Integration</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">56 <span class="text-muted">/ 5.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-papaya" style="width: 5.8%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Ai Developer Tools And Sdk Families</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">459</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[9.3% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Model Context Protocol</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">358 <span class="text-muted">/ 36.9%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 36.9%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Vercel AI SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">101 <span class="text-muted">/ 10.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 10.4%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Retrieval and vector storage</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">328</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[6.6% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Chroma</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">91 <span class="text-muted">/ 9.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 9.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Qdrant</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">81 <span class="text-muted">/ 8.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 8.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">pgvector</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">47 <span class="text-muted">/ 4.9%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 4.9%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Milvus</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">41 <span class="text-muted">/ 4.2%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 4.2%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LanceDB</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">35 <span class="text-muted">/ 3.6%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-seafoam" style="width: 3.6%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Serving and local runtimes</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">226</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[4.6% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Ollama</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">94 <span class="text-muted">/ 9.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-sun to-tropic-coral" style="width: 9.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">vLLM</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">55 <span class="text-muted">/ 5.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-sun to-tropic-coral" style="width: 5.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Ray Serve</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">47 <span class="text-muted">/ 4.9%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-sun to-tropic-coral" style="width: 4.9%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">llama.cpp</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">19 <span class="text-muted">/ 2.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-sun to-tropic-coral" style="width: 2.0%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">SGLang</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">9 <span class="text-muted">/ 0.9%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-sun to-tropic-coral" style="width: 0.9%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ UI and app frameworks</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">217</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[4.4% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Gradio</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">121 <span class="text-muted">/ 12.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-lagoon" style="width: 12.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Streamlit</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">83 <span class="text-muted">/ 8.6%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-lagoon" style="width: 8.6%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Chainlit</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">13 <span class="text-muted">/ 1.3%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-flamingo to-tropic-lagoon" style="width: 1.3%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Observability</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">66</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[1.3% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Langfuse</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">41 <span class="text-muted">/ 4.2%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-sun" style="width: 4.2%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Logfire</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">17 <span class="text-muted">/ 1.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-sun" style="width: 1.8%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Arize Phoenix</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">5 <span class="text-muted">/ 0.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-sun" style="width: 0.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Weave</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">3 <span class="text-muted">/ 0.3%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-sun" style="width: 0.3%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Sandbox And Isolated Execution</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">36</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[0.7% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">E2B</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">27 <span class="text-muted">/ 2.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 2.8%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Daytona</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">9 <span class="text-muted">/ 0.9%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 0.9%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Browser And Computer Use Infra</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">34</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[0.7% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Browserbase</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">22 <span class="text-muted">/ 2.3%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 2.3%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Browser Use</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">11 <span class="text-muted">/ 1.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 1.1%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Steel Browser</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">1 <span class="text-muted">/ 0.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 0.1%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Evaluation and guardrails</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">27</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[0.5% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Ragas</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">15 <span class="text-muted">/ 1.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-flamingo" style="width: 1.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Promptfoo</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">4 <span class="text-muted">/ 0.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-flamingo" style="width: 0.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">DeepEval</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">4 <span class="text-muted">/ 0.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-flamingo" style="width: 0.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Guardrails</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">2 <span class="text-muted">/ 0.2%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-flamingo" style="width: 0.2%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">NeMo Guardrails</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">2 <span class="text-muted">/ 0.2%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-flamingo" style="width: 0.2%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+
+        <article class="border border-line bg-ink">
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ Runtime And Agent Deployment</div>
+                <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">2</div>
+              </div>
+              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[0.0% of edges]</div>
+            </div>
+            <div class="mt-6 space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Cloudflare Agents</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">2 <span class="text-muted">/ 0.2%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 0.2%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+        
+        </div>
+      </section>
+
+      <section class="mt-14 grid gap-6 xl:grid-cols-[0.92fr_1.08fr]">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ top technologies</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">The most repeated building blocks</h2>
+          <div class="mt-6 border border-line bg-ink p-5">
+            <div class="space-y-4">
+              
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">OpenAI SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">527 <span class="text-muted">/ 54.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 54.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Model Context Protocol</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">358 <span class="text-muted">/ 36.9%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 36.9%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Transformers</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">349 <span class="text-muted">/ 36.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 36.0%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">PyTorch</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">324 <span class="text-muted">/ 33.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 33.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Hugging Face Hub</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">278 <span class="text-muted">/ 28.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 28.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Anthropic SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">268 <span class="text-muted">/ 27.7%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 27.7%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">LangChain</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">243 <span class="text-muted">/ 25.1%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 25.1%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Tokenizers</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">240 <span class="text-muted">/ 24.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 24.8%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Google GenAI SDK</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">217 <span class="text-muted">/ 22.4%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 22.4%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Accelerate</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">208 <span class="text-muted">/ 21.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 21.5%"></div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </article>
+
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ provider and segment mix</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Who dominates, and what gets built</h2>
+          <div class="mt-6 grid gap-5 lg:grid-cols-2">
+            <div class="border border-line bg-ink p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[provider prevalence]</div>
+              <div class="mt-4 space-y-4">
+                
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">openai</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">510 <span class="text-muted">/ 52.6%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 52.6%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">anthropic</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">247 <span class="text-muted">/ 25.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 25.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">google</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">242 <span class="text-muted">/ 25.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-lagoon to-tropic-coral" style="width: 25.0%"></div>
+              </div>
+            </div>
+            
+              </div>
+            </div>
+            <div class="border border-line bg-ink p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[primary segments]</div>
+              <div class="mt-4 space-y-4">
+                
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Serving runtime</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">279 <span class="text-muted">/ 28.8%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-papaya" style="width: 28.8%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Training and finetuning</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">271 <span class="text-muted">/ 28.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-papaya" style="width: 28.0%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Orchestration framework</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">126 <span class="text-muted">/ 13.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-papaya" style="width: 13.0%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Vector and retrieval infra</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">92 <span class="text-muted">/ 9.5%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-papaya" style="width: 9.5%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">Agent application</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">74 <span class="text-muted">/ 7.6%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-papaya" style="width: 7.6%"></div>
+              </div>
+            </div>
+            
+
+            <div class="space-y-2">
+              <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                <div class="min-w-0 break-words font-medium text-paper">RAG and search app</div>
+                <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">39 <span class="text-muted">/ 4.0%</span></div>
+              </div>
+              <div class="h-2 overflow-hidden bg-white/8">
+                <div class="h-full bg-gradient-to-r from-tropic-kiwi to-tropic-papaya" style="width: 4.0%"></div>
+              </div>
+            </div>
+            
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ repeated combinations</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">The strongest co-usage patterns</h2>
+          <div class="mt-6 border border-line bg-cloud p-5">
+            
+        <div class="grid grid-cols-1 gap-2 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-3">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">PyTorch <span class="text-muted">::</span> Transformers</div>
+            <div class="mt-1 text-xs text-muted">Shared by major OSS AI repos in the normalized graph.</div>
+          </div>
+          <div class="font-mono text-sm text-ink sm:text-right">[268]</div>
+        </div>
+        
+
+        <div class="grid grid-cols-1 gap-2 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-3">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Anthropic SDK <span class="text-muted">::</span> OpenAI SDK</div>
+            <div class="mt-1 text-xs text-muted">Shared by major OSS AI repos in the normalized graph.</div>
+          </div>
+          <div class="font-mono text-sm text-ink sm:text-right">[246]</div>
+        </div>
+        
+
+        <div class="grid grid-cols-1 gap-2 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-3">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Model Context Protocol <span class="text-muted">::</span> OpenAI SDK</div>
+            <div class="mt-1 text-xs text-muted">Shared by major OSS AI repos in the normalized graph.</div>
+          </div>
+          <div class="font-mono text-sm text-ink sm:text-right">[235]</div>
+        </div>
+        
+
+        <div class="grid grid-cols-1 gap-2 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-3">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Hugging Face Hub <span class="text-muted">::</span> OpenAI SDK</div>
+            <div class="mt-1 text-xs text-muted">Shared by major OSS AI repos in the normalized graph.</div>
+          </div>
+          <div class="font-mono text-sm text-ink sm:text-right">[213]</div>
+        </div>
+        
+
+        <div class="grid grid-cols-1 gap-2 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-3">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">OpenAI SDK <span class="text-muted">::</span> Transformers</div>
+            <div class="mt-1 text-xs text-muted">Shared by major OSS AI repos in the normalized graph.</div>
+          </div>
+          <div class="font-mono text-sm text-ink sm:text-right">[210]</div>
+        </div>
+        
+
+        <div class="grid grid-cols-1 gap-2 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-3">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Hugging Face Hub <span class="text-muted">::</span> Tokenizers</div>
+            <div class="mt-1 text-xs text-muted">Shared by major OSS AI repos in the normalized graph.</div>
+          </div>
+          <div class="font-mono text-sm text-ink sm:text-right">[205]</div>
+        </div>
+        
+          </div>
+        </article>
+
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ at a glance</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">A few stable signals from the snapshot</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Serious repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">1,221</div>
+      <div class="mt-2 text-sm leading-6 text-muted">80.2%</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ AI-relevant repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">1,070</div>
+      <div class="mt-2 text-sm leading-6 text-muted">70.3%</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Repos with normalized techs</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">900</div>
+      <div class="mt-2 text-sm leading-6 text-muted">92.9%</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Median mapped tech count</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">4</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Across the technology-connected subset only.</div>
+    </div>
+    
+          </div>
+        </article>
+      </section>
+
+      <footer class="mt-14 border border-line bg-paper px-6 py-5 text-sm leading-7 text-muted">
+        <span class="font-mono text-ink">[source]</span> staged Parquet outputs in <span class="break-all font-mono text-ink">data/run-2026-03-25-repaired-v10</span>. This file is a static publication layer on top of the existing research pipeline, not a separate data source.
+      </footer>
+    </main>
+  </body>
+</html>

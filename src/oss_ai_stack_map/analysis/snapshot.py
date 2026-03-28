@@ -14,14 +14,28 @@ from typing import Any
 import pyarrow.parquet as pq
 
 from oss_ai_stack_map.config.loader import RuntimeConfig
+from oss_ai_stack_map.github.client import GitHubClient
 from oss_ai_stack_map.models.core import (
+    ClassificationDecision,
     DiscoveredRepo,
     JudgeDecision,
     RepoContext,
 )
-from oss_ai_stack_map.pipeline.classification import apply_judge_decisions, classify_repo
+from oss_ai_stack_map.pipeline.classification import (
+    apply_judge_decisions,
+    build_repo_context,
+    classify_repo,
+    configured_segment_ids,
+    rebind_repo_context,
+)
 from oss_ai_stack_map.pipeline.normalize import build_repo_technology_edges, build_technology_rows
-from oss_ai_stack_map.pipeline.reporting import build_report_summary
+from oss_ai_stack_map.pipeline.registry_suggestions import build_registry_suggestion_report
+from oss_ai_stack_map.pipeline.reporting import (
+    build_benchmark_recall_report,
+    build_gap_report,
+    build_report_summary,
+)
+from oss_ai_stack_map.pipeline.technology_discovery import build_technology_discovery_report
 from oss_ai_stack_map.storage.tables import read_parquet_models, write_rows
 
 REQUIRED_TABLES = [
@@ -31,14 +45,14 @@ REQUIRED_TABLES = [
 ]
 PASSTHROUGH_TABLE_STEMS = [
     "repos",
-    "repo_contexts",
-    "repo_dependency_evidence",
     "judge_decisions",
     "discovery_stage_timings",
     "classification_stage_timings",
     "stage_timings",
 ]
 REGENERATED_TABLE_STEMS = [
+    "repo_contexts",
+    "repo_dependency_evidence",
     "repo_inclusion_decisions",
     "repo_technology_edges",
     "technologies",
@@ -154,6 +168,16 @@ def _write_json(path: Path, payload: Any) -> None:
     with tmp_path.open("w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=2, sort_keys=True)
     tmp_path.replace(path)
+
+
+def _load_json_if_exists(path: Path) -> dict[str, Any] | None:
+    if not path.exists():
+        return None
+    with path.open("r", encoding="utf-8") as handle:
+        payload = json.load(handle)
+    if not isinstance(payload, dict):
+        return None
+    return payload
 
 
 def build_snapshot_manifest(snapshot_dir: Path) -> dict[str, Any]:
@@ -304,7 +328,10 @@ def _edge_coverage_metrics(
     return coverage
 
 
-def validate_snapshot(snapshot_dir: Path) -> dict[str, Any]:
+def validate_snapshot(
+    snapshot_dir: Path,
+    runtime: RuntimeConfig | None = None,
+) -> dict[str, Any]:
     snapshot_dir = snapshot_dir.resolve()
     errors: list[str] = []
     warnings: list[str] = []
@@ -328,11 +355,17 @@ def validate_snapshot(snapshot_dir: Path) -> dict[str, Any]:
         snapshot_dir / "repo_inclusion_decisions.parquet",
         columns=[
             "repo_id",
+            "score_serious",
+            "score_ai",
+            "passed_serious_filter",
+            "passed_ai_relevance_filter",
             "passed_major_filter",
             "rule_passed_serious_filter",
             "rule_passed_ai_relevance_filter",
             "rule_passed_major_filter",
             "judge_applied",
+            "judge_override_applied",
+            "primary_segment",
         ],
     )
     edges = _read_if_exists(snapshot_dir / "repo_technology_edges.parquet", columns=["repo_id", "technology_id"])
@@ -373,6 +406,54 @@ def validate_snapshot(snapshot_dir: Path) -> dict[str, Any]:
         )
     if judge_count and sum(1 for row in decisions if row.get("judge_applied")) != judge_count:
         warnings.append("judge_decisions row count does not match judge_applied decision count")
+    if runtime is not None:
+        serious_threshold = runtime.study.classification.serious_pass_score
+        ai_threshold = runtime.study.classification.ai_relevance_pass_score
+        inconsistent_rule_serious = sum(
+            1
+            for row in decisions
+            if row.get("rule_passed_serious_filter") and (row.get("score_serious") or 0) < serious_threshold
+        )
+        inconsistent_rule_ai = sum(
+            1
+            for row in decisions
+            if row.get("rule_passed_ai_relevance_filter") and (row.get("score_ai") or 0) < ai_threshold
+        )
+        if inconsistent_rule_serious:
+            warnings.append(
+                f"{inconsistent_rule_serious} decision rows pass rule_passed_serious_filter below the configured serious threshold"
+            )
+        if inconsistent_rule_ai:
+            warnings.append(
+                f"{inconsistent_rule_ai} decision rows pass rule_passed_ai_relevance_filter below the configured AI threshold"
+            )
+
+        allowed_segments = configured_segment_ids(runtime)
+        invalid_segments = sorted(
+            {
+                row["primary_segment"]
+                for row in decisions
+                if row.get("primary_segment") and row["primary_segment"] not in allowed_segments
+            }
+        )
+        if invalid_segments:
+            warnings.append(
+                f"{len(invalid_segments)} non-configured primary segments found in decisions"
+            )
+
+    benchmark_recall_path = snapshot_dir / "benchmark_recall_report.json"
+    if benchmark_recall_path.exists():
+        benchmark_recall = json.loads(benchmark_recall_path.read_text(encoding="utf-8"))
+        for failure in benchmark_recall.get("failed_thresholds", []):
+            message = (
+                "benchmark recall threshold failed: "
+                f"{failure['metric']} actual={failure['actual']:.2%} "
+                f"minimum={failure['minimum']:.2%}"
+            )
+            if failure.get("severity") == "error":
+                errors.append(message)
+            else:
+                warnings.append(message)
 
     status = "error" if errors else "warning" if warnings else "ok"
     return {
@@ -496,25 +577,15 @@ def _dependency_rows_from_contexts(
     return rows
 
 
-def repair_snapshot(
+def _write_rebuilt_snapshot_outputs(
     *,
     runtime: RuntimeConfig,
     input_dir: Path,
     output_dir: Path,
+    repos: list[DiscoveredRepo],
+    contexts: list[RepoContext],
+    existing_judge_decisions: list[JudgeDecision],
 ) -> dict[str, Any]:
-    input_dir = input_dir.resolve()
-    output_dir = output_dir.resolve()
-    if input_dir == output_dir:
-        raise ValueError("repair output_dir must be different from input_dir")
-
-    repos = read_parquet_models(input_dir / "repos.parquet", DiscoveredRepo)
-    contexts = read_parquet_models(input_dir / "repo_contexts.parquet", RepoContext)
-    existing_judge_decisions = (
-        read_parquet_models(input_dir / "judge_decisions.parquet", JudgeDecision)
-        if (input_dir / "judge_decisions.parquet").exists()
-        else []
-    )
-
     context_by_repo = {context.repo_id: context for context in contexts}
     alias_lookup = runtime.aliases.alias_lookup()
     decisions = [
@@ -541,44 +612,44 @@ def repair_snapshot(
 
     output_dir.mkdir(parents=True, exist_ok=True)
     _copy_passthrough_files(input_dir, output_dir)
-    if (input_dir / "repo_dependency_evidence.parquet").exists():
-        _copy_or_link(
-            input_dir / "repo_dependency_evidence.parquet",
-            output_dir / "repo_dependency_evidence.parquet",
-        )
-        csv_input = input_dir / "repo_dependency_evidence.csv"
-        if csv_input.exists():
-            _copy_or_link(csv_input, output_dir / "repo_dependency_evidence.csv")
-    else:
-        dependency_rows = _dependency_rows_from_contexts(
-            contexts=contexts,
-            repos_by_id={repo.repo_id: repo for repo in repos},
-        )
+    write_rows(
+        output_dir,
+        "repo_contexts",
+        [context.to_row() for context in contexts],
+        write_csv=runtime.study.outputs.write_csv,
+    )
+    dependency_rows = _dependency_rows_from_contexts(
+        contexts=contexts,
+        repos_by_id={repo.repo_id: repo for repo in repos},
+    )
+    if dependency_rows:
         write_rows(
             output_dir,
             "repo_dependency_evidence",
             dependency_rows,
             write_csv=runtime.study.outputs.write_csv,
         )
-
     write_rows(
         output_dir,
         "repo_inclusion_decisions",
         [decision.to_row() for decision in decisions],
         write_csv=runtime.study.outputs.write_csv,
     )
-    write_rows(
-        output_dir,
-        "repo_technology_edges",
-        [edge.to_row() for edge in technology_edges],
-        write_csv=runtime.study.outputs.write_csv,
-    )
-    write_rows(
-        output_dir,
-        "technologies",
-        build_technology_rows(runtime),
-        write_csv=runtime.study.outputs.write_csv,
-    )
+    if technology_edges:
+        write_rows(
+            output_dir,
+            "repo_technology_edges",
+            [edge.to_row() for edge in technology_edges],
+            write_csv=runtime.study.outputs.write_csv,
+        )
+    technology_rows = build_technology_rows(runtime)
+    if technology_rows:
+        write_rows(
+            output_dir,
+            "technologies",
+            technology_rows,
+            write_csv=runtime.study.outputs.write_csv,
+        )
     if existing_judge_decisions:
         write_rows(
             output_dir,
@@ -590,8 +661,23 @@ def repair_snapshot(
     _reconciled_run_state(input_dir=input_dir, output_dir=output_dir, repo_count=len(repos))
     manifest = build_snapshot_manifest(output_dir)
     _write_json(output_dir / "snapshot_manifest.json", manifest)
-    validation = validate_snapshot(output_dir)
+    validation = validate_snapshot(output_dir, runtime=runtime)
     _write_json(output_dir / "validation_report.json", validation)
+    gap_report = build_gap_report(output_dir)
+    _write_json(output_dir / "gap_report.json", gap_report.__dict__)
+    if runtime.benchmarks.entities:
+        benchmark_recall = build_benchmark_recall_report(input_dir=output_dir, runtime=runtime)
+        _write_json(output_dir / "benchmark_recall_report.json", benchmark_recall.__dict__)
+    technology_discovery = build_technology_discovery_report(
+        input_dir=output_dir,
+        runtime=runtime,
+    )
+    _write_json(output_dir / "technology_discovery_report.json", technology_discovery.__dict__)
+    registry_suggestions = build_registry_suggestion_report(
+        input_dir=output_dir,
+        runtime=runtime,
+    )
+    _write_json(output_dir / "registry_suggestions.json", registry_suggestions.__dict__)
 
     changed_final_repo_ids = sorted(
         row.repo_id
@@ -607,6 +693,116 @@ def repair_snapshot(
         "judge_decision_count": len(existing_judge_decisions),
         "judge_changed_final_repo_ids": changed_final_repo_ids,
     }
+    return summary
+
+
+def refresh_snapshot_contexts(
+    *,
+    runtime: RuntimeConfig,
+    input_dir: Path,
+    output_dir: Path,
+    repo_names: list[str] | None = None,
+    min_ai_score: int = 0,
+    limit: int | None = None,
+) -> dict[str, Any]:
+    input_dir = input_dir.resolve()
+    output_dir = output_dir.resolve()
+    if input_dir == output_dir:
+        raise ValueError("refresh output_dir must be different from input_dir")
+
+    repos = read_parquet_models(input_dir / "repos.parquet", DiscoveredRepo)
+    contexts = read_parquet_models(input_dir / "repo_contexts.parquet", RepoContext)
+    decisions = {
+        decision.repo_id: decision
+        for decision in read_parquet_models(
+            input_dir / "repo_inclusion_decisions.parquet", ClassificationDecision
+        )
+    }
+    existing_judge_decisions = (
+        read_parquet_models(input_dir / "judge_decisions.parquet", JudgeDecision)
+        if (input_dir / "judge_decisions.parquet").exists()
+        else []
+    )
+
+    repos_by_id = {repo.repo_id: repo for repo in repos}
+    contexts_by_repo_id = {context.repo_id: context for context in contexts}
+    requested_repo_names = {name.casefold() for name in (repo_names or [])}
+    target_repo_ids: list[int] = []
+    for context in contexts:
+        repo = repos_by_id[context.repo_id]
+        decision = decisions[context.repo_id]
+        include_repo = False
+        if requested_repo_names:
+            include_repo = repo.full_name.casefold() in requested_repo_names
+        else:
+            include_repo = len(context.tree_paths) == 0 and decision.score_ai >= min_ai_score
+        if include_repo:
+            target_repo_ids.append(context.repo_id)
+
+    if limit is not None:
+        target_repo_ids = target_repo_ids[:limit]
+
+    refreshed_repo_ids: list[int] = []
+    alias_lookup = runtime.aliases.alias_lookup()
+    with GitHubClient(runtime=runtime) as client:
+        for repo_id in target_repo_ids:
+            repo = repos_by_id[repo_id]
+            contexts_by_repo_id[repo_id] = build_repo_context(
+                runtime=runtime,
+                client=client,
+                repo=repo,
+                alias_lookup=alias_lookup,
+            )
+            refreshed_repo_ids.append(repo_id)
+
+    merged_contexts = [contexts_by_repo_id[repo.repo_id] for repo in repos]
+    summary = _write_rebuilt_snapshot_outputs(
+        runtime=runtime,
+        input_dir=input_dir,
+        output_dir=output_dir,
+        repos=repos,
+        contexts=merged_contexts,
+        existing_judge_decisions=existing_judge_decisions,
+    )
+    summary.update(
+        {
+            "refreshed_repo_count": len(refreshed_repo_ids),
+            "refreshed_repo_ids": refreshed_repo_ids,
+        }
+    )
+    _write_json(output_dir / "refresh_summary.json", summary)
+    return summary
+
+
+def repair_snapshot(
+    *,
+    runtime: RuntimeConfig,
+    input_dir: Path,
+    output_dir: Path,
+) -> dict[str, Any]:
+    input_dir = input_dir.resolve()
+    output_dir = output_dir.resolve()
+    if input_dir == output_dir:
+        raise ValueError("repair output_dir must be different from input_dir")
+
+    repos = read_parquet_models(input_dir / "repos.parquet", DiscoveredRepo)
+    contexts = [
+        rebind_repo_context(runtime=runtime, context=context)
+        for context in read_parquet_models(input_dir / "repo_contexts.parquet", RepoContext)
+    ]
+    existing_judge_decisions = (
+        read_parquet_models(input_dir / "judge_decisions.parquet", JudgeDecision)
+        if (input_dir / "judge_decisions.parquet").exists()
+        else []
+    )
+    summary = _write_rebuilt_snapshot_outputs(
+        runtime=runtime,
+        input_dir=input_dir,
+        output_dir=output_dir,
+        repos=repos,
+        contexts=contexts,
+        existing_judge_decisions=existing_judge_decisions,
+    )
     _write_json(output_dir / "repair_summary.json", summary)
     return summary
 
@@ -617,6 +813,10 @@ def compare_snapshots(left_dir: Path, right_dir: Path) -> dict[str, Any]:
 
     left_metrics = snapshot_metrics(left_dir)
     right_metrics = snapshot_metrics(right_dir)
+    left_gap_report = _load_json_if_exists(left_dir / "gap_report.json") or {}
+    right_gap_report = _load_json_if_exists(right_dir / "gap_report.json") or {}
+    left_benchmark_report = _load_json_if_exists(left_dir / "benchmark_recall_report.json") or {}
+    right_benchmark_report = _load_json_if_exists(right_dir / "benchmark_recall_report.json") or {}
 
     left_decisions = {
         row["repo_id"]: row
@@ -658,23 +858,203 @@ def compare_snapshots(left_dir: Path, right_dir: Path) -> dict[str, Any]:
     }
     left_edge_pairs = {(row["repo_id"], row["technology_id"]) for row in left_edges}
     right_edge_pairs = {(row["repo_id"], row["technology_id"]) for row in right_edges}
+    scorecard = build_snapshot_scorecard(
+        left_metrics=left_metrics,
+        right_metrics=right_metrics,
+        left_gap_report=left_gap_report,
+        right_gap_report=right_gap_report,
+        left_benchmark_report=left_benchmark_report,
+        right_benchmark_report=right_benchmark_report,
+    )
 
     return {
         "left_dir": str(left_dir),
         "right_dir": str(right_dir),
         "left_metrics": left_metrics,
         "right_metrics": right_metrics,
+        "left_gap_report": left_gap_report,
+        "right_gap_report": right_gap_report,
+        "left_benchmark_report": left_benchmark_report,
+        "right_benchmark_report": right_benchmark_report,
         "metric_deltas": {
             key: right_metrics.get(key, 0) - left_metrics.get(key, 0)
             for key in sorted(set(left_metrics) | set(right_metrics))
             if isinstance(left_metrics.get(key), int) and isinstance(right_metrics.get(key), int)
         },
+        "scorecard": scorecard,
         "changed_final_repo_ids": changed_final,
         "changed_segment_repo_ids": changed_segments,
         "added_final_repo_ids": sorted(right_final_ids - left_final_ids),
         "removed_final_repo_ids": sorted(left_final_ids - right_final_ids),
         "added_edge_pairs": sorted(right_edge_pairs - left_edge_pairs),
         "removed_edge_pairs": sorted(left_edge_pairs - right_edge_pairs),
+    }
+
+
+def build_snapshot_scorecard(
+    *,
+    left_metrics: dict[str, Any],
+    right_metrics: dict[str, Any],
+    left_gap_report: dict[str, Any],
+    right_gap_report: dict[str, Any],
+    left_benchmark_report: dict[str, Any],
+    right_benchmark_report: dict[str, Any],
+) -> dict[str, Any]:
+    rows = [
+        _scorecard_metric(
+            metric="repo_discovered_rate",
+            label="Benchmark repo discovery",
+            left=left_benchmark_report.get("repo_discovered_rate"),
+            right=right_benchmark_report.get("repo_discovered_rate"),
+            better_when="higher",
+            value_format="ratio",
+        ),
+        _scorecard_metric(
+            metric="repo_discovered_by_search_rate",
+            label="Benchmark repo discovery by broad search",
+            left=left_benchmark_report.get("repo_discovered_by_search_rate"),
+            right=right_benchmark_report.get("repo_discovered_by_search_rate"),
+            better_when="higher",
+            value_format="ratio",
+        ),
+        _scorecard_metric(
+            metric="repo_included_rate",
+            label="Benchmark repo inclusion",
+            left=left_benchmark_report.get("repo_included_rate"),
+            right=right_benchmark_report.get("repo_included_rate"),
+            better_when="higher",
+            value_format="ratio",
+        ),
+        _scorecard_metric(
+            metric="repo_identity_mapped_rate",
+            label="Benchmark repo identity mapping",
+            left=left_benchmark_report.get("repo_identity_mapped_rate"),
+            right=right_benchmark_report.get("repo_identity_mapped_rate"),
+            better_when="higher",
+            value_format="ratio",
+        ),
+        _scorecard_metric(
+            metric="third_party_adoption_rate",
+            label="Benchmark third-party adoption",
+            left=left_benchmark_report.get("third_party_adoption_rate"),
+            right=right_benchmark_report.get("third_party_adoption_rate"),
+            better_when="higher",
+            value_format="ratio",
+        ),
+        _scorecard_metric(
+            metric="dependency_evidence_rate",
+            label="Benchmark dependency evidence",
+            left=left_benchmark_report.get("dependency_evidence_rate"),
+            right=right_benchmark_report.get("dependency_evidence_rate"),
+            better_when="higher",
+            value_format="ratio",
+        ),
+        _scorecard_metric(
+            metric="benchmark_failed_thresholds",
+            label="Benchmark failed thresholds",
+            left=len(left_benchmark_report.get("failed_thresholds", [])) if left_benchmark_report else None,
+            right=len(right_benchmark_report.get("failed_thresholds", [])) if right_benchmark_report else None,
+            better_when="lower",
+            value_format="int",
+        ),
+        _scorecard_metric(
+            metric="final_repos",
+            label="Final repos",
+            left=left_metrics.get("final_repos"),
+            right=right_metrics.get("final_repos"),
+            better_when="higher",
+            value_format="int",
+        ),
+        _scorecard_metric(
+            metric="judge_decisions",
+            label="Judge-reviewed repos",
+            left=left_metrics.get("judge_decisions"),
+            right=right_metrics.get("judge_decisions"),
+            better_when="lower",
+            value_format="int",
+        ),
+        _scorecard_metric(
+            metric="final_repos_missing_edges_count",
+            label="Final repos missing tracked edges",
+            left=left_gap_report.get(
+                "final_repos_missing_edges_count",
+                left_metrics.get("final_repos_missing_edges"),
+            ),
+            right=right_gap_report.get(
+                "final_repos_missing_edges_count",
+                right_metrics.get("final_repos_missing_edges"),
+            ),
+            better_when="lower",
+            value_format="int",
+        ),
+        _scorecard_metric(
+            metric="final_repos_missing_edges_with_unmapped_dependency_evidence_count",
+            label="Missing-edge repos with unmapped dependency evidence",
+            left=left_gap_report.get(
+                "final_repos_missing_edges_with_unmapped_dependency_evidence_count",
+                left_metrics.get("final_repos_with_only_unmapped_dependency_evidence"),
+            ),
+            right=right_gap_report.get(
+                "final_repos_missing_edges_with_unmapped_dependency_evidence_count",
+                right_metrics.get("final_repos_with_only_unmapped_dependency_evidence"),
+            ),
+            better_when="lower",
+            value_format="int",
+        ),
+        _scorecard_metric(
+            metric="final_repos_missing_edges_with_no_dependency_evidence_count",
+            label="Missing-edge repos with no dependency evidence",
+            left=left_gap_report.get(
+                "final_repos_missing_edges_with_no_dependency_evidence_count",
+                left_metrics.get("final_repos_with_no_dependency_evidence"),
+            ),
+            right=right_gap_report.get(
+                "final_repos_missing_edges_with_no_dependency_evidence_count",
+                right_metrics.get("final_repos_with_no_dependency_evidence"),
+            ),
+            better_when="lower",
+            value_format="int",
+        ),
+    ]
+    materialized_rows = [row for row in rows if row is not None]
+    return {
+        "metrics": materialized_rows,
+        "improved_metric_count": sum(1 for row in materialized_rows if row["status"] == "improved"),
+        "regressed_metric_count": sum(1 for row in materialized_rows if row["status"] == "regressed"),
+        "unchanged_metric_count": sum(1 for row in materialized_rows if row["status"] == "unchanged"),
+    }
+
+
+def _scorecard_metric(
+    *,
+    metric: str,
+    label: str,
+    left: int | float | None,
+    right: int | float | None,
+    better_when: str,
+    value_format: str,
+) -> dict[str, Any] | None:
+    if left is None or right is None:
+        return None
+
+    delta = right - left
+    tolerance = 1e-9 if value_format == "ratio" else 0
+    if abs(delta) <= tolerance:
+        status = "unchanged"
+    elif (delta > 0 and better_when == "higher") or (delta < 0 and better_when == "lower"):
+        status = "improved"
+    else:
+        status = "regressed"
+
+    return {
+        "metric": metric,
+        "label": label,
+        "left": left,
+        "right": right,
+        "delta": delta,
+        "better_when": better_when,
+        "format": value_format,
+        "status": status,
     }
 
 
@@ -713,6 +1093,32 @@ def render_snapshot_comparison_markdown(report: dict[str, Any]) -> str:
         )
     )
     lines.append("")
+    scorecard = report.get("scorecard") or {}
+    scorecard_rows = scorecard.get("metrics") or []
+    if scorecard_rows:
+        lines.append("## Scorecard")
+        lines.append("")
+        lines.append(
+            _markdown_table(
+                ["Metric", "Left", "Right", "Delta", "Better", "Status"],
+                [
+                    [
+                        row["label"],
+                        _format_scorecard_value(row["left"], row["format"]),
+                        _format_scorecard_value(row["right"], row["format"]),
+                        _format_scorecard_delta(row["delta"], row["format"]),
+                        row["better_when"],
+                        row["status"],
+                    ]
+                    for row in scorecard_rows
+                ],
+            )
+        )
+        lines.append("")
+        lines.append(f"- Improved metrics: `{scorecard.get('improved_metric_count', 0)}`")
+        lines.append(f"- Regressed metrics: `{scorecard.get('regressed_metric_count', 0)}`")
+        lines.append(f"- Unchanged metrics: `{scorecard.get('unchanged_metric_count', 0)}`")
+        lines.append("")
     lines.append(f"- Changed final repo flags: `{len(report['changed_final_repo_ids'])}`")
     lines.append(f"- Changed primary segments: `{len(report['changed_segment_repo_ids'])}`")
     lines.append(f"- Added final repos: `{len(report['added_final_repo_ids'])}`")
@@ -723,10 +1129,71 @@ def render_snapshot_comparison_markdown(report: dict[str, Any]) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
+def append_experiment_ledger_entry(
+    ledger_path: Path,
+    *,
+    report: dict[str, Any],
+    lever: str,
+    files_changed: list[str],
+    decision: str,
+    note: str | None = None,
+    branch_or_commit: str | None = None,
+    evaluation_command: str | None = None,
+) -> dict[str, Any]:
+    ledger_path = ledger_path.resolve()
+    ledger_path.parent.mkdir(parents=True, exist_ok=True)
+    entry = {
+        "date": _utc_now(),
+        "branch_or_commit": branch_or_commit,
+        "lever": lever,
+        "files_changed": files_changed,
+        "baseline_snapshot": report["left_dir"],
+        "candidate_snapshot": report["right_dir"],
+        "evaluation_command": evaluation_command
+        or (
+            "uv run oss-ai-stack-map snapshot-compare "
+            f"--left-dir {report['left_dir']} --right-dir {report['right_dir']}"
+        ),
+        "scorecard": report.get("scorecard", {}),
+        "metric_deltas": report.get("metric_deltas", {}),
+        "changed_final_repo_count": len(report.get("changed_final_repo_ids", [])),
+        "changed_segment_repo_count": len(report.get("changed_segment_repo_ids", [])),
+        "decision": decision,
+        "note": note or "",
+    }
+    with ledger_path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(entry, sort_keys=True) + "\n")
+    return entry
+
+
+def _format_scorecard_value(value: int | float, value_format: str) -> str:
+    if value_format == "ratio":
+        return f"{value:.1%}"
+    return _format_int(int(value))
+
+
+def _format_scorecard_delta(value: int | float, value_format: str) -> str:
+    if value_format == "ratio":
+        return f"{value * 100:+.1f} pp"
+    return f"{int(value):+d}"
+
+
 def render_snapshot_summary_markdown(input_dir: Path) -> str:
     input_dir = input_dir.resolve()
     summary = build_report_summary(input_dir=input_dir, top_n=5)
     judge = _read_if_exists(input_dir / "judge_decisions.parquet")
+    benchmark_recall = None
+    benchmark_recall_path = input_dir / "benchmark_recall_report.json"
+    if benchmark_recall_path.exists():
+        benchmark_recall = json.loads(benchmark_recall_path.read_text(encoding="utf-8"))
+    technology_discovery = None
+    technology_discovery_path = input_dir / "technology_discovery_report.json"
+    if technology_discovery_path.exists():
+        technology_discovery = json.loads(technology_discovery_path.read_text(encoding="utf-8"))
+    registry_suggestions = None
+    registry_suggestions_path = input_dir / "registry_suggestions.json"
+    if registry_suggestions_path.exists():
+        registry_suggestions = json.loads(registry_suggestions_path.read_text(encoding="utf-8"))
     snapshot_date = _snapshot_date(input_dir)
     run_state = _load_run_state(input_dir)
 
@@ -755,6 +1222,134 @@ def render_snapshot_summary_markdown(input_dir: Path) -> str:
         lines.append(
             f"- {row['provider_id']}: `{row['repo_count']}` repos (`{row['repo_share']:.0%}`)"
         )
+    lines.append("")
+    lines.append("## Coverage Gaps")
+    lines.append("")
+    lines.append(
+        f"- Final repos missing normalized edges: `{summary.gap_report.final_repos_missing_edges_count}`"
+    )
+    lines.append(
+        "- Missing-edge final repos with unmapped dependency evidence: "
+        f"`{summary.gap_report.final_repos_missing_edges_with_unmapped_dependency_evidence_count}`"
+    )
+    lines.append(
+        "- Missing-edge final repos with no dependency evidence: "
+        f"`{summary.gap_report.final_repos_missing_edges_with_no_dependency_evidence_count}`"
+    )
+    if summary.gap_report.top_ai_specific_unmatched_package_prefixes:
+        lines.append("- Top AI-specific unmatched package prefixes:")
+        for row in summary.gap_report.top_ai_specific_unmatched_package_prefixes[:5]:
+            lines.append(f"  - `{row['package_prefix']}`: `{row['count']}` occurrences")
+    if summary.gap_report.top_commodity_unmatched_package_prefixes:
+        lines.append("- Top commodity/tooling unmatched package prefixes:")
+        for row in summary.gap_report.top_commodity_unmatched_package_prefixes[:5]:
+            lines.append(f"  - `{row['package_prefix']}`: `{row['count']}` occurrences")
+    if summary.gap_report.top_vendor_like_unmapped_repos:
+        lines.append("- Vendor-like repos not mapped to a canonical repo identity:")
+        for row in summary.gap_report.top_vendor_like_unmapped_repos[:5]:
+            lines.append(f"  - `{row['full_name']}`")
+    if summary.gap_report.suggested_discovery_inputs:
+        lines.append("- Suggested next-run discovery inputs:")
+        for row in summary.gap_report.suggested_discovery_inputs[:5]:
+            if row["entry_type"] == "package_prefix":
+                lines.append(
+                    f"  - package prefix `{row['value']}` (`{row['evidence_count']}` occurrences)"
+                )
+            else:
+                lines.append(f"  - repo seed `{row['value']}`")
+    if benchmark_recall:
+        lines.append("")
+        lines.append("## Benchmark Recall")
+        lines.append("")
+        lines.append(
+            f"- Benchmarked entities: `{benchmark_recall['entity_count']}`"
+        )
+        lines.append(
+            "- Repo discovered:"
+            f" `{benchmark_recall['entities_with_repo_discovered']}/{benchmark_recall['entity_count']}`"
+        )
+        if "entities_with_repo_discovered_by_anchor" in benchmark_recall:
+            lines.append(
+                "- Repo discovered by anchor seeds:"
+                f" `{benchmark_recall['entities_with_repo_discovered_by_anchor']}/{benchmark_recall['entity_count']}`"
+            )
+        if "entities_with_repo_discovered_by_search" in benchmark_recall:
+            lines.append(
+                "- Repo discovered by broad search:"
+                f" `{benchmark_recall['entities_with_repo_discovered_by_search']}/{benchmark_recall['entity_count']}`"
+            )
+        if "entities_with_repo_discovered_by_seed_only" in benchmark_recall:
+            lines.append(
+                "- Repo discovered only via exact seed:"
+                f" `{benchmark_recall['entities_with_repo_discovered_by_seed_only']}/{benchmark_recall['entity_count']}`"
+            )
+        lines.append(
+            "- Repo included:"
+            f" `{benchmark_recall['entities_with_repo_included']}/{benchmark_recall['entity_count']}`"
+        )
+        lines.append(
+            "- Repo identity mapped:"
+            f" `{benchmark_recall['entities_with_repo_identity_mapped']}/{benchmark_recall['entity_count']}`"
+        )
+        lines.append(
+            "- Third-party adoption found:"
+            f" `{benchmark_recall['entities_with_third_party_adoption']}/{benchmark_recall['entity_count']}`"
+        )
+        if benchmark_recall.get("failed_thresholds"):
+            lines.append("- Failed benchmark thresholds:")
+            for row in benchmark_recall["failed_thresholds"][:5]:
+                lines.append(
+                    f"  - `{row['metric']}` actual `{row['actual']:.0%}` vs minimum `{row['minimum']:.0%}`"
+                )
+        if benchmark_recall.get("prioritized_gaps"):
+            lines.append("- Highest-priority benchmark gaps:")
+            for row in benchmark_recall["prioritized_gaps"][:5]:
+                lines.append(f"  - `{row['display_name']}`")
+    if technology_discovery:
+        lines.append("")
+        lines.append("## Technology Discovery")
+        lines.append("")
+        lines.append(
+            f"- Raw candidate families ranked from unmatched evidence: `{technology_discovery['candidate_count']}`"
+        )
+        lines.append(
+            f"- Package graph nodes / edges: `{technology_discovery['graph_node_count']}` / `{technology_discovery['graph_edge_count']}`"
+        )
+        if registry_suggestions and registry_suggestions.get("suggestions"):
+            lines.append(
+                "- Post-filtered canonical candidates shown in the report: "
+                f"`{registry_suggestions['suggestion_count']}`"
+            )
+            lines.append("- Highest-priority filtered candidate families:")
+            for row in registry_suggestions["suggestions"][:5]:
+                lines.append(
+                    f"  - `{row['suggested_display_name']}`: score `{row['priority_score']}`, "
+                    f"`{row['final_repo_count']}` final repos, "
+                    f"`{row['missing_edge_repo_count']}` missing-edge repos"
+                )
+        elif technology_discovery.get("top_candidates"):
+            lines.append("- Highest-priority raw candidate families:")
+            for row in technology_discovery["top_candidates"][:5]:
+                lines.append(
+                    f"  - `{row['display_name']}`: score `{row['priority_score']}`, "
+                    f"`{row['final_repo_count']}` final repos, "
+                    f"`{row['missing_edge_repo_count']}` missing-edge repos"
+                )
+    if registry_suggestions:
+        lines.append("")
+        lines.append("## Registry Suggestions")
+        lines.append("")
+        lines.append(
+            f"- Candidate registry additions: `{registry_suggestions['suggestion_count']}`"
+        )
+        lines.append(
+            f"- LLM-reviewed candidates: `{registry_suggestions['llm_reviewed_count']}`"
+        )
+        for row in registry_suggestions.get("suggestions", [])[:5]:
+            lines.append(
+                f"- `{row['suggested_display_name']}` -> `{row['suggested_category_id']}` "
+                f"(confidence `{row['confidence']}`, score `{row['priority_score']}`)"
+            )
     if run_state:
         lines.append("")
         lines.append("## Snapshot State")

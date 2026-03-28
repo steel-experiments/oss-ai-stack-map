@@ -4,10 +4,13 @@ import json
 import re
 import time
 import tomllib
+from concurrent.futures import Future, ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 from urllib.parse import unquote
+
+import httpx
 
 from oss_ai_stack_map.config.loader import RuntimeConfig, TechnologyAlias
 from oss_ai_stack_map.github.client import GitHubClient
@@ -18,19 +21,45 @@ from oss_ai_stack_map.models.core import (
     JudgeDecision,
     ManifestDependency,
     RepoContext,
+    RepoContextCacheEntry,
     StageTiming,
 )
 from oss_ai_stack_map.openai.judge import OpenAIJudge
-from oss_ai_stack_map.pipeline.imports import collect_import_dependencies
+from oss_ai_stack_map.pipeline.imports import (
+    collect_import_dependencies,
+    dedupe_import_dependencies,
+)
+from oss_ai_stack_map.pipeline.imports import (
+    resolve_alias as resolve_import_alias,
+)
 from oss_ai_stack_map.pipeline.normalize import build_repo_technology_edges, build_technology_rows
-from oss_ai_stack_map.storage.checkpoints import ClassificationCheckpointStore
-from oss_ai_stack_map.storage.tables import read_parquet_models, write_rows
+from oss_ai_stack_map.storage.checkpoints import ClassificationCheckpointStore, stable_hash
+from oss_ai_stack_map.storage.tables import read_parquet_models, write_rows, write_rows_to_paths
 
 
 @dataclass
 class JudgeCandidate:
     decision: ClassificationDecision
     judge_mode: str
+
+
+@dataclass(frozen=True)
+class TechnologyMatch:
+    technology_id: str
+    provider_id: str | None = None
+    provider_technology_id: str | None = None
+    entity_type: str | None = None
+    canonical_product_id: str | None = None
+    match_method: str | None = None
+
+
+@dataclass
+class ProcessedRepo:
+    repo: DiscoveredRepo
+    context: RepoContext
+    decision: ClassificationDecision
+    context_cache_entry: RepoContextCacheEntry | None
+    cache_hit: bool
 
 
 def classify_candidates(
@@ -60,6 +89,8 @@ def classify_candidates(
     processed_new_repos = bool(repos)
 
     alias_lookup = runtime.aliases.alias_lookup()
+    context_cache_config = context_cache_config_hash(runtime)
+    context_cache_by_key = load_context_cache(runtime)
     context_started_at = time.perf_counter()
 
     if progress:
@@ -72,19 +103,34 @@ def classify_candidates(
 
     batch_contexts: list[RepoContext] = []
     batch_decisions: list[ClassificationDecision] = []
+    batch_context_cache_entries: list[RepoContextCacheEntry] = []
     processed_repo_count = len(completed_repo_ids)
     batch_index = checkpoint_store.next_batch_index()
+    cache_hit_count = 0
+    cache_write_count = 0
 
-    for index, repo in enumerate(repos, start=1):
-        context = build_repo_context(
-            runtime=runtime, client=client, repo=repo, alias_lookup=alias_lookup
-        )
-        decision = classify_repo(
-            runtime=runtime, repo=repo, context=context, alias_lookup=alias_lookup
-        )
-        batch_contexts.append(context)
-        batch_decisions.append(decision)
-        if len(batch_contexts) >= runtime.study.checkpoint_batch_size or index == len(repos):
+    worker_count = classification_worker_count(runtime)
+    with ThreadPoolExecutor(max_workers=worker_count) as executor:
+        for batch_start in range(0, len(repos), runtime.study.checkpoint_batch_size):
+            repo_batch = repos[batch_start : batch_start + runtime.study.checkpoint_batch_size]
+            processed_batch = process_repo_batch(
+                runtime=runtime,
+                client=client,
+                repos=repo_batch,
+                alias_lookup=alias_lookup,
+                context_cache_by_key=context_cache_by_key,
+                context_config_hash=context_cache_config,
+                executor=executor,
+            )
+            for processed in processed_batch:
+                batch_contexts.append(processed.context)
+                batch_decisions.append(processed.decision)
+                if processed.context_cache_entry is not None:
+                    batch_context_cache_entries.append(processed.context_cache_entry)
+                if processed.cache_hit:
+                    cache_hit_count += 1
+            if not batch_contexts:
+                continue
             flush_classification_checkpoint_batch(
                 checkpoint_store=checkpoint_store,
                 runtime=runtime,
@@ -92,6 +138,20 @@ def classify_candidates(
                 decisions=batch_decisions,
                 batch_index=batch_index,
             )
+            if batch_context_cache_entries:
+                persist_context_cache_entries(
+                    runtime=runtime,
+                    entries=batch_context_cache_entries,
+                )
+                for entry in batch_context_cache_entries:
+                    context_cache_by_key[
+                        context_cache_key(
+                            repo_full_name=entry.repo_full_name,
+                            repo_pushed_at=entry.repo_pushed_at,
+                            context_config_hash=entry.context_config_hash,
+                        )
+                    ] = entry
+                cache_write_count += len(batch_context_cache_entries)
             processed_repo_count += len(batch_contexts)
             checkpoint_store.update_progress(
                 processed_repo_count=processed_repo_count,
@@ -107,12 +167,16 @@ def classify_candidates(
             batch_index += 1
             batch_contexts = []
             batch_decisions = []
-        if progress and (index <= 3 or index == len(repos) or index % 50 == 0):
-            progress(
-                "classification: "
-                f"processed {processed_repo_count + len(batch_contexts)}/{total_repos} repos "
-                f"(latest: {repo.full_name})"
-            )
+            batch_context_cache_entries = []
+            if progress:
+                for offset, processed in enumerate(processed_batch, start=1):
+                    index = batch_start + offset
+                    if index <= 3 or index == len(repos) or index % 50 == 0:
+                        progress(
+                            "classification: "
+                            f"processed {index}/{total_repos} repos "
+                            f"(latest: {processed.repo.full_name})"
+                        )
 
     context_seconds = time.perf_counter() - context_started_at
     checkpoint_store.update_progress(
@@ -218,7 +282,10 @@ def classify_candidates(
             stage_id="classification_context_build",
             seconds=context_seconds,
             item_count=total_repos,
-            notes="repo readme/tree/manifest/sbom/import processing",
+            notes=(
+                "repo readme/tree/manifest/sbom/import processing "
+                f"(context cache hits={cache_hit_count}, writes={cache_write_count})"
+            ),
         ),
         StageTiming(
             stage_id="classification_judge",
@@ -287,6 +354,212 @@ def flush_classification_checkpoint_batch(
         "repo_inclusion_decisions",
         batch_index,
         [decision.to_row() for decision in decisions],
+    )
+
+
+def classification_worker_count(runtime: RuntimeConfig) -> int:
+    return max(1, min(8, runtime.study.checkpoint_batch_size))
+
+
+def process_repo_batch(
+    *,
+    runtime: RuntimeConfig,
+    client: GitHubClient,
+    repos: list[DiscoveredRepo],
+    alias_lookup: dict[str, TechnologyAlias],
+    context_cache_by_key: dict[tuple[str, str, str], RepoContextCacheEntry],
+    context_config_hash: str,
+    executor: ThreadPoolExecutor,
+) -> list[ProcessedRepo]:
+    ordered_results: dict[int, ProcessedRepo] = {}
+    uncached_repos: list[DiscoveredRepo] = []
+
+    for repo in repos:
+        cached_context = load_cached_repo_context(
+            cache_by_key=context_cache_by_key,
+            repo=repo,
+            context_config_hash=context_config_hash,
+        )
+        if cached_context is None:
+            uncached_repos.append(repo)
+            continue
+        ordered_results[repo.repo_id] = ProcessedRepo(
+            repo=repo,
+            context=cached_context,
+            decision=classify_repo(
+                runtime=runtime,
+                repo=repo,
+                context=cached_context,
+                alias_lookup=alias_lookup,
+            ),
+            context_cache_entry=None,
+            cache_hit=True,
+        )
+
+    if not uncached_repos:
+        return [ordered_results[repo.repo_id] for repo in repos]
+
+    if len(uncached_repos) == 1 or classification_worker_count(runtime) == 1:
+        for repo in uncached_repos:
+            processed = process_uncached_repo(
+                runtime=runtime,
+                client=client,
+                repo=repo,
+                alias_lookup=alias_lookup,
+                context_config_hash=context_config_hash,
+            )
+            ordered_results[repo.repo_id] = processed
+        return [ordered_results[repo.repo_id] for repo in repos]
+
+    future_by_repo_id: dict[int, Future[ProcessedRepo]] = {
+        repo.repo_id: executor.submit(
+            process_uncached_repo,
+            runtime=runtime,
+            client=client,
+            repo=repo,
+            alias_lookup=alias_lookup,
+            context_config_hash=context_config_hash,
+        )
+        for repo in uncached_repos
+    }
+    for future in as_completed(future_by_repo_id.values()):
+        processed = future.result()
+        ordered_results[processed.repo.repo_id] = processed
+    return [ordered_results[repo.repo_id] for repo in repos]
+
+
+def process_uncached_repo(
+    *,
+    runtime: RuntimeConfig,
+    client: GitHubClient,
+    repo: DiscoveredRepo,
+    alias_lookup: dict[str, TechnologyAlias],
+    context_config_hash: str,
+) -> ProcessedRepo:
+    context = build_repo_context(
+        runtime=runtime,
+        client=client,
+        repo=repo,
+        alias_lookup=alias_lookup,
+    )
+    return ProcessedRepo(
+        repo=repo,
+        context=context,
+        decision=classify_repo(
+            runtime=runtime,
+            repo=repo,
+            context=context,
+            alias_lookup=alias_lookup,
+        ),
+        context_cache_entry=RepoContextCacheEntry(
+            repo_full_name=repo.full_name,
+            repo_pushed_at=repo.pushed_at,
+            context_config_hash=context_config_hash,
+            context=context,
+        ),
+        cache_hit=False,
+    )
+
+
+def context_cache_path(runtime: RuntimeConfig) -> Path:
+    return (
+        Path("data/raw/classification_context_cache")
+        / runtime.study.snapshot_date.isoformat()
+        / "repo_contexts.parquet"
+    )
+
+
+def context_cache_config_hash(runtime: RuntimeConfig) -> str:
+    payload = {
+        "study": {
+            "classification": runtime.study.classification.model_dump(mode="json"),
+        },
+        "discovery": runtime.discovery.model_dump(mode="json"),
+        "exclusions": runtime.exclusions.model_dump(mode="json"),
+        "aliases": runtime.aliases.model_dump(mode="json"),
+        "registry": runtime.registry.model_dump(mode="json"),
+    }
+    return stable_hash(payload)
+
+
+def context_cache_key(
+    *,
+    repo_full_name: str,
+    repo_pushed_at: str,
+    context_config_hash: str,
+) -> tuple[str, str, str]:
+    return (repo_full_name.casefold(), repo_pushed_at, context_config_hash)
+
+
+def load_context_cache(runtime: RuntimeConfig) -> dict[tuple[str, str, str], RepoContextCacheEntry]:
+    path = context_cache_path(runtime)
+    if not path.exists():
+        return {}
+    entries = read_parquet_models(path, RepoContextCacheEntry)
+    return {
+        context_cache_key(
+            repo_full_name=entry.repo_full_name,
+            repo_pushed_at=entry.repo_pushed_at,
+            context_config_hash=entry.context_config_hash,
+        ): entry
+        for entry in entries
+    }
+
+
+def load_cached_repo_context(
+    *,
+    cache_by_key: dict[tuple[str, str, str], RepoContextCacheEntry],
+    repo: DiscoveredRepo,
+    context_config_hash: str,
+) -> RepoContext | None:
+    entry = cache_by_key.get(
+        context_cache_key(
+            repo_full_name=repo.full_name,
+            repo_pushed_at=repo.pushed_at,
+            context_config_hash=context_config_hash,
+        )
+    )
+    if entry is None:
+        return None
+    return entry.context.model_copy(
+        update={
+            "repo_id": repo.repo_id,
+            "full_name": repo.full_name,
+        }
+    )
+
+
+def persist_context_cache_entries(
+    runtime: RuntimeConfig,
+    entries: list[RepoContextCacheEntry],
+) -> None:
+    if not entries:
+        return
+    path = context_cache_path(runtime)
+    existing = read_parquet_models(path, RepoContextCacheEntry) if path.exists() else []
+    merged = {
+        context_cache_key(
+            repo_full_name=entry.repo_full_name,
+            repo_pushed_at=entry.repo_pushed_at,
+            context_config_hash=entry.context_config_hash,
+        ): entry
+        for entry in existing
+    }
+    for entry in entries:
+        merged[
+            context_cache_key(
+                repo_full_name=entry.repo_full_name,
+                repo_pushed_at=entry.repo_pushed_at,
+                context_config_hash=entry.context_config_hash,
+            )
+        ] = entry
+    write_rows_to_paths(
+        rows=[
+            merged[key].to_row()
+            for key in sorted(merged)
+        ],
+        parquet_path=path,
+        csv_path=None,
     )
 
 
@@ -423,6 +696,15 @@ def apply_judge_decisions(
         if judge is None:
             continue
 
+        normalized_judge_primary_segment = normalize_judge_primary_segment(
+            runtime=runtime,
+            primary_segment=judge.primary_segment,
+        )
+        if judge.primary_segment and normalized_judge_primary_segment is None:
+            decision.notes.append(
+                f"{judge.judge_mode} judge segment ignored: {judge.primary_segment}"
+            )
+
         decision.rule_passed_serious_filter = decision.passed_serious_filter
         decision.rule_passed_ai_relevance_filter = decision.passed_ai_relevance_filter
         decision.rule_passed_major_filter = decision.passed_major_filter
@@ -432,7 +714,7 @@ def apply_judge_decisions(
         decision.judge_include_in_final_set = judge.include_in_final_set
         decision.judge_serious_project = judge.serious_project
         decision.judge_ai_relevant = judge.ai_relevant
-        decision.judge_primary_segment = judge.primary_segment
+        decision.judge_primary_segment = normalized_judge_primary_segment
         decision.judge_reasons = judge.reasons
 
         judge_changes_rule = (
@@ -440,8 +722,8 @@ def apply_judge_decisions(
             or decision.passed_ai_relevance_filter != judge.ai_relevant
             or decision.passed_major_filter != judge.include_in_final_set
             or (
-                judge.primary_segment is not None
-                and decision.primary_segment != judge.primary_segment
+                normalized_judge_primary_segment is not None
+                and decision.primary_segment != normalized_judge_primary_segment
             )
         )
         hardening_is_authoritative = (
@@ -451,6 +733,7 @@ def apply_judge_decisions(
         )
         validation_is_authoritative = judge.judge_mode == "validation"
         judge_is_authoritative = validation_is_authoritative or hardening_is_authoritative
+        judge.applied = judge_is_authoritative and judge_changes_rule
 
         if not judge_is_authoritative:
             decision.notes.append(f"{judge.judge_mode} judge reviewed without override")
@@ -459,13 +742,42 @@ def apply_judge_decisions(
         decision.passed_serious_filter = judge.serious_project
         decision.passed_ai_relevance_filter = judge.ai_relevant
         decision.passed_major_filter = judge.include_in_final_set
-        if judge.primary_segment:
-            decision.primary_segment = judge.primary_segment
+        if normalized_judge_primary_segment:
+            decision.primary_segment = normalized_judge_primary_segment
         if judge_changes_rule:
             decision.judge_override_applied = True
             decision.notes.append(f"{judge.judge_mode} judge override applied")
         else:
             decision.notes.append(f"{judge.judge_mode} judge reviewed without override")
+
+
+def configured_segment_ids(runtime: RuntimeConfig) -> set[str]:
+    return {rule.segment_id for rule in runtime.segments.rules} | set(runtime.segments.precedence)
+
+
+def normalize_judge_primary_segment(
+    *,
+    runtime: RuntimeConfig,
+    primary_segment: str | None,
+) -> str | None:
+    if primary_segment is None:
+        return None
+    normalized = primary_segment.strip()
+    if not normalized:
+        return None
+
+    allowed = configured_segment_ids(runtime)
+    if normalized in allowed:
+        return normalized
+
+    normalized_key = (
+        normalized.casefold().replace("-", "_").replace(" ", "_").replace("/", "_")
+    )
+    by_key = {
+        segment_id.casefold().replace("-", "_").replace(" ", "_").replace("/", "_"): segment_id
+        for segment_id in allowed
+    }
+    return by_key.get(normalized_key)
 
 
 def build_repo_context(
@@ -476,16 +788,39 @@ def build_repo_context(
 ) -> RepoContext:
     owner, name = repo.full_name.split("/", 1)
     readme_text = safe_call(lambda: client.get_readme(owner, name), default="")
-    tree_paths = safe_call(lambda: client.get_tree(owner, name), default=[])
+    tree_paths = safe_call(
+        lambda: client.get_tree(owner, name, repo.default_branch),
+        default=[],
+    )
     manifest_paths = find_manifest_paths(tree_paths, runtime)
-    import_lookup = runtime.aliases.import_lookup()
+    registry_lookup = runtime.registry.alias_lookup()
+    registry_prefix_rules = runtime.registry.package_prefix_rules()
+    import_lookup = runtime.registry.import_lookup()
+    import_lookup.update(runtime.aliases.import_lookup())
 
     manifest_dependencies: list[ManifestDependency] = []
     for path in manifest_paths:
         text = safe_call(lambda path=path: client.get_file_text(owner, name, path), default="")
-        manifest_dependencies.extend(parse_manifest_dependencies(path, text, alias_lookup))
-    sbom_payload = safe_call(lambda: client.get_sbom(owner, name), default={})
-    sbom_dependencies = parse_sbom_dependencies(sbom_payload, alias_lookup)
+        manifest_dependencies.extend(
+            parse_manifest_dependencies(
+                path,
+                text,
+                alias_lookup,
+                registry_lookup,
+                registry_prefix_rules,
+            )
+        )
+    sbom_payload = safe_call(
+        lambda: client.get_sbom(owner, name),
+        default={},
+        reraise_status_codes={403, 429},
+    )
+    sbom_dependencies = parse_sbom_dependencies(
+        sbom_payload,
+        alias_lookup,
+        registry_lookup,
+        registry_prefix_rules,
+    )
     structured_hits = any(dep.technology_id for dep in manifest_dependencies + sbom_dependencies)
     import_dependencies: list[ManifestDependency] = []
     if should_run_import_scan(runtime, repo, manifest_paths, structured_hits):
@@ -500,12 +835,63 @@ def build_repo_context(
     return RepoContext(
         repo_id=repo.repo_id,
         full_name=repo.full_name,
+        default_branch=repo.default_branch,
         readme_text=readme_text,
         tree_paths=tree_paths,
         manifest_paths=manifest_paths,
         manifest_dependencies=dedupe_dependencies(manifest_dependencies),
         sbom_dependencies=dedupe_dependencies(sbom_dependencies),
         import_dependencies=dedupe_dependencies(import_dependencies),
+    )
+
+
+def rebind_repo_context(
+    runtime: RuntimeConfig,
+    context: RepoContext,
+) -> RepoContext:
+    alias_lookup = runtime.aliases.alias_lookup()
+    registry_lookup = runtime.registry.alias_lookup()
+    registry_prefix_rules = runtime.registry.package_prefix_rules()
+    import_lookup = runtime.registry.import_lookup()
+    import_lookup.update(runtime.aliases.import_lookup())
+    return RepoContext(
+        repo_id=context.repo_id,
+        full_name=context.full_name,
+        default_branch=context.default_branch,
+        readme_text=context.readme_text,
+        tree_paths=context.tree_paths,
+        manifest_paths=context.manifest_paths,
+        manifest_dependencies=dedupe_dependencies(
+            [
+                rebind_package_dependency(
+                    dependency,
+                    alias_lookup=alias_lookup,
+                    registry_lookup=registry_lookup,
+                    registry_prefix_rules=registry_prefix_rules,
+                )
+                for dependency in context.manifest_dependencies
+            ]
+        ),
+        sbom_dependencies=dedupe_dependencies(
+            [
+                rebind_package_dependency(
+                    dependency,
+                    alias_lookup=alias_lookup,
+                    registry_lookup=registry_lookup,
+                    registry_prefix_rules=registry_prefix_rules,
+                )
+                for dependency in context.sbom_dependencies
+            ]
+        ),
+        import_dependencies=dedupe_import_dependencies(
+            [
+                rebind_import_dependency(
+                    dependency,
+                    import_lookup=import_lookup,
+                )
+                for dependency in context.import_dependencies
+            ]
+        ),
     )
 
 
@@ -869,19 +1255,51 @@ def parse_manifest_dependencies(
     path: str,
     text: str,
     alias_lookup: dict[str, TechnologyAlias],
+    registry_lookup: dict[str, TechnologyAlias],
+    registry_prefix_rules: list[tuple[str, TechnologyAlias]],
 ) -> list[ManifestDependency]:
     suffix = Path(path).name
     try:
         if suffix == "pyproject.toml":
-            return _parse_pyproject(path, text, alias_lookup)
+            return _parse_pyproject(
+                path,
+                text,
+                alias_lookup,
+                registry_lookup,
+                registry_prefix_rules,
+            )
         if suffix == "requirements.txt":
-            return _parse_requirements(path, text, alias_lookup)
+            return _parse_requirements(
+                path,
+                text,
+                alias_lookup,
+                registry_lookup,
+                registry_prefix_rules,
+            )
         if suffix == "package.json":
-            return _parse_package_json(path, text, alias_lookup)
+            return _parse_package_json(
+                path,
+                text,
+                alias_lookup,
+                registry_lookup,
+                registry_prefix_rules,
+            )
         if suffix == "go.mod":
-            return _parse_go_mod(path, text, alias_lookup)
+            return _parse_go_mod(
+                path,
+                text,
+                alias_lookup,
+                registry_lookup,
+                registry_prefix_rules,
+            )
         if suffix == "Cargo.toml":
-            return _parse_cargo_toml(path, text, alias_lookup)
+            return _parse_cargo_toml(
+                path,
+                text,
+                alias_lookup,
+                registry_lookup,
+                registry_prefix_rules,
+            )
     except Exception:
         return []
     return []
@@ -890,6 +1308,8 @@ def parse_manifest_dependencies(
 def parse_sbom_dependencies(
     sbom_payload: dict,
     alias_lookup: dict[str, TechnologyAlias],
+    registry_lookup: dict[str, TechnologyAlias],
+    registry_prefix_rules: list[tuple[str, TechnologyAlias]],
 ) -> list[ManifestDependency]:
     if not sbom_payload:
         return []
@@ -922,7 +1342,12 @@ def parse_sbom_dependencies(
         purl = extract_purl(package)
         package_candidates = extract_package_candidates_from_sbom(package, purl)
         package_name = normalize_package_name(package_candidates[0])
-        alias = resolve_alias_candidates(package_candidates, alias_lookup)
+        match = resolve_package_candidates(
+            package_candidates,
+            alias_lookup,
+            registry_lookup,
+            registry_prefix_rules,
+        )
         dependencies.append(
             ManifestDependency(
                 package_name=package_name,
@@ -934,8 +1359,12 @@ def parse_sbom_dependencies(
                 raw_version=package.get("versionInfo"),
                 purl=purl,
                 license_spdx=package.get("licenseConcluded"),
-                technology_id=alias.technology_id if alias else None,
-                provider_id=alias.provider_id if alias else None,
+                technology_id=match.technology_id if match else None,
+                provider_id=match.provider_id if match else None,
+                provider_technology_id=match.provider_technology_id if match else None,
+                entity_type=match.entity_type if match else None,
+                canonical_product_id=match.canonical_product_id if match else None,
+                match_method=match.match_method if match else None,
             )
         )
 
@@ -943,25 +1372,49 @@ def parse_sbom_dependencies(
 
 
 def _parse_pyproject(
-    path: str, text: str, alias_lookup: dict[str, TechnologyAlias]
+    path: str,
+    text: str,
+    alias_lookup: dict[str, TechnologyAlias],
+    registry_lookup: dict[str, TechnologyAlias],
+    registry_prefix_rules: list[tuple[str, TechnologyAlias]],
 ) -> list[ManifestDependency]:
     data = tomllib.loads(text)
     dependencies: list[ManifestDependency] = []
     for raw_dep in data.get("project", {}).get("dependencies", []):
         name = extract_requirement_name(raw_dep)
-        dependencies.append(_make_dependency(name, path, raw_dep, alias_lookup))
+        dependencies.append(
+            _make_dependency(
+                name,
+                path,
+                raw_dep,
+                alias_lookup,
+                registry_lookup,
+                registry_prefix_rules,
+            )
+        )
     poetry_deps = data.get("tool", {}).get("poetry", {}).get("dependencies", {})
     for name, spec in poetry_deps.items():
         if name == "python":
             continue
         dependencies.append(
-            _make_dependency(normalize_package_name(name), path, str(spec), alias_lookup)
+            _make_dependency(
+                normalize_package_name(name),
+                path,
+                str(spec),
+                alias_lookup,
+                registry_lookup,
+                registry_prefix_rules,
+            )
         )
     return dependencies
 
 
 def _parse_requirements(
-    path: str, text: str, alias_lookup: dict[str, TechnologyAlias]
+    path: str,
+    text: str,
+    alias_lookup: dict[str, TechnologyAlias],
+    registry_lookup: dict[str, TechnologyAlias],
+    registry_prefix_rules: list[tuple[str, TechnologyAlias]],
 ) -> list[ManifestDependency]:
     dependencies: list[ManifestDependency] = []
     for line in text.splitlines():
@@ -969,12 +1422,25 @@ def _parse_requirements(
         if not cleaned or cleaned.startswith("#") or cleaned.startswith("-"):
             continue
         name = extract_requirement_name(cleaned)
-        dependencies.append(_make_dependency(name, path, cleaned, alias_lookup))
+        dependencies.append(
+            _make_dependency(
+                name,
+                path,
+                cleaned,
+                alias_lookup,
+                registry_lookup,
+                registry_prefix_rules,
+            )
+        )
     return dependencies
 
 
 def _parse_package_json(
-    path: str, text: str, alias_lookup: dict[str, TechnologyAlias]
+    path: str,
+    text: str,
+    alias_lookup: dict[str, TechnologyAlias],
+    registry_lookup: dict[str, TechnologyAlias],
+    registry_prefix_rules: list[tuple[str, TechnologyAlias]],
 ) -> list[ManifestDependency]:
     data = json.loads(text)
     dependencies: list[ManifestDependency] = []
@@ -989,31 +1455,72 @@ def _parse_package_json(
             dependency_scope = "dev" if scope_name == "devDependencies" else "runtime"
             dependencies.append(
                 _make_dependency(
-                    normalize_package_name(name), path, str(spec), alias_lookup, dependency_scope
+                    normalize_package_name(name),
+                    path,
+                    str(spec),
+                    alias_lookup,
+                    registry_lookup,
+                    registry_prefix_rules,
+                    dependency_scope,
                 )
             )
     return dependencies
 
 
 def _parse_go_mod(
-    path: str, text: str, alias_lookup: dict[str, TechnologyAlias]
+    path: str,
+    text: str,
+    alias_lookup: dict[str, TechnologyAlias],
+    registry_lookup: dict[str, TechnologyAlias],
+    registry_prefix_rules: list[tuple[str, TechnologyAlias]],
 ) -> list[ManifestDependency]:
     dependencies: list[ManifestDependency] = []
+    in_require_block = False
     for line in text.splitlines():
         stripped = line.strip()
-        if not stripped.startswith("require "):
+        if not stripped or stripped.startswith("//"):
             continue
-        parts = stripped.split()
-        if len(parts) >= 3:
-            module = parts[1].split("/")[-1]
+        if stripped == "require (":
+            in_require_block = True
+            continue
+        if in_require_block and stripped == ")":
+            in_require_block = False
+            continue
+        if stripped.startswith("require "):
+            parts = stripped.split()
+            if len(parts) < 3:
+                continue
+            module = parts[1]
+            version = parts[2]
+        elif in_require_block:
+            parts = stripped.split()
+            if len(parts) < 2:
+                continue
+            module = parts[0]
+            version = parts[1]
+        else:
+            continue
+        normalized_module = module.split("/")[-1]
+        if normalized_module:
             dependencies.append(
-                _make_dependency(normalize_package_name(module), path, parts[2], alias_lookup)
+                _make_dependency(
+                    normalize_package_name(normalized_module),
+                    path,
+                    version,
+                    alias_lookup,
+                    registry_lookup,
+                    registry_prefix_rules,
+                )
             )
     return dependencies
 
 
 def _parse_cargo_toml(
-    path: str, text: str, alias_lookup: dict[str, TechnologyAlias]
+    path: str,
+    text: str,
+    alias_lookup: dict[str, TechnologyAlias],
+    registry_lookup: dict[str, TechnologyAlias],
+    registry_prefix_rules: list[tuple[str, TechnologyAlias]],
 ) -> list[ManifestDependency]:
     data = tomllib.loads(text)
     dependencies: list[ManifestDependency] = []
@@ -1023,7 +1530,13 @@ def _parse_cargo_toml(
         for name, spec in scope.items():
             dependencies.append(
                 _make_dependency(
-                    normalize_package_name(name), path, str(spec), alias_lookup, dependency_scope
+                    normalize_package_name(name),
+                    path,
+                    str(spec),
+                    alias_lookup,
+                    registry_lookup,
+                    registry_prefix_rules,
+                    dependency_scope,
                 )
             )
     return dependencies
@@ -1034,9 +1547,16 @@ def _make_dependency(
     path: str,
     raw_specifier: str,
     alias_lookup: dict[str, TechnologyAlias],
+    registry_lookup: dict[str, TechnologyAlias],
+    registry_prefix_rules: list[tuple[str, TechnologyAlias]],
     dependency_scope: str = "runtime",
 ) -> ManifestDependency:
-    alias = alias_lookup.get(package_name.casefold())
+    match = resolve_package_match(
+        package_name,
+        alias_lookup,
+        registry_lookup,
+        registry_prefix_rules,
+    )
     return ManifestDependency(
         package_name=package_name,
         dependency_scope=dependency_scope,
@@ -1044,8 +1564,12 @@ def _make_dependency(
         evidence_type="manifest",
         confidence="high",
         raw_specifier=raw_specifier,
-        technology_id=alias.technology_id if alias else None,
-        provider_id=alias.provider_id if alias else None,
+        technology_id=match.technology_id if match else None,
+        provider_id=match.provider_id if match else None,
+        provider_technology_id=match.provider_technology_id if match else None,
+        entity_type=match.entity_type if match else None,
+        canonical_product_id=match.canonical_product_id if match else None,
+        match_method=match.match_method if match else None,
     )
 
 
@@ -1105,6 +1629,177 @@ def resolve_alias_candidates(
         if alias is not None:
             return alias
     return None
+
+
+def resolve_package_candidates(
+    candidates: list[str],
+    alias_lookup: dict[str, TechnologyAlias],
+    registry_lookup: dict[str, TechnologyAlias],
+    registry_prefix_rules: list[tuple[str, TechnologyAlias]],
+) -> TechnologyMatch | None:
+    for candidate in candidates:
+        match = resolve_package_match(
+            candidate,
+            alias_lookup,
+            registry_lookup,
+            registry_prefix_rules,
+        )
+        if match is not None:
+            return match
+    return None
+
+
+def resolve_package_match(
+    package_name: str,
+    alias_lookup: dict[str, TechnologyAlias],
+    registry_lookup: dict[str, TechnologyAlias],
+    registry_prefix_rules: list[tuple[str, TechnologyAlias]],
+) -> TechnologyMatch | None:
+    normalized = normalize_package_name(package_name)
+    alias = alias_lookup.get(normalized)
+    if alias is not None:
+        return build_technology_match(alias, match_method="exact_alias")
+    registry_alias = registry_lookup.get(normalized)
+    if registry_alias is not None:
+        provider_alias = infer_provider_alias_from_package(package_name, alias_lookup)
+        return build_technology_match(
+            registry_alias,
+            match_method="registry_alias",
+            provider_technology_id=provider_alias.technology_id if provider_alias else None,
+        )
+    for prefix, technology in registry_prefix_rules:
+        if matches_package_prefix(normalized, prefix):
+            provider_alias = infer_provider_alias_from_package(package_name, alias_lookup)
+            return build_technology_match(
+                technology,
+                match_method="package_prefix",
+                provider_technology_id=provider_alias.technology_id if provider_alias else None,
+            )
+    return None
+
+
+def build_technology_match(
+    technology: TechnologyAlias,
+    *,
+    match_method: str,
+    provider_technology_id: str | None = None,
+) -> TechnologyMatch:
+    return TechnologyMatch(
+        technology_id=technology.technology_id,
+        provider_id=technology.provider_id,
+        provider_technology_id=provider_technology_id or technology.technology_id,
+        entity_type=technology.entity_type,
+        canonical_product_id=technology.canonical_product_id,
+        match_method=match_method,
+    )
+
+
+def rebind_package_dependency(
+    dependency: ManifestDependency,
+    *,
+    alias_lookup: dict[str, TechnologyAlias],
+    registry_lookup: dict[str, TechnologyAlias],
+    registry_prefix_rules: list[tuple[str, TechnologyAlias]],
+) -> ManifestDependency:
+    package_candidates = extract_package_candidates_from_sbom(
+        {"name": dependency.package_name},
+        dependency.purl,
+    )
+    match = resolve_package_candidates(
+        package_candidates,
+        alias_lookup,
+        registry_lookup,
+        registry_prefix_rules,
+    )
+    if match is None:
+        return dependency.model_copy(
+            update={
+                "technology_id": None,
+                "provider_id": None,
+                "provider_technology_id": None,
+                "entity_type": None,
+                "canonical_product_id": None,
+                "match_method": None,
+            }
+        )
+    return dependency.model_copy(
+        update={
+            "technology_id": match.technology_id,
+            "provider_id": match.provider_id,
+            "provider_technology_id": match.provider_technology_id,
+            "entity_type": match.entity_type,
+            "canonical_product_id": match.canonical_product_id,
+            "match_method": match.match_method,
+        }
+    )
+
+
+def rebind_import_dependency(
+    dependency: ManifestDependency,
+    *,
+    import_lookup: dict[str, TechnologyAlias],
+) -> ManifestDependency:
+    alias = resolve_import_alias(dependency.package_name, import_lookup)
+    if alias is None:
+        return dependency.model_copy(
+            update={
+                "technology_id": None,
+                "provider_id": None,
+                "provider_technology_id": None,
+                "entity_type": None,
+                "canonical_product_id": None,
+                "match_method": None,
+            }
+        )
+    return dependency.model_copy(
+        update={
+            "technology_id": alias.technology_id,
+            "provider_id": alias.provider_id,
+            "provider_technology_id": alias.technology_id,
+            "entity_type": alias.entity_type,
+            "canonical_product_id": alias.canonical_product_id,
+            "match_method": "import_alias",
+        }
+    )
+
+
+def infer_provider_alias_from_package(
+    package_name: str,
+    alias_lookup: dict[str, TechnologyAlias],
+) -> TechnologyAlias | None:
+    normalized = normalize_package_name(package_name)
+    candidates = [normalized]
+    if normalized.startswith("@") and "/" in normalized:
+        scope, remainder = normalized[1:].split("/", 1)
+        candidates.append(scope)
+        candidates.append(remainder)
+    if "/" in normalized:
+        candidates.append(normalized.rsplit("/", 1)[-1])
+    if "-" in normalized:
+        candidates.append(normalized.split("-", 1)[0])
+        candidates.append(normalized.rsplit("-", 1)[-1])
+    if "_" in normalized:
+        candidates.append(normalized.split("_", 1)[0])
+        candidates.append(normalized.rsplit("_", 1)[-1])
+    for candidate in unique_candidates(candidates):
+        alias = alias_lookup.get(candidate)
+        if alias is not None and alias.provider_id:
+            return alias
+    return None
+
+
+def matches_package_prefix(package_name: str, prefix: str) -> bool:
+    normalized_package = normalize_package_name(package_name)
+    normalized_prefix = normalize_package_name(prefix)
+    if normalized_package == normalized_prefix:
+        return True
+    if normalized_prefix.endswith(("/", "-", "_", ".")):
+        return normalized_package.startswith(normalized_prefix)
+    return normalized_package.startswith(f"{normalized_prefix}-") or normalized_package.startswith(
+        f"{normalized_prefix}_"
+    ) or normalized_package.startswith(f"{normalized_prefix}/") or normalized_package.startswith(
+        f"{normalized_prefix}."
+    )
 
 
 def unique_candidates(candidates: list[str]) -> list[str]:
@@ -1206,8 +1901,25 @@ def only_prompt_material(tree_paths: list[str]) -> bool:
     return prompt_like / len(tree_paths) >= 0.5
 
 
-def safe_call(fn, default):
+def safe_call(fn, default, reraise_status_codes: set[int] | None = None):
     try:
         return fn()
-    except Exception:
+    except Exception as exc:
+        if should_reraise_safe_call_exception(
+            exc,
+            reraise_status_codes=reraise_status_codes,
+        ):
+            raise
         return default
+
+
+def should_reraise_safe_call_exception(
+    exc: Exception,
+    *,
+    reraise_status_codes: set[int] | None = None,
+) -> bool:
+    if isinstance(exc, httpx.HTTPStatusError):
+        status_code = exc.response.status_code
+        effective_status_codes = reraise_status_codes or {403, 429, 500, 502, 503, 504}
+        return status_code in effective_status_codes
+    return False

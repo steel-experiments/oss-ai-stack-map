@@ -87,6 +87,10 @@ def parse_import_dependencies(
                 raw_specifier=raw_import,
                 technology_id=alias.technology_id,
                 provider_id=alias.provider_id,
+                provider_technology_id=alias.technology_id,
+                entity_type=alias.entity_type,
+                canonical_product_id=alias.canonical_product_id,
+                match_method="import_alias",
             )
         )
     return dedupe_import_dependencies(dependencies)

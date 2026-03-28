@@ -4,7 +4,6 @@ precedence:
   - orchestration_framework
   - eval_guardrails_observability
   - training_finetuning
-  - multimodal_media
   - rag_search_application
   - agent_application
   - ai_developer_tool
@@ -25,14 +24,14 @@ rules:
   - segment_id: orchestration_framework
     topic_keywords: [agents]
     description_keywords: [framework, orchestration]
-    technology_ids: [langchain, langgraph, llamaindex, autogen, crewai, pydanticai, semantic-kernel, dspy]
+    technology_ids: [langchain, langgraph, llamaindex, autogen, crewai, pydanticai, semantic-kernel, dspy, mastra, openai-agents]
   - segment_id: eval_guardrails_observability
     topic_keywords: [evaluation, guardrails]
     description_keywords: [evaluation, guardrail, observability, tracing]
-    technology_ids: [ragas, deepeval, promptfoo, guardrails, nemo-guardrails, langfuse, phoenix, helicone, weave]
+    technology_ids: [ragas, deepeval, promptfoo, guardrails, nemo-guardrails, langfuse, phoenix, helicone, weave, logfire]
   - segment_id: training_finetuning
     description_keywords: [fine-tuning, finetuning, training]
-    technology_ids: [transformers, peft, trl, deepspeed, accelerate]
+    technology_ids: [transformers, peft, trl, deepspeed, accelerate, pytorch, huggingface-hub, tokenizers]
   - segment_id: rag_search_application
     topic_keywords: [rag]
     description_keywords: [rag, retrieval]
@@ -40,9 +39,10 @@ rules:
   - segment_id: agent_application
     topic_keywords: [ai-agent, agents]
     description_keywords: [agent, assistant, copilot]
-    technology_ids: [langgraph, autogen, crewai, pydanticai]
+    technology_ids: [langgraph, autogen, crewai, pydanticai, mastra, openai-agents]
   - segment_id: ai_developer_tool
     description_keywords: [sdk, developer tool, cli]
+    technology_ids: [model-context-protocol]
   - segment_id: ai_application
     description_keywords: [assistant, chatbot, copilot, app]
   - segment_id: general_builder_platform

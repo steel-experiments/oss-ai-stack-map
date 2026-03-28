@@ -6,6 +6,7 @@ from oss_ai_stack_map.models.core import (
     JudgeDecision,
     ManifestDependency,
     RepoContext,
+    RepoContextCacheEntry,
     RepoTechnologyEdge,
 )
 
@@ -17,5 +18,6 @@ __all__ = [
     "JudgeDecision",
     "ManifestDependency",
     "RepoContext",
+    "RepoContextCacheEntry",
     "RepoTechnologyEdge",
 ]

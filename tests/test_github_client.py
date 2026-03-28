@@ -31,3 +31,24 @@ def test_get_rate_limit_bypasses_cache(runtime_config, monkeypatch) -> None:
 
     assert requested == [("GET", "/rate_limit")]
     assert payload["resources"]["core"]["remaining"] == 4999
+
+
+def test_get_tree_uses_provided_branch_without_repo_lookup(runtime_config, monkeypatch) -> None:
+    runtime = runtime_config["runtime"]
+    with GitHubClient(runtime=runtime) as client:
+        monkeypatch.setattr(
+            client,
+            "get_repo",
+            lambda owner, repo: (_ for _ in ()).throw(AssertionError("unexpected get_repo call")),
+        )
+
+        def fake_get_json(url: str, **kwargs):
+            assert url == "/repos/owner/repo/git/trees/main"
+            assert kwargs["params"] == {"recursive": "1"}
+            return {"tree": [{"path": "pyproject.toml", "type": "blob"}]}
+
+        monkeypatch.setattr(client, "_get_json", fake_get_json)
+
+        tree = client.get_tree("owner", "repo", "main")
+
+    assert tree == ["pyproject.toml"]

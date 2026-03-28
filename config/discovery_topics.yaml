@@ -2,6 +2,7 @@ topics:
   - llm
   - agents
   - ai-agent
+  - agent-browser
   - rag
   - vector-database
   - multimodal
@@ -11,11 +12,13 @@ topics:
   - guardrails
   - model-context-protocol
   - mcp
+  - code-interpreter
 
 description_keywords:
   - llm
   - agent
   - ai assistant
+  - ai runtime
   - rag
   - vector database
   - inference server
@@ -40,3 +43,6 @@ manual_seed_repos:
   - bentoml/BentoML
   - crewAIInc/crewAI
   - microsoft/autogen
+  - steel-dev/steel-browser
+  - daytonaio/daytona
+  - PrimeIntellect-ai/verifiers

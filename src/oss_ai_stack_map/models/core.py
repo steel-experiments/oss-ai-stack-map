@@ -23,8 +23,10 @@ class DiscoveredRepo(BaseModel):
     created_at: str
     updated_at: str
     pushed_at: str
+    default_branch: str = "HEAD"
     snapshot_date: date
     discovery_queries: list[str] = Field(default_factory=list)
+    discovery_source_types: list[str] = Field(default_factory=list)
 
     def to_row(self) -> dict[str, Any]:
         return self.model_dump(mode="json")
@@ -48,6 +50,10 @@ class ManifestDependency(BaseModel):
     license_spdx: str | None = None
     technology_id: str | None = None
     provider_id: str | None = None
+    provider_technology_id: str | None = None
+    entity_type: str | None = None
+    canonical_product_id: str | None = None
+    match_method: str | None = None
 
     def to_row(self, repo_id: int, snapshot_date: date) -> dict[str, Any]:
         payload = self.model_dump(mode="json")
@@ -66,6 +72,16 @@ class RepoContext(BaseModel):
     manifest_dependencies: list[ManifestDependency] = Field(default_factory=list)
     sbom_dependencies: list[ManifestDependency] = Field(default_factory=list)
     import_dependencies: list[ManifestDependency] = Field(default_factory=list)
+
+    def to_row(self) -> dict[str, Any]:
+        return self.model_dump(mode="json")
+
+
+class RepoContextCacheEntry(BaseModel):
+    repo_full_name: str
+    repo_pushed_at: str
+    context_config_hash: str
+    context: RepoContext
 
     def to_row(self) -> dict[str, Any]:
         return self.model_dump(mode="json")
@@ -133,6 +149,10 @@ class RepoTechnologyEdge(BaseModel):
     dependency_scope: str = "runtime"
     confidence: str = "high"
     provider_id: str | None = None
+    entity_type: str | None = None
+    canonical_product_id: str | None = None
+    match_method: str | None = None
+    evidence_strength: str | None = None
     purl: str | None = None
     license_spdx: str | None = None
     snapshot_date: date
