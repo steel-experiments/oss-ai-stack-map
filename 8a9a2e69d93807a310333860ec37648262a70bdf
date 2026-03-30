@@ -1,0 +1,4 @@
+Context
+
+- Clarified the modern stack layers section so it states edge-share semantics explicitly and shows repo prevalence alongside normalized repo-tech edge share.
+- Rerendered the stable report to v3 without changing the underlying snapshot or normalization outputs.
