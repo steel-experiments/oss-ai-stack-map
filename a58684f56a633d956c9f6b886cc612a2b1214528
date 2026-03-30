@@ -1,0 +1,5 @@
+Context
+
+- Published the aligned methodology update with evidence tiers, stratified validation audit, expanded benchmark coverage, review queue output, and stable report refresh.
+- Added sandbox normalization for Modal, Runloop, Vercel Sandbox, Cloudflare Containers, and broader E2B/Daytona package coverage.
+- Tightened scoped-package SBOM fallback so generic basenames like modal do not create false positives during snapshot repair.
