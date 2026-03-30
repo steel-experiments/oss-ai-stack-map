@@ -627,6 +627,7 @@ def build_report(input_dir: Path) -> str:
     provider_pairs: set[tuple[int, str]] = set()
     provider_label_counts: defaultdict[str, Counter[str]] = defaultdict(Counter)
     category_top: defaultdict[str, Counter[str]] = defaultdict(Counter)
+    category_repo_ids: defaultdict[str, set[int]] = defaultdict(set)
 
     for row in edges:
         pair = (row["repo_id"], row["technology_id"])
@@ -640,6 +641,7 @@ def build_report(input_dir: Path) -> str:
         category_id = row.get("category_id") or "other"
         category_counts[category_id] += 1
         category_top[category_id][row["technology_id"]] += 1
+        category_repo_ids[category_id].add(row["repo_id"])
         provider_id = row.get("provider_id")
         if provider_id:
             provider_pairs.add((row["repo_id"], provider_id))
@@ -829,6 +831,8 @@ def build_report(input_dir: Path) -> str:
                 "label": CATEGORY_LABELS.get(category_id, category_id.replace("_", " ").title()),
                 "count": count,
                 "share": pct(count, len(unique_repo_tech_pairs)),
+                "repo_count": len(category_repo_ids[category_id]),
+                "repo_share": pct(len(category_repo_ids[category_id]), final_repos),
                 "rows": top_rows,
             }
         )
@@ -1100,8 +1104,12 @@ def build_report(input_dir: Path) -> str:
               <div>
                 <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">+ {escape(section['label'])}</div>
                 <div class="mt-2 text-2xl font-semibold tracking-tight text-paper">{fmt_int(section['count'])}</div>
+                <div class="mt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">normalized repo-tech edges</div>
               </div>
-              <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[{section['share']:.1f}% of edges]</div>
+              <div class="space-y-2 text-right">
+                <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[{section['share']:.1f}% of edges]</div>
+                <div class="border border-white/10 px-3 py-1 font-mono text-[11px] text-muted-strong">[{fmt_int(section['repo_count'])} repos / {section['repo_share']:.1f}%]</div>
+              </div>
             </div>
             <div class="mt-6 space-y-4">
               {tech_bar_rows(section['rows'], final_repos, SECTION_ACCENTS.get(section['category_id'], 'from-tropic-lagoon to-tropic-coral'))}
@@ -1410,7 +1418,8 @@ def build_report(input_dir: Path) -> str:
       <section class="mt-14">
         <div class="max-w-3xl">
           <div class="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">+ modern ai stack layers</div>
-          <h2 class="mt-3 text-3xl font-semibold tracking-[-0.03em] text-ink">Where the weight of the stack actually sits</h2>
+          <h2 class="mt-3 text-3xl font-semibold tracking-[-0.03em] text-ink">Where normalized stack usage concentrates</h2>
+          <p class="mt-3 text-sm leading-7 text-muted">These cards rank categories by normalized repo-tech edges, not by architectural importance. Each card now shows both edge share and repo prevalence across the {fmt_int(final_repos)} final repos.</p>
         </div>
         <div class="mt-8 grid gap-5 lg:grid-cols-2 2xl:grid-cols-3">
           {category_cards}
