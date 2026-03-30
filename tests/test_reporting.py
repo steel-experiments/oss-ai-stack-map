@@ -23,8 +23,10 @@ from oss_ai_stack_map.config.loader import (
 )
 from oss_ai_stack_map.pipeline.reporting import (
     build_benchmark_recall_report,
+    build_evidence_tier_report,
     build_gap_report,
     build_report_summary,
+    build_review_queue_report,
 )
 
 
@@ -794,3 +796,340 @@ def test_benchmark_prioritization_ignores_self_only_dependency_evidence(tmp_path
     assert report.entities[0]["third_party_dependency_evidence_found"] is False
     assert report.prioritized_gaps[0]["entity_id"] == "steel-browser"
     assert any("exact seed" in reason for reason in report.prioritized_gaps[0]["reasons"])
+
+
+def test_build_evidence_tier_report_distinguishes_direct_identity_and_readme_only(tmp_path: Path) -> None:
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {"repo_id": 1, "full_name": "example/direct", "passed_major_filter": True},
+                {"repo_id": 2, "full_name": "example/identity", "passed_major_filter": True},
+                {"repo_id": 3, "full_name": "example/readme", "passed_major_filter": True},
+                {"repo_id": 4, "full_name": "example/unmapped", "passed_major_filter": True},
+            ]
+        ),
+        tmp_path / "repo_inclusion_decisions.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {"repo_id": 1, "technology_id": "openai", "evidence_type": "manifest"},
+                {"repo_id": 2, "technology_id": "ollama", "evidence_type": "repo_identity"},
+                {"repo_id": 3, "technology_id": "langchain", "evidence_type": "readme_mention"},
+            ]
+        ),
+        tmp_path / "repo_technology_edges.parquet",
+    )
+
+    report = build_evidence_tier_report(tmp_path, top_n=10)
+
+    assert report.final_repo_count == 4
+    assert report.direct_supported_repo_count == 2
+    assert report.fallback_supported_repo_count == 3
+    assert report.unmapped_final_repo_count == 1
+    assert report.repo_identity_only_repo_count == 1
+    assert report.readme_only_repo_count == 1
+
+
+def test_build_benchmark_recall_report_tracks_negative_controls_and_holdout(tmp_path: Path) -> None:
+    runtime = RuntimeConfig(
+        config_dir=Path("config"),
+        study=StudyConfig(
+            classification=ClassificationConfig(),
+            outputs=OutputConfig(write_csv=False),
+            http=HttpConfig(),
+        ),
+        discovery=DiscoveryConfig(topics=[], description_keywords=[], manual_seed_repos=[]),
+        exclusions=ExclusionConfig(
+            hard_keywords=[],
+            excluded_directories=[],
+            source_extensions=[".py"],
+            manifest_files=["pyproject.toml"],
+        ),
+        aliases=TechnologyAliasConfig(technologies=[]),
+        registry=TechnologyAliasConfig(
+            technologies=[
+                TechnologyAlias(
+                    technology_id="openai-agents",
+                    display_name="OpenAI Agents",
+                    category_id="orchestration_and_agents",
+                    aliases=["openai-agents"],
+                    repo_names=["openai/openai-agents-python"],
+                )
+            ]
+        ),
+        benchmarks=BenchmarkConfig(
+            thresholds=BenchmarkThresholds(
+                min_repo_discovered_rate=0.5,
+                min_repo_included_rate=0.5,
+                min_repo_identity_mapped_rate=0.5,
+                min_third_party_adoption_rate=0.0,
+                min_dependency_evidence_rate=0.0,
+                min_negative_repo_excluded_rate=1.0,
+                min_holdout_repo_discovered_rate=1.0,
+                min_holdout_repo_included_rate=1.0,
+            ),
+            entities=[
+                BenchmarkEntity(
+                    entity_id="openai-agents",
+                    display_name="OpenAI Agents",
+                    technology_ids=["openai-agents"],
+                    repo_names=["openai/openai-agents-python"],
+                    split="holdout",
+                ),
+                BenchmarkEntity(
+                    entity_id="negative-prompts-chat",
+                    display_name="prompts.chat",
+                    expectation="negative",
+                    repo_names=["f/prompts.chat"],
+                ),
+            ],
+        ),
+        segments=SegmentConfig(precedence=[], rules=[]),
+        env=EnvSettings(github_token="test-token"),
+    )
+
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "full_name": "openai/openai-agents-python",
+                    "description": "Agents SDK",
+                    "topics": ["ai"],
+                    "stars": 100,
+                    "discovery_queries": ["repo:openai/openai-agents-python"],
+                    "discovery_source_types": ["benchmark_seed"],
+                },
+                {
+                    "repo_id": 2,
+                    "full_name": "f/prompts.chat",
+                    "description": "Prompt list",
+                    "topics": ["prompt"],
+                    "stars": 100,
+                    "discovery_queries": ["repo:f/prompts.chat"],
+                    "discovery_source_types": ["benchmark_seed"],
+                },
+            ]
+        ),
+        tmp_path / "repos.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "full_name": "openai/openai-agents-python",
+                    "passed_serious_filter": True,
+                    "passed_ai_relevance_filter": True,
+                    "passed_major_filter": True,
+                },
+                {
+                    "repo_id": 2,
+                    "full_name": "f/prompts.chat",
+                    "passed_serious_filter": False,
+                    "passed_ai_relevance_filter": False,
+                    "passed_major_filter": False,
+                },
+            ]
+        ),
+        tmp_path / "repo_inclusion_decisions.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "full_name": "openai/openai-agents-python",
+                    "technology_id": "openai-agents",
+                    "match_method": "repo_identity",
+                }
+            ]
+        ),
+        tmp_path / "repo_technology_edges.parquet",
+    )
+
+    report = build_benchmark_recall_report(input_dir=tmp_path, runtime=runtime)
+
+    assert report.entity_count == 1
+    assert report.total_entity_count == 2
+    assert report.negative_entity_count == 1
+    assert report.holdout_entity_count == 1
+    assert report.negative_repo_excluded_rate == 1.0
+    assert report.holdout_repo_discovered_rate == 1.0
+    assert report.holdout_repo_included_rate == 1.0
+    assert report.failed_thresholds == []
+
+
+def test_build_review_queue_report_collects_missing_edges_readme_audit_and_benchmark_gaps(
+    tmp_path: Path,
+) -> None:
+    runtime = RuntimeConfig(
+        config_dir=Path("config"),
+        study=StudyConfig(
+            classification=ClassificationConfig(),
+            outputs=OutputConfig(write_csv=False),
+            http=HttpConfig(),
+        ),
+        discovery=DiscoveryConfig(topics=[], description_keywords=[], manual_seed_repos=[]),
+        exclusions=ExclusionConfig(
+            hard_keywords=[],
+            excluded_directories=[],
+            source_extensions=[".ts"],
+            manifest_files=["package.json"],
+        ),
+        aliases=TechnologyAliasConfig(technologies=[]),
+        registry=TechnologyAliasConfig(
+            technologies=[
+                TechnologyAlias(
+                    technology_id="openai",
+                    display_name="OpenAI",
+                    category_id="model_access_and_providers",
+                    aliases=["openai"],
+                )
+            ]
+        ),
+        benchmarks=BenchmarkConfig(
+            entities=[
+                BenchmarkEntity(
+                    entity_id="missing-tech",
+                    display_name="Missing Tech",
+                    technology_ids=["missing-tech"],
+                    repo_names=["missing/repo"],
+                ),
+            ]
+        ),
+        segments=SegmentConfig(precedence=[], rules=[]),
+        env=EnvSettings(github_token="test-token"),
+    )
+
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "full_name": "example/readme-only",
+                    "description": "README fallback repo",
+                    "topics": ["ai"],
+                    "stars": 50,
+                },
+                {
+                    "repo_id": 2,
+                    "full_name": "example/missing-edge",
+                    "description": "Unmapped dependency repo",
+                    "topics": ["ai"],
+                    "stars": 40,
+                },
+                {
+                    "repo_id": 3,
+                    "full_name": "example/audit-change",
+                    "description": "Validation changed repo",
+                    "topics": ["ai"],
+                    "stars": 60,
+                },
+            ]
+        ),
+        tmp_path / "repos.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "full_name": "example/readme-only",
+                    "passed_major_filter": True,
+                    "primary_segment": "agent_application",
+                    "score_ai": 4,
+                    "score_serious": 4,
+                    "rule_passed_major_filter": True,
+                    "judge_override_applied": False,
+                },
+                {
+                    "repo_id": 2,
+                    "full_name": "example/missing-edge",
+                    "passed_major_filter": True,
+                    "primary_segment": "rag_search_application",
+                    "score_ai": 4,
+                    "score_serious": 4,
+                    "rule_passed_major_filter": True,
+                    "judge_override_applied": False,
+                },
+                {
+                    "repo_id": 3,
+                    "full_name": "example/audit-change",
+                    "passed_major_filter": True,
+                    "primary_segment": "serving_runtime",
+                    "score_ai": 6,
+                    "score_serious": 6,
+                    "rule_passed_major_filter": False,
+                    "judge_override_applied": True,
+                },
+            ]
+        ),
+        tmp_path / "repo_inclusion_decisions.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "full_name": "example/readme-only",
+                    "technology_id": "openai",
+                    "evidence_type": "readme_mention",
+                },
+                {
+                    "repo_id": 3,
+                    "full_name": "example/audit-change",
+                    "technology_id": "openai",
+                    "evidence_type": "manifest",
+                },
+            ]
+        ),
+        tmp_path / "repo_technology_edges.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 2,
+                    "package_name": "@unknownco/agent-sdk",
+                    "technology_id": None,
+                    "source_path": "package.json",
+                    "evidence_type": "manifest",
+                }
+            ]
+        ),
+        tmp_path / "repo_dependency_evidence.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 3,
+                    "full_name": "example/audit-change",
+                    "judge_mode": "validation",
+                    "applied": True,
+                    "include_in_final_set": True,
+                    "confidence": "high",
+                }
+            ]
+        ),
+        tmp_path / "judge_decisions.parquet",
+    )
+
+    report = build_review_queue_report(input_dir=tmp_path, runtime=runtime)
+
+    assert report.missing_edge_final_count == 1
+    assert report.readme_only_final_count == 1
+    assert report.audit_changed_repo_count == 1
+    assert report.benchmark_priority_gap_count == 1
+    assert report.missing_edge_finals[0]["full_name"] == "example/missing-edge"
+    assert report.readme_only_finals[0]["full_name"] == "example/readme-only"
+    assert report.audit_changed_repos[0]["full_name"] == "example/audit-change"
+    assert report.benchmark_priority_gaps[0]["entity_id"] == "missing-tech"
+    assert {row["review_kind"] for row in report.prioritized_review_items} == {
+        "missing_edge_final",
+        "readme_only_final",
+        "audit_changed_repo",
+        "benchmark_priority_gap",
+    }

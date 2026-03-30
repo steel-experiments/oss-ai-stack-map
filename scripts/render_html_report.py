@@ -47,6 +47,20 @@ SECTION_ACCENTS = {
     "evaluation_guardrails_and_safety": "from-tropic-kiwi to-tropic-flamingo",
 }
 
+DISPLAY_ROLLUPS = (
+    {
+        "family_id": "langchain-ecosystem",
+        "label": "LangChain ecosystem",
+        "member_ids": (
+            "langchain",
+            "langchain-openai",
+            "langchain-anthropic",
+            "langchain-google-genai",
+            "langgraph",
+        ),
+    },
+)
+
 SVG_COLORS = {
     "ink": "#1A1816",
     "line": "#CBC3B7",
@@ -155,13 +169,17 @@ def tech_bar_rows(rows: list[dict], denominator: int, accent: str) -> str:
     parts: list[str] = []
     for row in rows:
         label = escape(str(row["label"]))
+        note = escape(str(row.get("note", ""))).strip()
         count = int(row["count"])
         share = pct(count, denominator)
         parts.append(
             f"""
             <div class="space-y-2">
               <div class="flex flex-col gap-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-4">
-                <div class="min-w-0 break-words font-medium text-paper">{label}</div>
+                <div class="min-w-0">
+                  <div class="break-words font-medium text-paper">{label}</div>
+                  {'<div class="mt-1 break-words text-xs text-muted-strong">' + note + '</div>' if note else ''}
+                </div>
                 <div class="shrink-0 font-mono text-xs text-muted-strong sm:text-right">{fmt_int(count)} <span class="text-muted">/ {share:.1f}%</span></div>
               </div>
               <div class="h-2 overflow-hidden bg-white/8">
@@ -205,6 +223,54 @@ def pill_rows(rows: list[tuple[str, str]]) -> str:
         """
         for label, value in rows
     )
+
+
+def build_display_rows(
+    *,
+    technology_ids: list[str],
+    technology_counts: Counter[str],
+    technology_repo_ids: dict[str, set[int]],
+    technologies: dict[str, dict],
+) -> list[dict]:
+    rows: list[dict] = []
+    consumed: set[str] = set()
+
+    for rollup in DISPLAY_ROLLUPS:
+        member_ids = [technology_id for technology_id in rollup["member_ids"] if technology_id in technology_ids]
+        if not member_ids:
+            continue
+        repo_ids: set[int] = set()
+        breakdown_parts: list[str] = []
+        for technology_id in member_ids:
+            repo_ids.update(technology_repo_ids.get(technology_id, set()))
+            count = int(technology_counts.get(technology_id, 0))
+            if count <= 0:
+                continue
+            breakdown_parts.append(
+                f"{technologies[technology_id]['display_name']} {fmt_int(count)}"
+            )
+        if not repo_ids:
+            continue
+        consumed.update(member_ids)
+        rows.append(
+            {
+                "label": rollup["label"],
+                "count": len(repo_ids),
+                "note": ", ".join(breakdown_parts),
+            }
+        )
+
+    for technology_id in technology_ids:
+        if technology_id in consumed:
+            continue
+        rows.append(
+            {
+                "label": technologies[technology_id]["display_name"],
+                "count": int(technology_counts[technology_id]),
+            }
+        )
+
+    return sorted(rows, key=lambda row: (-int(row["count"]), str(row["label"]).casefold()))
 
 
 def svg_text(text: str) -> str:
@@ -516,8 +582,12 @@ def build_report(input_dir: Path) -> str:
     }
     gap_report = load_json(input_dir / "gap_report.json")
     benchmark_report = load_json(input_dir / "benchmark_recall_report.json")
+    evidence_tier_report = load_json(input_dir / "evidence_tier_report.json")
+    validation_audit_report = load_json(input_dir / "validation_audit_report.json")
+    robustness_report = load_json(input_dir / "robustness_report.json")
     technology_discovery_report = load_json(input_dir / "technology_discovery_report.json")
     registry_suggestions_report = load_json(input_dir / "registry_suggestions.json")
+    validation_sample_summary = load_json(input_dir / "validation_sample_summary.json")
 
     repo_by_id = {row["repo_id"]: row for row in repos}
     context_by_id = {row["repo_id"]: row for row in repo_contexts}
@@ -551,9 +621,11 @@ def build_report(input_dir: Path) -> str:
     unique_repo_tech_pairs: set[tuple[int, str]] = set()
     top_technologies: Counter[str] = Counter()
     category_counts: Counter[str] = Counter()
+    technology_repo_ids: defaultdict[str, set[int]] = defaultdict(set)
     repo_to_technologies: defaultdict[int, set[str]] = defaultdict(set)
     repo_to_edge_types: defaultdict[int, set[str]] = defaultdict(set)
     provider_pairs: set[tuple[int, str]] = set()
+    provider_label_counts: defaultdict[str, Counter[str]] = defaultdict(Counter)
     category_top: defaultdict[str, Counter[str]] = defaultdict(Counter)
 
     for row in edges:
@@ -562,6 +634,7 @@ def build_report(input_dir: Path) -> str:
             continue
         unique_repo_tech_pairs.add(pair)
         repo_to_technologies[row["repo_id"]].add(row["technology_id"])
+        technology_repo_ids[row["technology_id"]].add(row["repo_id"])
         repo_to_edge_types[row["repo_id"]].add(row["evidence_type"])
         top_technologies[row["technology_id"]] += 1
         category_id = row.get("category_id") or "other"
@@ -570,8 +643,13 @@ def build_report(input_dir: Path) -> str:
         provider_id = row.get("provider_id")
         if provider_id:
             provider_pairs.add((row["repo_id"], provider_id))
+            provider_label_counts[provider_id][technologies[row["technology_id"]]["display_name"]] += 1
 
     provider_counts: Counter[str] = Counter(provider_id for _, provider_id in provider_pairs)
+    provider_labels = {
+        provider_id: labels.most_common(1)[0][0] if labels else provider_id
+        for provider_id, labels in provider_label_counts.items()
+    }
     repos_with_edges = len(repo_to_technologies)
     repos_without_edges = final_repos - repos_with_edges
     readme_only_repo_count = sum(
@@ -579,6 +657,24 @@ def build_report(input_dir: Path) -> str:
     )
     tech_count_distribution = sorted(len(values) for values in repo_to_technologies.values())
     median_techs = quantile(tech_count_distribution, 0.50)
+    repo_to_providers: defaultdict[int, set[str]] = defaultdict(set)
+    for repo_id, provider_id in provider_pairs:
+        repo_to_providers[repo_id].add(provider_id)
+    multi_provider_repo_count = sum(1 for provider_ids in repo_to_providers.values() if len(provider_ids) >= 2)
+    provider_co_occurrence: Counter[tuple[str, str]] = Counter()
+    for provider_ids in repo_to_providers.values():
+        ordered = sorted(provider_ids)
+        for index, left in enumerate(ordered):
+            for right in ordered[index + 1 :]:
+                provider_co_occurrence[(left, right)] += 1
+    strongest_provider_pairs = [
+        {
+            "left": provider_labels.get(left, left),
+            "right": provider_labels.get(right, right),
+            "count": count,
+        }
+        for (left, right), count in provider_co_occurrence.most_common(3)
+    ]
 
     co_occurrence: Counter[tuple[str, str]] = Counter()
     for technology_ids in repo_to_technologies.values():
@@ -721,13 +817,12 @@ def build_report(input_dir: Path) -> str:
 
     category_sections = []
     for category_id, count in category_counts.most_common():
-        top_rows = [
-            {
-                "label": technologies[technology_id]["display_name"],
-                "count": tech_count,
-            }
-            for technology_id, tech_count in category_top[category_id].most_common(5)
-        ]
+        top_rows = build_display_rows(
+            technology_ids=list(category_top[category_id]),
+            technology_counts=category_top[category_id],
+            technology_repo_ids=technology_repo_ids,
+            technologies=technologies,
+        )[:5]
         category_sections.append(
             {
                 "category_id": category_id,
@@ -739,13 +834,18 @@ def build_report(input_dir: Path) -> str:
         )
 
     top_tech_rows = [
-        {
-            "label": technologies[technology_id]["display_name"],
-            "count": count,
-        }
-        for technology_id, count in top_technologies.most_common(10)
+        row
+        for row in build_display_rows(
+            technology_ids=list(top_technologies),
+            technology_counts=top_technologies,
+            technology_repo_ids=technology_repo_ids,
+            technologies=technologies,
+        )[:10]
     ]
-    top_provider_rows = [{"label": provider_id, "count": count} for provider_id, count in provider_counts.most_common(3)]
+    top_provider_rows = [
+        {"label": provider_labels.get(provider_id, provider_id), "count": count}
+        for provider_id, count in provider_counts.most_common(3)
+    ]
     top_segment_rows = [
         {"label": humanize_segment(segment), "count": count}
         for segment, count in segment_counts.most_common(6)
@@ -773,10 +873,29 @@ def build_report(input_dir: Path) -> str:
     gap_vendor_like_unmapped = (gap_report or {}).get("top_vendor_like_unmapped_repos", [])
     gap_missing_edge_repos = (gap_report or {}).get("final_repos_missing_edges", [])
     benchmark_entities = int((benchmark_report or {}).get("entity_count", 0))
+    benchmark_total_entities = int((benchmark_report or {}).get("total_entity_count", benchmark_entities))
+    benchmark_negative_entities = int((benchmark_report or {}).get("negative_entity_count", 0))
+    benchmark_holdout_entities = int((benchmark_report or {}).get("holdout_entity_count", 0))
     benchmark_failed_thresholds = (benchmark_report or {}).get("failed_thresholds", [])
     benchmark_prioritized_gaps = (benchmark_report or {}).get("prioritized_gaps", [])
     registry_suggestions = (registry_suggestions_report or {}).get("suggestions", [])
     build_id = input_dir.name
+    evidence_direct_supported = int((evidence_tier_report or {}).get("direct_supported_repo_count", repos_with_edges - readme_only_repo_count))
+    evidence_fallback_supported = int((evidence_tier_report or {}).get("fallback_supported_repo_count", repos_with_edges))
+    evidence_unmapped = int((evidence_tier_report or {}).get("unmapped_final_repo_count", repos_without_edges))
+    evidence_readme_only = int((evidence_tier_report or {}).get("readme_only_repo_count", readme_only_repo_count))
+    evidence_repo_identity_only = int((evidence_tier_report or {}).get("repo_identity_only_repo_count", 0))
+    evidence_mixed_fallback = int((evidence_tier_report or {}).get("mixed_fallback_repo_count", 0))
+    validation_audit_sample_count = int((validation_audit_report or {}).get("sample_count", 0))
+    validation_audit_changed_count = int((validation_audit_report or {}).get("changed_decision_count", 0))
+    validation_audit_exclusion_count = int((validation_audit_report or {}).get("exclusion_count", 0))
+    validation_audit_change_rate = float((validation_audit_report or {}).get("inclusion_change_rate", 0.0))
+    validation_audit_false_positive_rate = float((validation_audit_report or {}).get("estimated_false_positive_rate", 0.0))
+    validation_audit_false_positive_ci = (validation_audit_report or {}).get("estimated_false_positive_rate_ci95", {"lower": 0.0, "upper": 0.0})
+    validation_audit_segments = (validation_audit_report or {}).get("segment_counts", [])
+    robustness_rule_only = (robustness_report or {}).get("rule_only", {})
+    robustness_judge_adjusted = (robustness_report or {}).get("judge_adjusted", {})
+    robustness_temporal = (robustness_report or {}).get("temporal_comparison")
 
     benchmark_rows = []
     if benchmark_report:
@@ -786,6 +905,18 @@ def build_report(input_dir: Path) -> str:
             ("Identity mapped", pct_text(benchmark_report["entities_with_repo_identity_mapped"], benchmark_entities)),
             ("Third-party adoption", pct_text(benchmark_report["entities_with_third_party_adoption"], benchmark_entities)),
             ("Dependency evidence", pct_text(benchmark_report["entities_with_dependency_evidence"], benchmark_entities)),
+            (
+                "Negative excluded",
+                f"{100 * float(benchmark_report.get('negative_repo_excluded_rate', 0.0)):.1f}%"
+                if benchmark_negative_entities
+                else "n/a",
+            ),
+            (
+                "Holdout discovered",
+                f"{100 * float(benchmark_report.get('holdout_repo_discovered_rate', 0.0)):.1f}%"
+                if benchmark_holdout_entities
+                else "n/a",
+            ),
         ]
 
     judge_summary = (
@@ -797,6 +928,13 @@ def build_report(input_dir: Path) -> str:
         if judge_override_count
         else "The published set remains rule-driven."
     )
+    if validation_sample_summary:
+        sampled_candidates = int(validation_sample_summary.get("sampled_validation_candidates", 0))
+        sampled_final_repos = int(validation_sample_summary.get("final_repo_count", final_repos))
+        judge_summary += (
+            f" A seeded validation sample reviewed {fmt_int(sampled_candidates)} final repos "
+            f"({pct_text(sampled_candidates, sampled_final_repos)}) in addition to hardening."
+        )
 
     gap_prefix_rows = "\n".join(
         f"""
@@ -844,6 +982,26 @@ def build_report(input_dir: Path) -> str:
         for row in benchmark_prioritized_gaps[:5]
     ) or '<div class="text-sm text-muted">No prioritized benchmark gaps in this snapshot.</div>'
 
+    evidence_profile_rows = "\n".join(
+        f"""
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">{escape(str(row['evidence_profile']).replace('_', ' '))}</div>
+          <div class="font-mono text-xs text-muted">{fmt_int(int(row['repo_count']))}</div>
+        </div>
+        """
+        for row in (evidence_tier_report or {}).get("repo_evidence_profiles", [])[:6]
+    ) or '<div class="text-sm text-muted">No evidence-tier profile data in this snapshot.</div>'
+
+    validation_segment_rows = "\n".join(
+        f"""
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">{escape(humanize_segment(str(row['primary_segment'])))}</div>
+          <div class="font-mono text-xs text-muted">{fmt_int(int(row['repo_count']))}</div>
+        </div>
+        """
+        for row in validation_audit_segments[:6]
+    ) or '<div class="text-sm text-muted">No validation audit segment data in this snapshot.</div>'
+
     technology_candidate_rows = "\n".join(
         f"""
         <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
@@ -870,18 +1028,40 @@ def build_report(input_dir: Path) -> str:
         for row in registry_suggestions[:6]
     ) or '<div class="text-sm text-muted">No registry suggestions available for this snapshot.</div>'
 
+    provider_category_count = category_counts.get("model_access_and_providers", 0)
+    top_provider_id, top_provider_count = next(iter(provider_counts.most_common(1)), ("provider", 0))
+    top_provider_label = provider_labels.get(top_provider_id, top_provider_id)
+    top_provider_pair = strongest_provider_pairs[0] if strongest_provider_pairs else {
+        "left": "two providers",
+        "right": "another",
+        "count": 0,
+    }
+    second_provider_pair = strongest_provider_pairs[1] if len(strongest_provider_pairs) > 1 else None
+    eval_count = category_counts.get("evaluation_guardrails_and_safety", 0)
+    observability_count = category_counts.get("observability_tracing_and_monitoring", 0)
+
     findings = [
         (
             "Providers sit at the center",
-            "Provider SDKs account for 31.2% of all normalized edges, and OpenAI appears in 550 final repos. The provider layer is the most common and the most connective part of the stack.",
+            f"Provider SDKs account for {pct_text(provider_category_count, len(unique_repo_tech_pairs))} of all normalized edges, and {top_provider_label} appears in {fmt_int(top_provider_count)} final repos. The provider layer is the most common and the most connective part of the stack.",
         ),
         (
             "Multi-provider stacks are common",
-            "The strongest repeated pairing is Anthropic SDK plus OpenAI SDK in 251 repos, followed by OpenAI plus Google GenAI in 209. Major OSS projects are not clustering around a single vendor.",
+            (
+                f"{fmt_int(multi_provider_repo_count)} of {fmt_int(repos_with_edges)} technology-mapped repos "
+                f"({pct_text(multi_provider_repo_count, repos_with_edges)}) use at least two tracked providers. "
+                f"The most common provider pairing is {top_provider_pair['left']} plus {top_provider_pair['right']} in {fmt_int(int(top_provider_pair['count']))} repos."
+                + (
+                    f" That is followed by {second_provider_pair['left']} plus {second_provider_pair['right']} in {fmt_int(int(second_provider_pair['count']))} repos."
+                    if second_provider_pair
+                    else ""
+                )
+                + " Major OSS projects are not clustering around a single vendor."
+            ),
         ),
         (
             "The ecosystem is backend-heavy",
-            "Training, orchestration, providers, and retrieval dominate the graph. Evaluation and observability remain comparatively thin, with only 34 guardrail/eval edges and 55 observability edges.",
+            f"Training, orchestration, providers, and retrieval dominate the graph. Evaluation and observability remain comparatively thin, with only {fmt_int(eval_count)} guardrail/eval edges and {fmt_int(observability_count)} observability edges.",
         ),
     ]
 
@@ -995,7 +1175,7 @@ def build_report(input_dir: Path) -> str:
       <nav class="mb-8 flex flex-col gap-4 border border-line bg-paper px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">OSS AI Stack Map</div>
-          <div class="mt-1 text-sm text-muted">Research publication layer for the current repaired snapshot.</div>
+          <div class="mt-1 text-sm text-muted">Research publication layer for the current validated snapshot.</div>
         </div>
         <div class="flex flex-wrap gap-3">
           <a href="index.html" class="border border-ink bg-ink px-4 py-2 text-sm font-medium text-paper">Report</a>
@@ -1016,7 +1196,7 @@ def build_report(input_dir: Path) -> str:
               stack choices across the project’s final GitHub AI set.
             </p>
             <p class="mt-5 max-w-3xl text-sm leading-7 text-muted-strong">
-              Study frame: GitHub-only, public, non-fork, non-archived, active within 1 month, and at least 1,000 stars. Published stack edges come from manifests, SBOMs, and bounded import fallback, not README mentions.
+              Study frame: GitHub-only, public, non-fork, non-archived, active within 1 month, and at least 1,000 stars. Published stack edges come from manifests, SBOMs, bounded import fallback, repo identity, and reviewed README fallback when an included repo would otherwise remain unmapped.
             </p>
             <div class="mt-6 flex flex-wrap gap-3">
               <a href="explainer.html" class="border border-white/20 px-4 py-2 text-sm font-medium text-paper">Read the explainer</a>
@@ -1078,19 +1258,36 @@ def build_report(input_dir: Path) -> str:
 
         <article class="border border-line bg-paper p-6">
           <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ coverage and method</div>
-          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">What the dataset captures well, and where it still undercounts</h2>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Evidence tiers, validation audit, and where the map still undercounts</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-3">
+            {stat_card("Direct-supported repos", fmt_int(evidence_direct_supported), "Final repos with manifest, SBOM, import, or repo-identity evidence and no dependence on README-only fallback for coverage.")}
+            {stat_card("Fallback-supported repos", fmt_int(evidence_fallback_supported), "Final repos mapped once reviewed README fallback is allowed for otherwise unmapped repos.")}
+            {stat_card("README-only repos", fmt_int(evidence_readme_only), "Low-confidence fallback repos that remain explicit and separately inspectable in the publication artifact.")}
+          </div>
           <div class="mt-6 space-y-4">
             <div class="border border-line bg-cloud p-5">
-              <div class="text-sm font-medium text-ink">[1] Direct evidence dominates</div>
-              <p class="mt-2 text-sm leading-7 text-muted">{fmt_int(final_with_manifest)} final repos have manifests and {fmt_int(final_with_sbom)} have SBOM dependency evidence. {fmt_int(readme_only_repo_count)} final repos map only through README fallback, so direct evidence still dominates but does not fully cover the published set.</p>
+              <div class="text-sm font-medium text-ink">[1] Evidence tiers are now explicit</div>
+              <p class="mt-2 text-sm leading-7 text-muted">{fmt_int(final_with_manifest)} final repos have manifests and {fmt_int(final_with_sbom)} have SBOM dependency evidence. {fmt_int(evidence_repo_identity_only)} repos map only via canonical repo identity, {fmt_int(evidence_mixed_fallback)} combine direct evidence with fallback signals, and {fmt_int(evidence_readme_only)} remain README-only.</p>
             </div>
             <div class="border border-line bg-cloud p-5">
               <div class="text-sm font-medium text-ink">[2] Normalization still leaves gaps</div>
-              <p class="mt-2 text-sm leading-7 text-muted">{fmt_int(repos_without_edges)} included repos ({pct_text(repos_without_edges, final_repos)}) have no normalized technology edge, so graph-like analysis describes the mapped subset, not the entire final population.</p>
+              <p class="mt-2 text-sm leading-7 text-muted">{fmt_int(evidence_unmapped)} included repos ({pct_text(evidence_unmapped, final_repos)}) have no normalized technology edge, so graph-like analysis describes the mapped subset, not the entire final population.</p>
             </div>
             <div class="border border-line bg-cloud p-5">
-              <div class="text-sm font-medium text-ink">[3] Judge usage stays explicit</div>
-              <p class="mt-2 text-sm leading-7 text-muted">{escape(judge_summary)}</p>
+              <div class="text-sm font-medium text-ink">[3] Validation is now an audit layer</div>
+              <p class="mt-2 text-sm leading-7 text-muted">{escape(judge_summary)} The validation audit reviewed {fmt_int(validation_audit_sample_count)} repos, changed {fmt_int(validation_audit_changed_count)} decisions, excluded {fmt_int(validation_audit_exclusion_count)} repos from the sampled final set, and estimates a false-positive rate of {100 * validation_audit_false_positive_rate:.1f}% with a 95% interval of {100 * float(validation_audit_false_positive_ci.get('lower', 0.0)):.1f}% to {100 * float(validation_audit_false_positive_ci.get('upper', 0.0)):.1f}%.</p>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[evidence profiles]</div>
+              <div class="mt-4">
+                {evidence_profile_rows}
+              </div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[validation sample by segment]</div>
+              <div class="mt-4">
+                {validation_segment_rows}
+              </div>
             </div>
           </div>
         </article>
@@ -1132,11 +1329,16 @@ def build_report(input_dir: Path) -> str:
 
         <article class="border border-line bg-paper p-6">
           <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ benchmark recall</div>
-          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">How well the map covers the known AI stack benchmark set</h2>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">How well the map covers the current benchmark panel, holdout set, and negative controls</h2>
           <div class="mt-6 grid gap-4 sm:grid-cols-3">
-            {stat_card("Benchmarked entities", fmt_int(benchmark_entities), "Curated AI stack entities tracked for recall across each snapshot.")}
+            {stat_card("Positive entities", fmt_int(benchmark_entities), "Tracked OSS AI stack entities used for recall measurement across this snapshot.")}
+            {stat_card("Negative controls", fmt_int(benchmark_negative_entities), "Discovered candidate repos that should stay out of the final set and act as a precision guardrail.")}
+            {stat_card("Holdout entities", fmt_int(benchmark_holdout_entities), "Positive entities reserved as a holdout slice instead of the main tuning panel.")}
+          </div>
+          <div class="mt-4 grid gap-4 sm:grid-cols-3">
             {stat_card("Failed thresholds", fmt_int(len(benchmark_failed_thresholds)), "Recall metrics currently below configured minimums.")}
             {stat_card("Prioritized gaps", fmt_int(len(benchmark_prioritized_gaps)), "Benchmarks needing the next registry or discovery fixes.")}
+            {stat_card("Total benchmark entries", fmt_int(benchmark_total_entities), "Combined positives and negatives now tracked by the benchmark report.")}
           </div>
           <div class="mt-6 grid gap-5 lg:grid-cols-2">
             <div class="border border-line bg-ink p-5 text-paper">
@@ -1151,6 +1353,26 @@ def build_report(input_dir: Path) -> str:
                 {benchmark_gap_rows}
               </div>
             </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ robustness checks</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">How much the topline changes under stricter evidence and rule-only views</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-3">
+            {stat_card("Rule-only final repos", fmt_int(int(robustness_rule_only.get("final_repo_count", 0))), "Final-set size if the project uses raw rule outputs with no judge adjustment.")}
+            {stat_card("Judge-adjusted final repos", fmt_int(int(robustness_judge_adjusted.get("final_repo_count", final_repos))), "Published final-set size after hardening and validation overrides are applied.")}
+            {stat_card("Judge-changed finals", fmt_int(int(robustness_judge_adjusted.get("judge_changed_final_repo_count", 0))), "Repos whose final-set status differs between rule-only and published judge-adjusted views.")}
+          </div>
+          <div class="mt-4 grid gap-4 sm:grid-cols-3">
+            {stat_card("Direct-supported repos", fmt_int(evidence_direct_supported), "Mapped repos using direct evidence or repo identity only.")}
+            {stat_card("Fallback lift", fmt_int(evidence_fallback_supported - evidence_direct_supported), "Additional mapped repos recovered only when reviewed README fallback is enabled.")}
+            {stat_card("Temporal delta", fmt_int(int((robustness_temporal or {}).get("final_repo_delta", 0))), "Change in final repos relative to the baseline snapshot used for this validation pass.")}
+          </div>
+          <div class="mt-6 border border-line bg-cloud p-5">
+            <p class="text-sm leading-7 text-muted">Rule-only yields {fmt_int(int(robustness_rule_only.get("final_repo_count", 0)))} final repos. Judge adjustment yields {fmt_int(int(robustness_judge_adjusted.get("final_repo_count", final_repos)))}. Direct-only evidence maps {fmt_int(evidence_direct_supported)} repos, and reviewed fallback lifts that to {fmt_int(evidence_fallback_supported)}. {escape('Baseline comparison: ' + str((robustness_temporal or {}).get('baseline_snapshot_dir', 'not available')) if robustness_temporal else 'No temporal baseline comparison is available for this snapshot.')}</p>
           </div>
         </article>
       </section>

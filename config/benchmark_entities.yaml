@@ -4,6 +4,9 @@ thresholds:
   min_repo_identity_mapped_rate: 0.50
   min_third_party_adoption_rate: 0.40
   min_dependency_evidence_rate: 0.70
+  min_negative_repo_excluded_rate: 0.95
+  min_holdout_repo_discovered_rate: 0.75
+  min_holdout_repo_included_rate: 0.50
   severity: warning
 
 entities:
@@ -24,6 +27,7 @@ entities:
     technology_ids: [browserbase]
     repo_names: [browserbase/stagehand, browserbase/mcp-server-browserbase]
     package_prefixes: ["@browserbasehq/", browserbase, stagehand]
+    split: holdout
 
   - entity_id: browser-use
     display_name: Browser Use
@@ -59,6 +63,7 @@ entities:
         modelcontextprotocol/ext-apps,
       ]
     package_prefixes: ["@modelcontextprotocol/", mcp]
+    split: holdout
 
   - entity_id: mastra
     display_name: Mastra
@@ -71,9 +76,288 @@ entities:
     technology_ids: [openai-agents]
     repo_names: [openai/openai-agents-python, openai/openai-agents-js]
     package_prefixes: ["@openai/agents", openai-agents]
+    split: holdout
 
   - entity_id: logfire
     display_name: Logfire
     technology_ids: [logfire]
     repo_names: [pydantic/logfire]
     package_prefixes: ["@pydantic/logfire", logfire]
+
+  - entity_id: langchain
+    display_name: LangChain
+    technology_ids: [langchain]
+    repo_names: [langchain-ai/langchain]
+    package_prefixes: [langchain, langchain-core, langchain-community, "@langchain/"]
+
+  - entity_id: langgraph
+    display_name: LangGraph
+    technology_ids: [langgraph]
+    repo_names: [langchain-ai/langgraph]
+    package_prefixes: [langgraph, "@langchain/langgraph"]
+
+  - entity_id: llamaindex
+    display_name: LlamaIndex
+    technology_ids: [llamaindex]
+    repo_names: [run-llama/llama_index]
+    package_prefixes: [llama-index, llama_index]
+
+  - entity_id: autogen
+    display_name: AutoGen
+    technology_ids: [autogen]
+    repo_names: [microsoft/autogen]
+    package_prefixes: [autogen, pyautogen]
+
+  - entity_id: crewai
+    display_name: CrewAI
+    technology_ids: [crewai]
+    repo_names: [crewAIInc/crewAI]
+    package_prefixes: [crewai]
+
+  - entity_id: pydanticai
+    display_name: PydanticAI
+    technology_ids: [pydanticai]
+    repo_names: [pydantic/pydantic-ai]
+    package_prefixes: [pydantic-ai, pydantic_ai]
+
+  - entity_id: semantic-kernel
+    display_name: Semantic Kernel
+    technology_ids: [semantic-kernel]
+    repo_names: [microsoft/semantic-kernel]
+    package_prefixes: [semantic-kernel]
+
+  - entity_id: litellm
+    display_name: LiteLLM
+    technology_ids: [litellm]
+    repo_names: [BerriAI/litellm]
+    package_prefixes: [litellm]
+
+  - entity_id: haystack
+    display_name: Haystack
+    technology_ids: [haystack]
+    repo_names: [deepset-ai/haystack]
+    package_prefixes: [haystack, farm-haystack]
+
+  - entity_id: smolagents
+    display_name: smolagents
+    technology_ids: [smolagents]
+    repo_names: [huggingface/smolagents]
+    package_prefixes: [smolagents]
+
+  - entity_id: qdrant
+    display_name: Qdrant
+    technology_ids: [qdrant]
+    repo_names: [qdrant/qdrant]
+    package_prefixes: [qdrant-client, qdrant]
+    split: holdout
+
+  - entity_id: weaviate
+    display_name: Weaviate
+    technology_ids: [weaviate]
+    repo_names: [weaviate/weaviate]
+    package_prefixes: [weaviate-client, weaviate]
+
+  - entity_id: chroma
+    display_name: Chroma
+    technology_ids: [chroma]
+    repo_names: [chroma-core/chroma]
+    package_prefixes: [chromadb, chroma]
+
+  - entity_id: milvus
+    display_name: Milvus
+    technology_ids: [milvus]
+    repo_names: [milvus-io/milvus]
+    package_prefixes: [pymilvus, milvus]
+
+  - entity_id: vllm
+    display_name: vLLM
+    technology_ids: [vllm]
+    repo_names: [vllm-project/vllm]
+    package_prefixes: [vllm]
+    split: holdout
+
+  - entity_id: ollama
+    display_name: Ollama
+    technology_ids: [ollama]
+    repo_names: [ollama/ollama]
+    package_prefixes: [ollama]
+
+  - entity_id: sglang
+    display_name: SGLang
+    technology_ids: [sglang]
+    repo_names: [sgl-project/sglang]
+    package_prefixes: [sglang]
+
+  - entity_id: bentoml
+    display_name: BentoML
+    technology_ids: [bentoml]
+    repo_names: [bentoml/BentoML]
+    package_prefixes: [bentoml]
+    split: holdout
+
+  - entity_id: transformers
+    display_name: Transformers
+    technology_ids: [transformers]
+    repo_names: [huggingface/transformers]
+    package_prefixes: [transformers]
+
+  - entity_id: deepeval
+    display_name: DeepEval
+    technology_ids: [deepeval]
+    repo_names: [confident-ai/deepeval]
+    package_prefixes: [deepeval]
+    split: holdout
+
+  - entity_id: promptfoo
+    display_name: Promptfoo
+    technology_ids: [promptfoo]
+    repo_names: [promptfoo/promptfoo]
+    package_prefixes: [promptfoo]
+
+  - entity_id: guardrails
+    display_name: Guardrails
+    technology_ids: [guardrails]
+    repo_names: [guardrails-ai/guardrails]
+    package_prefixes: [guardrails-ai, guardrails]
+
+  - entity_id: langfuse
+    display_name: Langfuse
+    technology_ids: [langfuse]
+    repo_names: [langfuse/langfuse]
+    package_prefixes: [langfuse]
+
+  - entity_id: phoenix
+    display_name: Arize Phoenix
+    technology_ids: [phoenix]
+    repo_names: [Arize-ai/phoenix]
+    package_prefixes: [arize-phoenix, phoenix]
+    split: holdout
+
+  - entity_id: chainlit
+    display_name: Chainlit
+    technology_ids: [chainlit]
+    repo_names: [Chainlit/chainlit]
+    package_prefixes: [chainlit]
+
+  - entity_id: databend
+    display_name: Databend
+    technology_ids: [databend]
+    repo_names: [databendlabs/databend]
+    package_prefixes: [databend-]
+    split: holdout
+
+  - entity_id: dingo
+    display_name: DingoDB
+    technology_ids: [dingo]
+    repo_names: [dingodb/dingo]
+
+  - entity_id: evidently
+    display_name: Evidently
+    technology_ids: [evidently]
+    repo_names: [evidentlyai/evidently]
+    package_prefixes: [evidently]
+    split: holdout
+
+  - entity_id: google-adk
+    display_name: Google ADK
+    technology_ids: [google-adk]
+    repo_names: [google/adk-python, google/adk-go]
+    split: holdout
+
+  - entity_id: code2prompt
+    display_name: code2prompt
+    technology_ids: [code2prompt]
+    repo_names: [mufeedvh/code2prompt]
+
+  - entity_id: dspy
+    display_name: DSPy
+    technology_ids: [dspy]
+    repo_names: [stanfordnlp/dspy]
+
+  - entity_id: lancedb
+    display_name: LanceDB
+    technology_ids: [lancedb]
+    repo_names: [lancedb/lancedb]
+
+  - entity_id: tgi
+    display_name: TGI
+    technology_ids: [tgi]
+    repo_names: [huggingface/text-generation-inference]
+
+  - entity_id: llama-cpp
+    display_name: llama.cpp
+    technology_ids: [llama-cpp]
+    repo_names: [ggml-org/llama.cpp]
+    split: holdout
+
+  - entity_id: ray-serve
+    display_name: Ray Serve
+    technology_ids: [ray-serve]
+    repo_names: [ray-project/ray]
+
+  - entity_id: peft
+    display_name: PEFT
+    technology_ids: [peft]
+    repo_names: [huggingface/peft]
+
+  - entity_id: deepspeed
+    display_name: DeepSpeed
+    technology_ids: [deepspeed]
+    repo_names: [deepspeedai/DeepSpeed]
+
+  - entity_id: helicone
+    display_name: Helicone
+    technology_ids: [helicone]
+    repo_names: [Helicone/helicone]
+
+
+  - entity_id: negative-prompts-chat
+    display_name: prompts.chat
+    expectation: negative
+    repo_names: [f/prompts.chat]
+    notes: prompt/list repo should remain excluded
+
+  - entity_id: negative-awesome-mcp-servers
+    display_name: awesome-mcp-servers
+    expectation: negative
+    repo_names: [punkpeye/awesome-mcp-servers]
+
+  - entity_id: negative-llm-course
+    display_name: LLM Course
+    expectation: negative
+    repo_names: [mlabonne/llm-course]
+
+  - entity_id: negative-prompt-engineering-guide
+    display_name: Prompt Engineering Guide
+    expectation: negative
+    repo_names: [dair-ai/Prompt-Engineering-Guide]
+
+  - entity_id: negative-awesome-copilot
+    display_name: awesome-copilot
+    expectation: negative
+    repo_names: [github/awesome-copilot]
+
+  - entity_id: negative-rag-techniques
+    display_name: RAG Techniques
+    expectation: negative
+    repo_names: [NirDiamant/RAG_Techniques]
+
+  - entity_id: negative-handson-llms
+    display_name: Hands-On Large Language Models
+    expectation: negative
+    repo_names: [HandsOnLLM/Hands-On-Large-Language-Models]
+
+  - entity_id: negative-system-prompts
+    display_name: system-prompts-and-models-of-ai-tools
+    expectation: negative
+    repo_names: [x1xhlol/system-prompts-and-models-of-ai-tools]
+
+  - entity_id: negative-llm-cookbook
+    display_name: llm-cookbook
+    expectation: negative
+    repo_names: [datawhalechina/llm-cookbook]
+
+  - entity_id: negative-awesome-claude-skills
+    display_name: awesome-claude-skills
+    expectation: negative
+    repo_names: [ComposioHQ/awesome-claude-skills]

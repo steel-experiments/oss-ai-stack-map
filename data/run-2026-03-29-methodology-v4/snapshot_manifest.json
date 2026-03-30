@@ -1,0 +1,125 @@
+{
+  "files": [
+    {
+      "path": "checkpoints/run_state.json",
+      "sha256": "92119f6cc70dbd3cdb694e56ebcd77942b8e3a87f005a38558e9b98a28196c8e",
+      "size_bytes": 364
+    },
+    {
+      "path": "classification_stage_timings.parquet",
+      "row_count": 4,
+      "sha256": "1639ef47fe07eb0bfbc1250ee5664c2b622cf12211a26d71832f1c7157b5f3c1",
+      "size_bytes": 1874
+    },
+    {
+      "path": "discovery_stage_timings.parquet",
+      "row_count": 3,
+      "sha256": "0b32817ffc72d6906f3f56d035ea7894cae60c31cf153ea592bb95a145464142",
+      "size_bytes": 1559
+    },
+    {
+      "path": "judge_decisions.csv",
+      "sha256": "2e0166e71938067b25e2233c62b25f9cbac85ed396f803927a9dd1bd51ab9dac",
+      "size_bytes": 387807
+    },
+    {
+      "path": "judge_decisions.parquet",
+      "row_count": 651,
+      "sha256": "f1c939833439650b24a2c31099155b62c455f2c1db7a541c5df86d1c30963eaa",
+      "size_bytes": 179104
+    },
+    {
+      "path": "repo_contexts.csv",
+      "sha256": "171b2a535f8e145e0dfc237132ebccb24f45125b8031dc94dbfa1e568a1968a8",
+      "size_bytes": 340812095
+    },
+    {
+      "path": "repo_contexts.parquet",
+      "row_count": 1522,
+      "sha256": "79cefcfc42aaeaeb3ea1a995e2a56e079a6b309987bcc3845a97c8d899e2887b",
+      "size_bytes": 46522899
+    },
+    {
+      "path": "repo_dependency_evidence.csv",
+      "sha256": "0ed8800af6dee34aa7b1e44b00ef2d8c15c9dbce91c7f3ae0f54af06de0acd19",
+      "size_bytes": 57391844
+    },
+    {
+      "path": "repo_dependency_evidence.parquet",
+      "row_count": 414455,
+      "sha256": "5a9b6e0b09703303b683ef0ee15b4df4cace161dcab0b04f4d416b8754204034",
+      "size_bytes": 7228800
+    },
+    {
+      "path": "repo_inclusion_decisions.csv",
+      "sha256": "9ab2ae790bd189b4074b4daaa49d2061ffd109fe30113a60de15b091150ecad4",
+      "size_bytes": 1230697
+    },
+    {
+      "path": "repo_inclusion_decisions.parquet",
+      "row_count": 1522,
+      "sha256": "cf0abd845b35e7800d4b3d9531236b0d329267651e05249de4ba4336646d8a91",
+      "size_bytes": 244046
+    },
+    {
+      "path": "repo_technology_edges.csv",
+      "sha256": "f2cd4136d5b5dc261d546093eea2ded2622b667bad8f57fd7c25b8c19f05ea6e",
+      "size_bytes": 1167088
+    },
+    {
+      "path": "repo_technology_edges.parquet",
+      "row_count": 5186,
+      "sha256": "621108b8dfdd45f10e43c377a342a6440843d0535d2d4c0fa33997cbe654940d",
+      "size_bytes": 125951
+    },
+    {
+      "path": "repos.parquet",
+      "row_count": 1522,
+      "sha256": "50cd0b8ab21865c544a5b2b8daaff5be2161f67e6b2b73f4d69f0bb0b94e337e",
+      "size_bytes": 331031
+    },
+    {
+      "path": "stage_timings.parquet",
+      "row_count": 123,
+      "sha256": "e966b5ab3184c58efa2891758d8af4b2360aa98167b55da7349bb66ed896924d",
+      "size_bytes": 3418
+    },
+    {
+      "path": "technologies.csv",
+      "sha256": "0abe034ff58896c2313ee68c6bd368e52acd23f4d23d3239b920488873e929a3",
+      "size_bytes": 11406
+    },
+    {
+      "path": "technologies.parquet",
+      "row_count": 68,
+      "sha256": "a7123c7acc1c89b4a61b256fe8d2dea0eb8bb65b05c2b1d54e9c48a2f51a3ab7",
+      "size_bytes": 9115
+    },
+    {
+      "path": "validation_sample_summary.json",
+      "sha256": "0347f66686facb4a5e53d663060ed22459e8318022188f08b2dce0ae881014f7",
+      "size_bytes": 247
+    }
+  ],
+  "generated_at": "2026-03-29T11:19:04.214211+00:00",
+  "metrics": {
+    "ai_relevant_repos": 1084,
+    "final_repos": 981,
+    "final_repos_missing_edges": 3,
+    "final_repos_with_edges": 978,
+    "final_repos_with_mapped_dependency_evidence_but_no_edge": 0,
+    "final_repos_with_no_dependency_evidence": 0,
+    "final_repos_with_only_unmapped_dependency_evidence": 3,
+    "judge_decisions": 651,
+    "repo_contexts": 1522,
+    "repo_inclusion_decisions": 1522,
+    "repo_technology_edges": 5186,
+    "repos": 1522,
+    "rule_flag_missing_rows": 0,
+    "run_state_status": "completed",
+    "serious_repos": 1219,
+    "technologies": 68
+  },
+  "snapshot_date": "2026-03-25",
+  "snapshot_dir": "/home/agent/oss-ai-stack-map/data/run-2026-03-29-methodology-v4"
+}

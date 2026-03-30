@@ -1,0 +1,22 @@
+{
+  "evidence_tiers": {
+    "direct_edge_count": 5069,
+    "direct_supported_repo_count": 937,
+    "fallback_edge_count": 5186,
+    "fallback_supported_repo_count": 978,
+    "unmapped_final_repo_count": 3
+  },
+  "judge_adjusted": {
+    "final_repo_count": 981,
+    "judge_changed_final_repo_count": 34
+  },
+  "rule_only": {
+    "final_repo_count": 971
+  },
+  "temporal_comparison": {
+    "baseline_snapshot_dir": "/home/agent/oss-ai-stack-map/data/run-2026-03-25-repaired-v16",
+    "final_repo_delta": -4,
+    "mapped_repo_delta": -2,
+    "readme_only_repo_delta": 0
+  }
+}

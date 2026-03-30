@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import math
+import random
 import re
 import time
 import tomllib
@@ -32,7 +34,11 @@ from oss_ai_stack_map.pipeline.imports import (
 from oss_ai_stack_map.pipeline.imports import (
     resolve_alias as resolve_import_alias,
 )
-from oss_ai_stack_map.pipeline.normalize import build_repo_technology_edges, build_technology_rows
+from oss_ai_stack_map.pipeline.normalize import (
+    build_readme_alias_evidence,
+    build_repo_technology_edges,
+    build_technology_rows,
+)
 from oss_ai_stack_map.storage.checkpoints import ClassificationCheckpointStore, stable_hash
 from oss_ai_stack_map.storage.tables import read_parquet_models, write_rows, write_rows_to_paths
 
@@ -196,21 +202,25 @@ def classify_candidates(
             judge_decisions=existing_judge_decisions,
         )
 
+    contexts = checkpoint_store.read_checkpoint_models("repo_contexts", RepoContext)
+    contexts_by_id = {context.repo_id: context for context in contexts}
+
     judge_candidates = select_judge_candidates(
         runtime=runtime,
         decisions=decisions,
+        contexts_by_id=contexts_by_id,
         already_judged_repo_ids={decision.repo_id for decision in existing_judge_decisions},
     )
-    judge_contexts = checkpoint_store.read_checkpoint_models_for_repo_ids(
-        "repo_contexts",
-        RepoContext,
-        {candidate.decision.repo_id for candidate in judge_candidates},
-    )
+    judge_candidate_repo_ids = {candidate.decision.repo_id for candidate in judge_candidates}
     judge_started_at = time.perf_counter()
     judge_decisions = maybe_run_judge(
         runtime=runtime,
         repos_by_id={repo.repo_id: repo for repo in all_repos},
-        contexts_by_id={context.repo_id: context for context in judge_contexts},
+        contexts_by_id={
+            repo_id: context
+            for repo_id, context in contexts_by_id.items()
+            if repo_id in judge_candidate_repo_ids
+        },
         candidates=judge_candidates,
     )
     judge_seconds = time.perf_counter() - judge_started_at
@@ -219,7 +229,6 @@ def classify_candidates(
     all_judge_decisions = merge_judge_decisions(existing_judge_decisions, judge_decisions)
 
     write_started_at = time.perf_counter()
-    contexts = checkpoint_store.read_checkpoint_models("repo_contexts", RepoContext)
     should_write_contexts = processed_new_repos or not (
         output_dir / "repo_contexts.parquet"
     ).exists()
@@ -566,6 +575,7 @@ def persist_context_cache_entries(
 def select_judge_candidates(
     runtime: RuntimeConfig,
     decisions: list[ClassificationDecision],
+    contexts_by_id: dict[int, RepoContext] | None = None,
     already_judged_repo_ids: set[int] | None = None,
 ) -> list[JudgeCandidate]:
     already_judged_repo_ids = already_judged_repo_ids or set()
@@ -586,17 +596,204 @@ def select_judge_candidates(
     } | already_judged_repo_ids
     validation_candidates: list[JudgeCandidate] = []
     if runtime.study.judge.mode_enabled("validation"):
-        validation_candidates = [
-            JudgeCandidate(decision=decision, judge_mode="validation")
+        validation_pool = [
+            decision
             for decision in decisions
             if decision.repo_id not in selected_repo_ids
             and should_send_to_validation_judge(decision)
-        ][: max_cases - len(hardening_candidates)]
+        ]
+        target_case_count = runtime.study.judge.validation_target_case_count(
+            final_repo_count=len(validation_pool),
+            remaining_capacity=max_cases - len(hardening_candidates),
+        )
+        sampled_validation_decisions = sample_validation_decisions(
+            runtime=runtime,
+            decisions=validation_pool,
+            contexts_by_id=contexts_by_id or {},
+            target_case_count=target_case_count,
+        )
+        validation_candidates = [
+            JudgeCandidate(decision=decision, judge_mode="validation")
+            for decision in sampled_validation_decisions
+        ]
     return [*hardening_candidates, *validation_candidates]
 
 
 def should_send_to_validation_judge(decision: ClassificationDecision) -> bool:
     return decision.passed_major_filter
+
+
+def sample_validation_decisions(
+    *,
+    runtime: RuntimeConfig,
+    decisions: list[ClassificationDecision],
+    contexts_by_id: dict[int, RepoContext],
+    target_case_count: int,
+) -> list[ClassificationDecision]:
+    if target_case_count <= 0 or not decisions:
+        return []
+    ordered = sorted(decisions, key=lambda decision: decision.repo_id)
+    if target_case_count >= len(ordered):
+        return ordered
+
+    fraction = runtime.study.judge.validation_sample_fraction
+    if fraction is None:
+        return ordered[:target_case_count]
+
+    rng = random.Random(runtime.study.judge.validation_sample_seed)
+    selected: list[ClassificationDecision] = []
+    selected_repo_ids: set[int] = set()
+    profiles = {
+        decision.repo_id: build_validation_sampling_profile(
+            runtime=runtime,
+            decision=decision,
+            context=contexts_by_id.get(decision.repo_id),
+        )
+        for decision in ordered
+    }
+
+    def take_from_pool(pool: list[ClassificationDecision], count: int) -> None:
+        if count <= 0:
+            return
+        shuffled = [decision for decision in pool if decision.repo_id not in selected_repo_ids]
+        rng.shuffle(shuffled)
+        for decision in shuffled[:count]:
+            selected.append(decision)
+            selected_repo_ids.add(decision.repo_id)
+
+    readme_pool = [
+        decision for decision in ordered if profiles[decision.repo_id]["evidence_profile"] == "readme_only"
+    ]
+    override_pool = [
+        decision for decision in ordered if profiles[decision.repo_id]["prior_override"]
+    ]
+    readme_floor = min(len(readme_pool), max(1, math.ceil(target_case_count * 0.15))) if readme_pool else 0
+    override_floor = min(len(override_pool), max(1, math.ceil(target_case_count * 0.20))) if override_pool else 0
+    take_from_pool(readme_pool, readme_floor)
+    take_from_pool(override_pool, override_floor)
+
+    segment_buckets: dict[str, list[ClassificationDecision]] = {}
+    for decision in ordered:
+        segment_key = profiles[decision.repo_id]["segment"]
+        segment_buckets.setdefault(segment_key, []).append(decision)
+    for bucket in segment_buckets.values():
+        rng.shuffle(bucket)
+    for segment_key in sorted(segment_buckets, key=lambda key: (-len(segment_buckets[key]), key)):
+        if len(selected) >= target_case_count:
+            break
+        for decision in segment_buckets[segment_key]:
+            if decision.repo_id in selected_repo_ids:
+                continue
+            selected.append(decision)
+            selected_repo_ids.add(decision.repo_id)
+            break
+
+    if len(selected) >= target_case_count:
+        return sorted(selected[:target_case_count], key=lambda decision: decision.repo_id)
+
+    strata: dict[tuple[str, str, str, str, str], list[ClassificationDecision]] = {}
+    for decision in ordered:
+        profile = profiles[decision.repo_id]
+        key = (
+            profile["segment"],
+            profile["score_ai_band"],
+            profile["score_serious_band"],
+            profile["evidence_profile"],
+            "prior_override" if profile["prior_override"] else "rule_only",
+        )
+        strata.setdefault(key, []).append(decision)
+    for bucket in strata.values():
+        rng.shuffle(bucket)
+
+    prioritized_keys = sorted(
+        strata,
+        key=lambda key: (
+            key[3] != "readme_only",
+            key[4] != "prior_override",
+            -len(strata[key]),
+            key,
+        ),
+    )
+    while len(selected) < target_case_count:
+        progressed = False
+        for key in prioritized_keys:
+            if len(selected) >= target_case_count:
+                break
+            bucket = strata[key]
+            while bucket and bucket[-1].repo_id in selected_repo_ids:
+                bucket.pop()
+            if not bucket:
+                continue
+            decision = bucket.pop()
+            selected.append(decision)
+            selected_repo_ids.add(decision.repo_id)
+            progressed = True
+        if not progressed:
+            break
+
+    return sorted(selected, key=lambda decision: decision.repo_id)
+
+
+def build_validation_sampling_profile(
+    *,
+    runtime: RuntimeConfig,
+    decision: ClassificationDecision,
+    context: RepoContext | None,
+) -> dict[str, str | bool]:
+    evidence_profile = "unmapped"
+    if context is not None:
+        evidence_profile = classify_repo_context_evidence_profile(runtime=runtime, context=context)
+    return {
+        "segment": decision.primary_segment or "unassigned",
+        "score_ai_band": score_band(decision.score_ai),
+        "score_serious_band": score_band(decision.score_serious),
+        "evidence_profile": evidence_profile,
+        "prior_override": bool(decision.judge_override_applied),
+    }
+
+
+def classify_repo_context_evidence_profile(
+    *,
+    runtime: RuntimeConfig,
+    context: RepoContext,
+) -> str:
+    has_direct_evidence = any(
+        dependency.technology_id
+        for dependency in (
+            context.manifest_dependencies + context.sbom_dependencies + context.import_dependencies
+        )
+    )
+    repo_lookup = {
+        repo_name.casefold()
+        for technology in [*runtime.aliases.technologies, *runtime.registry.technologies]
+        for repo_name in technology.repo_names
+    }
+    has_repo_identity = context.full_name.casefold() in repo_lookup
+    has_readme_fallback = bool(
+        runtime.study.classification.readme_mentions_used_for_edges
+        and build_readme_alias_evidence(runtime=runtime, context=context)
+    )
+    if has_direct_evidence:
+        return "direct_only" if not has_readme_fallback else "mixed_direct_and_fallback"
+    if has_repo_identity and has_readme_fallback:
+        return "repo_identity_plus_fallback"
+    if has_repo_identity:
+        return "repo_identity_only"
+    if has_readme_fallback:
+        return "readme_only"
+    return "unmapped"
+
+
+def score_band(value: int) -> str:
+    if value <= 1:
+        return "0-1"
+    if value <= 3:
+        return "2-3"
+    if value <= 5:
+        return "4-5"
+    if value <= 8:
+        return "6-8"
+    return "9+"
 
 
 def maybe_run_judge(
@@ -705,9 +902,15 @@ def apply_judge_decisions(
                 f"{judge.judge_mode} judge segment ignored: {judge.primary_segment}"
             )
 
-        decision.rule_passed_serious_filter = decision.passed_serious_filter
-        decision.rule_passed_ai_relevance_filter = decision.passed_ai_relevance_filter
-        decision.rule_passed_major_filter = decision.passed_major_filter
+        # Preserve the original rule-engine outputs across repeated judge passes.
+        # Validation may be run on top of a prior hardening snapshot, and the
+        # raw rule_* fields should remain the pre-judge baseline for auditability.
+        if decision.rule_passed_serious_filter is None:
+            decision.rule_passed_serious_filter = decision.passed_serious_filter
+        if decision.rule_passed_ai_relevance_filter is None:
+            decision.rule_passed_ai_relevance_filter = decision.passed_ai_relevance_filter
+        if decision.rule_passed_major_filter is None:
+            decision.rule_passed_major_filter = decision.passed_major_filter
         decision.judge_applied = True
         decision.judge_mode = judge.judge_mode
         decision.judge_confidence = judge.confidence
@@ -1611,13 +1814,24 @@ def extract_package_candidates_from_sbom(package: dict, purl: str | None) -> lis
             name = decoded.rsplit("@", 1)[0]
             candidates.append(name)
             if "/" in name:
-                candidates.append(name.rsplit("/", 1)[-1])
+                basename = name.rsplit("/", 1)[-1]
+                if should_include_scoped_basename_candidate(basename):
+                    candidates.append(basename)
     package_name = package.get("name")
     if package_name:
         candidates.append(package_name)
         if "/" in package_name:
-            candidates.append(package_name.rsplit("/", 1)[-1])
+            basename = package_name.rsplit("/", 1)[-1]
+            if should_include_scoped_basename_candidate(basename):
+                candidates.append(basename)
     return unique_candidates(candidates)
+
+
+def should_include_scoped_basename_candidate(candidate: str) -> bool:
+    # Scoped package basenames such as "modal" are often generic UI/infra words.
+    # Falling back from "@scope/modal" -> "modal" creates false positives during
+    # snapshot repair, so keep an explicit blocklist for ambiguous basenames.
+    return normalize_package_name(candidate) not in {"modal", "sandbox", "containers"}
 
 
 def resolve_alias_candidates(

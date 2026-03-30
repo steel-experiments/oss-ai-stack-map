@@ -76,7 +76,7 @@ technologies:
     category_id: sandbox_and_isolated_execution
     entity_type: product
     aliases: [e2b]
-    package_prefixes: [e2b]
+    package_prefixes: [e2b, e2b-code-interpreter, "@e2b/", "@e2b/code-interpreter"]
     repo_names: [e2b-dev/E2B, e2b-dev/fragments]
     capabilities: [sandbox, code_interpreter]
 
@@ -85,9 +85,43 @@ technologies:
     category_id: sandbox_and_isolated_execution
     entity_type: product
     aliases: [daytona]
-    package_prefixes: [daytona]
+    package_prefixes:
+      [daytona, daytona-sdk, daytona-api-client, daytona-toolbox-api-client, "@daytonaio/"]
     repo_names: [daytonaio/daytona]
     capabilities: [sandbox, dev_environment]
+
+  - technology_id: modal
+    display_name: Modal
+    category_id: sandbox_and_isolated_execution
+    entity_type: product
+    aliases: [modal]
+    capabilities: [sandbox, code_execution, serverless_gpu]
+
+  - technology_id: runloop
+    display_name: Runloop
+    category_id: sandbox_and_isolated_execution
+    entity_type: product
+    aliases: [runloop, runloop-api-client, langchain-runloop]
+    package_prefixes: [runloop, runloop-api-client]
+    capabilities: [sandbox, code_execution]
+
+  - technology_id: vercel-sandbox
+    display_name: Vercel Sandbox
+    category_id: sandbox_and_isolated_execution
+    provider_id: vercel
+    entity_type: product
+    aliases: [vercel sandbox, "@vercel/sandbox"]
+    package_prefixes: ["@vercel/sandbox"]
+    capabilities: [sandbox, isolated_execution]
+
+  - technology_id: cloudflare-containers
+    display_name: Cloudflare Containers
+    category_id: sandbox_and_isolated_execution
+    provider_id: cloudflare
+    entity_type: product
+    aliases: [cloudflare containers, "@cloudflare/containers"]
+    package_prefixes: ["@cloudflare/containers"]
+    capabilities: [container_runtime, sandbox]
 
   - technology_id: model-context-protocol
     display_name: Model Context Protocol
@@ -151,6 +185,34 @@ technologies:
     package_prefixes: ["@openai/agents", openai-agents]
     repo_names: [openai/openai-agents-python, openai/openai-agents-js]
     capabilities: [agent_orchestration, voice_agents, workflows]
+
+  - technology_id: google-adk
+    display_name: Google ADK
+    category_id: orchestration_and_agents
+    provider_id: google
+    entity_type: product
+    aliases: [google adk, agent development kit, adk-go, adk-python]
+    package_prefixes: [google-adk]
+    repo_names: [google/adk-python, google/adk-go]
+    capabilities: [agent_orchestration, agent_sdk, evaluation]
+
+  - technology_id: code2prompt
+    display_name: code2prompt
+    category_id: ai_developer_tools_and_sdk_families
+    entity_type: product
+    aliases: [code2prompt]
+    package_prefixes: [code2prompt]
+    repo_names: [mufeedvh/code2prompt]
+    capabilities: [prompt_engineering, context_packaging, developer_tool]
+
+  - technology_id: grafbase
+    display_name: Grafbase
+    category_id: ai_developer_tools_and_sdk_families
+    entity_type: product
+    aliases: [grafbase]
+    package_prefixes: [grafbase-, grafbase-sdk, "@grafbase/"]
+    repo_names: [grafbase/grafbase]
+    capabilities: [mcp, graphql_gateway, developer_tool]
 
   - technology_id: logfire
     display_name: Logfire

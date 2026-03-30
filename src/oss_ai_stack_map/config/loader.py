@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from collections import Counter
 from datetime import date
 from pathlib import Path
@@ -44,9 +45,33 @@ class JudgeConfig(BaseModel):
     validation_enabled: bool | None = None
     model: str = "gpt-5.4-nano"
     max_cases_per_run: int = 25
+    validation_sample_fraction: float | None = None
+    validation_sample_seed: int = 0
     override_on_high_confidence: bool = True
     min_confidence_to_override: str = "high"
     reasoning_effort: str = "low"
+
+    @staticmethod
+    def _normalize_fraction(value: float | None) -> float | None:
+        if value is None:
+            return None
+        return min(max(float(value), 0.0), 1.0)
+
+    def validation_target_case_count(
+        self,
+        *,
+        final_repo_count: int,
+        remaining_capacity: int,
+    ) -> int:
+        if remaining_capacity <= 0 or final_repo_count <= 0:
+            return 0
+        fraction = self._normalize_fraction(self.validation_sample_fraction)
+        if fraction is None:
+            return min(final_repo_count, remaining_capacity)
+        if fraction <= 0:
+            return 0
+        target = max(1, math.ceil(final_repo_count * fraction))
+        return min(target, final_repo_count, remaining_capacity)
 
     def mode_enabled(self, judge_mode: Literal["hardening", "validation"]) -> bool:
         if judge_mode == "hardening":
@@ -157,6 +182,10 @@ class BenchmarkEntity(BaseModel):
     technology_ids: list[str] = Field(default_factory=list)
     repo_names: list[str] = Field(default_factory=list)
     package_prefixes: list[str] = Field(default_factory=list)
+    expectation: Literal["positive", "negative"] = "positive"
+    split: Literal["tuning", "holdout"] = "tuning"
+    segment_id: str | None = None
+    notes: str | None = None
 
 
 class BenchmarkThresholds(BaseModel):
@@ -165,6 +194,9 @@ class BenchmarkThresholds(BaseModel):
     min_repo_identity_mapped_rate: float = 0.5
     min_third_party_adoption_rate: float = 0.5
     min_dependency_evidence_rate: float = 0.75
+    min_negative_repo_excluded_rate: float = 0.9
+    min_holdout_repo_discovered_rate: float = 0.75
+    min_holdout_repo_included_rate: float = 0.4
     severity: Literal["warning", "error"] = "warning"
 
 
@@ -286,7 +318,9 @@ def collect_runtime_config_issues(runtime: RuntimeConfig) -> list[str]:
             )
 
     for entity in runtime.benchmarks.entities:
-        technology_ids = entity.technology_ids or [entity.entity_id]
+        technology_ids = entity.technology_ids or (
+            [] if entity.expectation == "negative" else [entity.entity_id]
+        )
         unknown_technology_ids = sorted(set(technology_ids) - known_technology_ids)
         if unknown_technology_ids:
             issues.append(

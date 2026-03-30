@@ -1,8 +1,8 @@
 {
-  "build_id": "run-2026-03-25-fresh-1mo-v3",
-  "generated_at": "2026-03-27T22:46:58.111599+00:00",
-  "current_report": "oss-ai-stack-report-2026-03-25-1mo-v3.html",
+  "build_id": "run-2026-03-30-sandbox-v2",
+  "generated_at": "2026-03-30T14:54:27.503235+00:00",
+  "current_report": "oss-ai-stack-report-2026-03-30-v2.html",
   "stable_report": "oss-ai-stack-report-latest.html",
   "entrypoint": "index.html",
-  "input_dir": "data/run-2026-03-25-fresh-1mo-v3"
+  "input_dir": "data/run-2026-03-30-sandbox-v2"
 }

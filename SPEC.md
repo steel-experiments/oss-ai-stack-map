@@ -23,11 +23,12 @@ These are the decisions already made.
 - **License:** recorded as metadata, but **not** used as an inclusion filter.
 - **Exclusions:** demos, tutorials, templates, benchmarks-only repos, boilerplates, “awesome lists,” prompt collections, notebook-only educational repos, and other non-production or non-serious repos.
 - **Initial ecosystem support:** Python, JavaScript/TypeScript, Go, and Rust in the first production run. Additional ecosystems are added after the first stable snapshot.
-- **Evidence sources:** manifest / lockfile / dependency graph / SBOM first. Import evidence is fallback-only. README mentions may be used only for classification, not as primary stack evidence.
+- **Evidence sources:** manifest / lockfile / dependency graph / SBOM first. Import evidence is fallback-only. README mentions may be published only as explicitly reviewed low-confidence fallback edges for included repos that would otherwise remain unmapped.
+- **Published evidence tiers:** publish direct-only, reviewed-fallback, and full-final-population views so coverage and graph claims stay distinguishable.
 - **Published dependency scope:** direct dependencies only.
 - **Provider attribution:** provider-specific wrapper packages may count toward provider usage when the mapping is explicit and curated.
 - **Outputs for v1:** public dataset, methodology, and static research report. The interactive graph is deferred until the dataset is stable.
-- **Validation:** light manual QA on top repos and a random sample.
+- **Validation:** judge-backed audit on top repos plus a seeded stratified sample of the final set, with explicit audit reporting.
 - **Principle:** keep the pipeline autonomous, reproducible, and not overcomplicated.
 
 ---
@@ -86,7 +87,7 @@ A repository is in scope for the Phase 1 published map if it is:
 - serious / production-like
 - AI-relevant
 - has **>= 1,000 stars**
-- has code freshness defined by **`pushed_at` within the last 12 months**
+- has code freshness defined by **`pushed_at` within the last 1 month**
 
 Phase 1 uses the same threshold for discovery and publication. There is no separate 200+ star candidate universe in the first production run.
 
@@ -118,7 +119,7 @@ Evidence confidence levels:
 
 3. **Low confidence**
    - README/description mention only  
-   README/description evidence is **not used for published stack edges**. It is only used for project classification and candidate discovery.
+   README/description evidence may be used for published stack edges only as **explicitly reviewed fallback coverage** for included repos that would otherwise remain unmapped. These edges must stay labeled as low confidence and should not be interpreted the same way as manifest, SBOM, import, or repo-identity evidence.
 
 ### 4.5 Provider-attributed usage
 
@@ -139,6 +140,24 @@ Examples:
 - `langchain` alone → provider = none inferred
 
 Rule: **generic frameworks do not imply a provider** unless the dependency/import explicitly names the provider or maps through a curated provider-specific integration.
+
+### 4.6 Published evidence tiers
+
+All publication-grade outputs should distinguish between:
+
+1. **Direct-only coverage**
+   - manifest
+   - SBOM
+   - import
+   - repo-identity
+
+2. **Reviewed-fallback coverage**
+   - direct-only coverage plus reviewed README fallback for otherwise unmapped included repos
+
+3. **Full final population**
+   - the entire included final set, including any repos that still remain unmapped after normalization
+
+Graph and co-occurrence claims should default to the direct-only or reviewed-fallback mapped subsets, not the full final population.
 
 ---
 
@@ -601,7 +620,8 @@ For each included repo, run the following extraction pipeline:
 4. build canonical direct dependency candidates from manifests
 5. use SBOM/dependency graph to enrich version/purl/license info and to audit completeness
 6. run targeted import detection if structured dependency data is missing or incomplete
-7. emit normalized repo → technology edges
+7. if an included repo still has no normalized edge, optionally emit reviewed low-confidence README fallback edges
+8. emit normalized repo → technology edges
 
 ### 13.3 Important design choice for direct dependencies
 
@@ -710,7 +730,7 @@ Provider attribution is valuable but should stay conservative.
 - only a generic framework core package is present
 - only a generic “OpenAI-compatible” abstraction is present
 - the provider inference depends on runtime config not visible in repo
-- the evidence is only a README mention
+- the evidence is only a README mention and has not gone through the fallback review path
 
 ### 15.3 Publish two metrics
 
@@ -1204,6 +1224,7 @@ Run light manual QA on:
 - **top 25** repos by stars in the final major set
 - **random 25** repos from the remainder
 - all exception cases with contradictory signals
+- all repos whose published edges come only from README fallback
 
 ### 24.2 QA questions
 
@@ -1236,15 +1257,16 @@ The public report should include:
 1. **Methodology summary**
 2. **Definition of “major AI repo”**
 3. **Coverage summary**
-4. **Top technologies overall**
-5. **Top technologies by segment**
-6. **Top providers and provider-attributed rollups**
-7. **Top vector, orchestration, serving, eval, and UI choices**
-8. **Common stack bundles**
-9. **Representative repo case studies**
-10. **How builders should read the results**
-11. **Limitations and caveats**
-12. **Future trend-study plan**
+4. **Direct-evidence versus reviewed README-fallback coverage**
+5. **Top technologies overall**
+6. **Top technologies by segment**
+7. **Top providers and provider-attributed rollups**
+8. **Top vector, orchestration, serving, eval, and UI choices**
+9. **Common stack bundles**
+10. **Representative repo case studies**
+11. **How builders should read the results**
+12. **Limitations and caveats**
+13. **Future trend-study plan**
 
 ### 25.1 Recommended charts
 
@@ -1265,6 +1287,7 @@ The report should explicitly say:
 - popularity is not the same as quality
 - public OSS behavior is not identical to private startup behavior
 - repository dependencies do not perfectly reveal runtime production usage
+- reviewed README fallback edges are coverage backstops, not strong dependency evidence
 - the study is most useful as a picture of **default builder choices and common stack bundles**
 - the results are better for identifying **what is common** than proving **what is best**
 
@@ -1329,9 +1352,9 @@ Use the following simple, defensible rule set for the first production run:
 
 1. **Build a candidate universe** from metadata/topic discovery, keyword discovery, and a manual seed list.
 2. **Use live GitHub metadata** for current inclusion decisions.
-3. **Define “major” as 1,000+ stars and pushed within 12 months** for both discovery and publication in Phase 1.
+3. **Define “major” as 1,000+ stars and pushed within 1 month** for both discovery and publication in Phase 1.
 4. **Use explicit serious-project and AI-relevance scoring rules** rather than reviewer intuition.
-5. **Use manifest-declared direct dependencies as the canonical direct-dependency source**, with SBOM/dependency graph as enrichment and fallback.
+5. **Use manifest-declared direct dependencies as the canonical direct-dependency source**, with SBOM/dependency graph as enrichment and fallback, and allow reviewed README fallback edges only as explicitly labeled low-confidence coverage.
 6. **Publish exact technology usage and provider-attributed usage separately.**
 7. **Limit first-class parser support to Python, JavaScript/TypeScript, Go, and Rust** in the first production run.
 8. **Use Python with `uv`, DuckDB, and Parquet** so the pipeline is easy to reproduce and rerun.

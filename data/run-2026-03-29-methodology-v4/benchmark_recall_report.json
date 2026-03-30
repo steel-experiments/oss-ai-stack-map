@@ -1,0 +1,2264 @@
+{
+  "dependency_evidence_rate": 0.9592,
+  "entities": [
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 651,
+      "discovered_repo_names": [
+        "vercel/ai"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "vercel/ai"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Vercel AI SDK",
+      "entity_id": "vercel-ai-sdk",
+      "expectation": "positive",
+      "included_repo_names": [
+        "vercel/ai"
+      ],
+      "is_anchor_entity": true,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "vercel/ai"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 609,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 650
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 1,
+      "discovered_repo_names": [
+        "steel-dev/steel-browser"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "steel-dev/steel-browser"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Steel Browser",
+      "entity_id": "steel-browser",
+      "expectation": "positive",
+      "included_repo_names": [
+        "steel-dev/steel-browser"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "steel-dev/steel-browser"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 23,
+      "discovered_repo_names": [
+        "browserbase/mcp-server-browserbase",
+        "browserbase/stagehand"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "browserbase/mcp-server-browserbase",
+        "browserbase/stagehand"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Browserbase",
+      "entity_id": "browserbase",
+      "expectation": "positive",
+      "included_repo_names": [
+        "browserbase/mcp-server-browserbase",
+        "browserbase/stagehand"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "browserbase/mcp-server-browserbase",
+        "browserbase/stagehand"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "holdout",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 20,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 21
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 14,
+      "discovered_repo_names": [
+        "browser-use/browser-use",
+        "browser-use/web-ui"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "browser-use/browser-use",
+        "browser-use/web-ui"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Browser Use",
+      "entity_id": "browser-use",
+      "expectation": "positive",
+      "included_repo_names": [
+        "browser-use/browser-use",
+        "browser-use/web-ui"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "browser-use/browser-use",
+        "browser-use/web-ui"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 10,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 12
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 3,
+      "discovered_repo_names": [
+        "cloudflare/agents",
+        "cloudflare/agents-starter"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "cloudflare/agents",
+        "cloudflare/agents-starter"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Cloudflare Agents",
+      "entity_id": "cloudflare-agents",
+      "expectation": "positive",
+      "included_repo_names": [
+        "cloudflare/agents"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "cloudflare/agents"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 2,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 1
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 29,
+      "discovered_repo_names": [
+        "e2b-dev/E2B",
+        "e2b-dev/fragments"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "e2b-dev/E2B",
+        "e2b-dev/fragments"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "E2B",
+      "entity_id": "e2b",
+      "expectation": "positive",
+      "included_repo_names": [
+        "e2b-dev/E2B",
+        "e2b-dev/fragments"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "e2b-dev/E2B",
+        "e2b-dev/fragments"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 25,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 27
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 10,
+      "discovered_repo_names": [],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Daytona",
+      "entity_id": "daytona",
+      "expectation": "positive",
+      "included_repo_names": [],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": true,
+      "repo_discovered": false,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": false,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 9,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 10
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 414,
+      "discovered_repo_names": [
+        "modelcontextprotocol/ext-apps",
+        "modelcontextprotocol/go-sdk",
+        "modelcontextprotocol/registry"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "modelcontextprotocol/ext-apps",
+        "modelcontextprotocol/go-sdk",
+        "modelcontextprotocol/registry"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Model Context Protocol",
+      "entity_id": "model-context-protocol",
+      "expectation": "positive",
+      "included_repo_names": [
+        "modelcontextprotocol/ext-apps"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "modelcontextprotocol/ext-apps"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "holdout",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 383,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 413
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 10,
+      "discovered_repo_names": [
+        "mastra-ai/mastra"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "mastra-ai/mastra"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Mastra",
+      "entity_id": "mastra",
+      "expectation": "positive",
+      "included_repo_names": [
+        "mastra-ai/mastra"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "mastra-ai/mastra"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 10,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 9
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 42,
+      "discovered_repo_names": [
+        "openai/openai-agents-js",
+        "openai/openai-agents-python"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "openai/openai-agents-js",
+        "openai/openai-agents-python"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "OpenAI Agents",
+      "entity_id": "openai-agents",
+      "expectation": "positive",
+      "included_repo_names": [
+        "openai/openai-agents-js",
+        "openai/openai-agents-python"
+      ],
+      "is_anchor_entity": true,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "openai/openai-agents-js",
+        "openai/openai-agents-python"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "holdout",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 32,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 40
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 18,
+      "discovered_repo_names": [
+        "pydantic/logfire"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "pydantic/logfire"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Logfire",
+      "entity_id": "logfire",
+      "expectation": "positive",
+      "included_repo_names": [
+        "pydantic/logfire"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "pydantic/logfire"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 16,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 18
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 295,
+      "discovered_repo_names": [
+        "langchain-ai/langchain"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "langchain-ai/langchain"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "LangChain",
+      "entity_id": "langchain",
+      "expectation": "positive",
+      "included_repo_names": [
+        "langchain-ai/langchain"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "langchain-ai/langchain"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 245,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 294
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 127,
+      "discovered_repo_names": [
+        "langchain-ai/langgraph"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "langchain-ai/langgraph"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "LangGraph",
+      "entity_id": "langgraph",
+      "expectation": "positive",
+      "included_repo_names": [
+        "langchain-ai/langgraph"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "langchain-ai/langgraph"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 114,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 126
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 74,
+      "discovered_repo_names": [
+        "run-llama/llama_index"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "run-llama/llama_index"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "LlamaIndex",
+      "entity_id": "llamaindex",
+      "expectation": "positive",
+      "included_repo_names": [
+        "run-llama/llama_index"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "run-llama/llama_index"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 50,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 73
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 17,
+      "discovered_repo_names": [
+        "microsoft/autogen"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "microsoft/autogen"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "AutoGen",
+      "entity_id": "autogen",
+      "expectation": "positive",
+      "included_repo_names": [
+        "microsoft/autogen"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "microsoft/autogen"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 8,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 16
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 36,
+      "discovered_repo_names": [
+        "crewAIInc/crewAI"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "crewAIInc/crewAI"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "CrewAI",
+      "entity_id": "crewai",
+      "expectation": "positive",
+      "included_repo_names": [
+        "crewAIInc/crewAI"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "crewAIInc/crewAI"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 31,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 35
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 24,
+      "discovered_repo_names": [
+        "pydantic/pydantic-ai"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "pydantic/pydantic-ai"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "PydanticAI",
+      "entity_id": "pydanticai",
+      "expectation": "positive",
+      "included_repo_names": [
+        "pydantic/pydantic-ai"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "pydantic/pydantic-ai"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 15,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 24
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 8,
+      "discovered_repo_names": [
+        "microsoft/semantic-kernel"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "microsoft/semantic-kernel"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Semantic Kernel",
+      "entity_id": "semantic-kernel",
+      "expectation": "positive",
+      "included_repo_names": [
+        "microsoft/semantic-kernel"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "microsoft/semantic-kernel"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 6,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 7
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 146,
+      "discovered_repo_names": [
+        "BerriAI/litellm"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "BerriAI/litellm"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "LiteLLM",
+      "entity_id": "litellm",
+      "expectation": "positive",
+      "included_repo_names": [
+        "BerriAI/litellm"
+      ],
+      "is_anchor_entity": true,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "BerriAI/litellm"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 127,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 145
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 11,
+      "discovered_repo_names": [
+        "deepset-ai/haystack"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "deepset-ai/haystack"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Haystack",
+      "entity_id": "haystack",
+      "expectation": "positive",
+      "included_repo_names": [
+        "deepset-ai/haystack"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "deepset-ai/haystack"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 1,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 10
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 13,
+      "discovered_repo_names": [
+        "huggingface/smolagents"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "huggingface/smolagents"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "smolagents",
+      "entity_id": "smolagents",
+      "expectation": "positive",
+      "included_repo_names": [
+        "huggingface/smolagents"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "huggingface/smolagents"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 9,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 12
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 104,
+      "discovered_repo_names": [
+        "qdrant/qdrant"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "qdrant/qdrant"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Qdrant",
+      "entity_id": "qdrant",
+      "expectation": "positive",
+      "included_repo_names": [
+        "qdrant/qdrant"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "qdrant/qdrant"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "holdout",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 87,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 103
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 47,
+      "discovered_repo_names": [
+        "weaviate/weaviate"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "weaviate/weaviate"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Weaviate",
+      "entity_id": "weaviate",
+      "expectation": "positive",
+      "included_repo_names": [
+        "weaviate/weaviate"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "weaviate/weaviate"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 41,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 46
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 118,
+      "discovered_repo_names": [
+        "chroma-core/chroma"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "chroma-core/chroma"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Chroma",
+      "entity_id": "chroma",
+      "expectation": "positive",
+      "included_repo_names": [
+        "chroma-core/chroma"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "chroma-core/chroma"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 92,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 117
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 49,
+      "discovered_repo_names": [
+        "milvus-io/milvus"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "milvus-io/milvus"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Milvus",
+      "entity_id": "milvus",
+      "expectation": "positive",
+      "included_repo_names": [
+        "milvus-io/milvus"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "milvus-io/milvus"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 45,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 48
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 59,
+      "discovered_repo_names": [
+        "vllm-project/vllm"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "vllm-project/vllm"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "vLLM",
+      "entity_id": "vllm",
+      "expectation": "positive",
+      "included_repo_names": [
+        "vllm-project/vllm"
+      ],
+      "is_anchor_entity": true,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "vllm-project/vllm"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "holdout",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 58,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 59
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 135,
+      "discovered_repo_names": [
+        "ollama/ollama"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "ollama/ollama"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Ollama",
+      "entity_id": "ollama",
+      "expectation": "positive",
+      "included_repo_names": [
+        "ollama/ollama"
+      ],
+      "is_anchor_entity": true,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "ollama/ollama"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 128,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 134
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 12,
+      "discovered_repo_names": [
+        "sgl-project/sglang"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "sgl-project/sglang"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "SGLang",
+      "entity_id": "sglang",
+      "expectation": "positive",
+      "included_repo_names": [
+        "sgl-project/sglang"
+      ],
+      "is_anchor_entity": true,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "sgl-project/sglang"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 9,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 11
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 2,
+      "discovered_repo_names": [
+        "bentoml/BentoML"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "bentoml/BentoML"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "BentoML",
+      "entity_id": "bentoml",
+      "expectation": "positive",
+      "included_repo_names": [
+        "bentoml/BentoML"
+      ],
+      "is_anchor_entity": true,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "bentoml/BentoML"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "holdout",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 1,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 1
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 425,
+      "discovered_repo_names": [
+        "huggingface/transformers"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "huggingface/transformers"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Transformers",
+      "entity_id": "transformers",
+      "expectation": "positive",
+      "included_repo_names": [
+        "huggingface/transformers"
+      ],
+      "is_anchor_entity": true,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "huggingface/transformers"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 376,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 425
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 9,
+      "discovered_repo_names": [
+        "confident-ai/deepeval"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "confident-ai/deepeval"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "DeepEval",
+      "entity_id": "deepeval",
+      "expectation": "positive",
+      "included_repo_names": [
+        "confident-ai/deepeval"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "confident-ai/deepeval"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "holdout",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 4,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 9
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 4,
+      "discovered_repo_names": [
+        "promptfoo/promptfoo"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "promptfoo/promptfoo"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Promptfoo",
+      "entity_id": "promptfoo",
+      "expectation": "positive",
+      "included_repo_names": [
+        "promptfoo/promptfoo"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "promptfoo/promptfoo"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 3,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 3
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 4,
+      "discovered_repo_names": [
+        "guardrails-ai/guardrails"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "guardrails-ai/guardrails"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Guardrails",
+      "entity_id": "guardrails",
+      "expectation": "positive",
+      "included_repo_names": [
+        "guardrails-ai/guardrails"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "guardrails-ai/guardrails"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 5,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 3
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 44,
+      "discovered_repo_names": [
+        "langfuse/langfuse"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "langfuse/langfuse"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Langfuse",
+      "entity_id": "langfuse",
+      "expectation": "positive",
+      "included_repo_names": [
+        "langfuse/langfuse"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "langfuse/langfuse"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 41,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 43
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 10,
+      "discovered_repo_names": [
+        "Arize-ai/phoenix"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "Arize-ai/phoenix"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Arize Phoenix",
+      "entity_id": "phoenix",
+      "expectation": "positive",
+      "included_repo_names": [
+        "Arize-ai/phoenix"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "Arize-ai/phoenix"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "holdout",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 4,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 9
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 18,
+      "discovered_repo_names": [
+        "Chainlit/chainlit"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "Chainlit/chainlit"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Chainlit",
+      "entity_id": "chainlit",
+      "expectation": "positive",
+      "included_repo_names": [
+        "Chainlit/chainlit"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "Chainlit/chainlit"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 11,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 17
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 3,
+      "discovered_repo_names": [
+        "databendlabs/databend"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "databendlabs/databend"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Databend",
+      "entity_id": "databend",
+      "expectation": "positive",
+      "included_repo_names": [
+        "databendlabs/databend"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "databendlabs/databend"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "holdout",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 2,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 2
+    },
+    {
+      "dependency_evidence_found": false,
+      "dependency_evidence_repo_count": 0,
+      "discovered_repo_names": [
+        "dingodb/dingo"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "dingodb/dingo"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "DingoDB",
+      "entity_id": "dingo",
+      "expectation": "positive",
+      "included_repo_names": [
+        "dingodb/dingo"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "dingodb/dingo"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 1,
+      "discovered_repo_names": [
+        "evidentlyai/evidently"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "evidentlyai/evidently"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Evidently",
+      "entity_id": "evidently",
+      "expectation": "positive",
+      "included_repo_names": [
+        "evidentlyai/evidently"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "evidentlyai/evidently"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "holdout",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 25,
+      "discovered_repo_names": [
+        "google/adk-go",
+        "google/adk-python"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "google/adk-go",
+        "google/adk-python"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Google ADK",
+      "entity_id": "google-adk",
+      "expectation": "positive",
+      "included_repo_names": [
+        "google/adk-go",
+        "google/adk-python"
+      ],
+      "is_anchor_entity": true,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "google/adk-go",
+        "google/adk-python"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "holdout",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 19,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 24
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 1,
+      "discovered_repo_names": [
+        "mufeedvh/code2prompt"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "mufeedvh/code2prompt"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "code2prompt",
+      "entity_id": "code2prompt",
+      "expectation": "positive",
+      "included_repo_names": [
+        "mufeedvh/code2prompt"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "mufeedvh/code2prompt"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 18,
+      "discovered_repo_names": [],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "DSPy",
+      "entity_id": "dspy",
+      "expectation": "positive",
+      "included_repo_names": [],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": true,
+      "repo_discovered": false,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": false,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 14,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 18
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 47,
+      "discovered_repo_names": [
+        "lancedb/lancedb"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "lancedb/lancedb"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "LanceDB",
+      "entity_id": "lancedb",
+      "expectation": "positive",
+      "included_repo_names": [
+        "lancedb/lancedb"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 42,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 46
+    },
+    {
+      "dependency_evidence_found": false,
+      "dependency_evidence_repo_count": 0,
+      "discovered_repo_names": [],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "TGI",
+      "entity_id": "tgi",
+      "expectation": "positive",
+      "included_repo_names": [],
+      "is_anchor_entity": true,
+      "negative_repo_excluded": true,
+      "repo_discovered": false,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": false,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 22,
+      "discovered_repo_names": [
+        "ggml-org/llama.cpp"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "ggml-org/llama.cpp"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "llama.cpp",
+      "entity_id": "llama-cpp",
+      "expectation": "positive",
+      "included_repo_names": [
+        "ggml-org/llama.cpp"
+      ],
+      "is_anchor_entity": true,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "holdout",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 18,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 22
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 51,
+      "discovered_repo_names": [
+        "ray-project/ray"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "ray-project/ray"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Ray Serve",
+      "entity_id": "ray-serve",
+      "expectation": "positive",
+      "included_repo_names": [
+        "ray-project/ray"
+      ],
+      "is_anchor_entity": true,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 46,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 50
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 131,
+      "discovered_repo_names": [
+        "huggingface/peft"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "huggingface/peft"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "PEFT",
+      "entity_id": "peft",
+      "expectation": "positive",
+      "included_repo_names": [
+        "huggingface/peft"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": true,
+      "repo_identity_mapped_names": [
+        "huggingface/peft"
+      ],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 114,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 130
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 58,
+      "discovered_repo_names": [
+        "deepspeedai/DeepSpeed"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "deepspeedai/DeepSpeed"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "DeepSpeed",
+      "entity_id": "deepspeed",
+      "expectation": "positive",
+      "included_repo_names": [
+        "deepspeedai/DeepSpeed"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": true,
+      "third_party_adoption_repo_count": 54,
+      "third_party_dependency_evidence_found": true,
+      "third_party_dependency_evidence_repo_count": 58
+    },
+    {
+      "dependency_evidence_found": true,
+      "dependency_evidence_repo_count": 1,
+      "discovered_repo_names": [
+        "Helicone/helicone"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "Helicone/helicone"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Helicone",
+      "entity_id": "helicone",
+      "expectation": "positive",
+      "included_repo_names": [
+        "Helicone/helicone"
+      ],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": false,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": true,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": false,
+      "dependency_evidence_repo_count": 0,
+      "discovered_repo_names": [
+        "f/prompts.chat"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "f/prompts.chat"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "prompts.chat",
+      "entity_id": "negative-prompts-chat",
+      "expectation": "negative",
+      "included_repo_names": [],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": true,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": false,
+      "dependency_evidence_repo_count": 0,
+      "discovered_repo_names": [
+        "punkpeye/awesome-mcp-servers"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "punkpeye/awesome-mcp-servers"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "awesome-mcp-servers",
+      "entity_id": "negative-awesome-mcp-servers",
+      "expectation": "negative",
+      "included_repo_names": [],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": true,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": false,
+      "dependency_evidence_repo_count": 0,
+      "discovered_repo_names": [
+        "mlabonne/llm-course"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "mlabonne/llm-course"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "LLM Course",
+      "entity_id": "negative-llm-course",
+      "expectation": "negative",
+      "included_repo_names": [],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": true,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": false,
+      "dependency_evidence_repo_count": 0,
+      "discovered_repo_names": [
+        "dair-ai/Prompt-Engineering-Guide"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "dair-ai/Prompt-Engineering-Guide"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Prompt Engineering Guide",
+      "entity_id": "negative-prompt-engineering-guide",
+      "expectation": "negative",
+      "included_repo_names": [],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": true,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": false,
+      "dependency_evidence_repo_count": 0,
+      "discovered_repo_names": [
+        "github/awesome-copilot"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "github/awesome-copilot"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "awesome-copilot",
+      "entity_id": "negative-awesome-copilot",
+      "expectation": "negative",
+      "included_repo_names": [],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": true,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": false,
+      "dependency_evidence_repo_count": 0,
+      "discovered_repo_names": [
+        "NirDiamant/RAG_Techniques"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "NirDiamant/RAG_Techniques"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "RAG Techniques",
+      "entity_id": "negative-rag-techniques",
+      "expectation": "negative",
+      "included_repo_names": [],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": true,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": false,
+      "dependency_evidence_repo_count": 0,
+      "discovered_repo_names": [
+        "HandsOnLLM/Hands-On-Large-Language-Models"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "HandsOnLLM/Hands-On-Large-Language-Models"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "Hands-On Large Language Models",
+      "entity_id": "negative-handson-llms",
+      "expectation": "negative",
+      "included_repo_names": [],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": true,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": false,
+      "dependency_evidence_repo_count": 0,
+      "discovered_repo_names": [
+        "x1xhlol/system-prompts-and-models-of-ai-tools"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "x1xhlol/system-prompts-and-models-of-ai-tools"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "system-prompts-and-models-of-ai-tools",
+      "entity_id": "negative-system-prompts",
+      "expectation": "negative",
+      "included_repo_names": [],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": true,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": false,
+      "dependency_evidence_repo_count": 0,
+      "discovered_repo_names": [
+        "datawhalechina/llm-cookbook"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "datawhalechina/llm-cookbook"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "llm-cookbook",
+      "entity_id": "negative-llm-cookbook",
+      "expectation": "negative",
+      "included_repo_names": [],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": true,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    },
+    {
+      "dependency_evidence_found": false,
+      "dependency_evidence_repo_count": 0,
+      "discovered_repo_names": [
+        "ComposioHQ/awesome-claude-skills"
+      ],
+      "discovered_repo_names_by_anchor": [],
+      "discovered_repo_names_by_search": [
+        "ComposioHQ/awesome-claude-skills"
+      ],
+      "discovered_repo_names_by_seed_only": [],
+      "display_name": "awesome-claude-skills",
+      "entity_id": "negative-awesome-claude-skills",
+      "expectation": "negative",
+      "included_repo_names": [],
+      "is_anchor_entity": false,
+      "negative_repo_excluded": true,
+      "repo_discovered": true,
+      "repo_discovered_by_anchor": false,
+      "repo_discovered_by_search": true,
+      "repo_discovered_by_seed_only": false,
+      "repo_identity_mapped": false,
+      "repo_identity_mapped_names": [],
+      "repo_included": false,
+      "segment_id": null,
+      "split": "tuning",
+      "third_party_adoption": false,
+      "third_party_adoption_repo_count": 0,
+      "third_party_dependency_evidence_found": false,
+      "third_party_dependency_evidence_repo_count": 0
+    }
+  ],
+  "entities_with_dependency_evidence": 47,
+  "entities_with_repo_discovered": 46,
+  "entities_with_repo_discovered_by_anchor": 0,
+  "entities_with_repo_discovered_by_search": 46,
+  "entities_with_repo_discovered_by_seed_only": 0,
+  "entities_with_repo_identity_mapped": 41,
+  "entities_with_repo_included": 46,
+  "entities_with_third_party_adoption": 43,
+  "entity_count": 49,
+  "failed_thresholds": [],
+  "holdout_entity_count": 12,
+  "holdout_repo_discovered_rate": 1.0,
+  "holdout_repo_included_rate": 1.0,
+  "negative_entity_count": 10,
+  "negative_repo_discovered_rate": 1.0,
+  "negative_repo_excluded_rate": 1.0,
+  "prioritized_gaps": [
+    {
+      "display_name": "TGI",
+      "entity_id": "tgi",
+      "priority_score": 140,
+      "reasons": [
+        "benchmark repo not discovered",
+        "no dependency evidence found for benchmark entity"
+      ],
+      "suggested_actions": [
+        "add discovery seed or discovery query coverage",
+        "expand package prefixes or manifest/SBOM extraction coverage"
+      ]
+    },
+    {
+      "display_name": "Daytona",
+      "entity_id": "daytona",
+      "priority_score": 100,
+      "reasons": [
+        "benchmark repo not discovered"
+      ],
+      "suggested_actions": [
+        "add discovery seed or discovery query coverage"
+      ]
+    },
+    {
+      "display_name": "DSPy",
+      "entity_id": "dspy",
+      "priority_score": 100,
+      "reasons": [
+        "benchmark repo not discovered"
+      ],
+      "suggested_actions": [
+        "add discovery seed or discovery query coverage"
+      ]
+    },
+    {
+      "display_name": "llama.cpp",
+      "entity_id": "llama-cpp",
+      "priority_score": 100,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs",
+        "repo included but canonical repo identity is not mapped"
+      ],
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage",
+        "add or fix repo_names mapping in registry"
+      ]
+    },
+    {
+      "display_name": "Ray Serve",
+      "entity_id": "ray-serve",
+      "priority_score": 100,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs",
+        "repo included but canonical repo identity is not mapped"
+      ],
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage",
+        "add or fix repo_names mapping in registry"
+      ]
+    },
+    {
+      "display_name": "DeepSpeed",
+      "entity_id": "deepspeed",
+      "priority_score": 80,
+      "reasons": [
+        "repo included but canonical repo identity is not mapped"
+      ],
+      "suggested_actions": [
+        "add or fix repo_names mapping in registry"
+      ]
+    },
+    {
+      "display_name": "Helicone",
+      "entity_id": "helicone",
+      "priority_score": 80,
+      "reasons": [
+        "repo included but canonical repo identity is not mapped"
+      ],
+      "suggested_actions": [
+        "add or fix repo_names mapping in registry"
+      ]
+    },
+    {
+      "display_name": "LanceDB",
+      "entity_id": "lancedb",
+      "priority_score": 80,
+      "reasons": [
+        "repo included but canonical repo identity is not mapped"
+      ],
+      "suggested_actions": [
+        "add or fix repo_names mapping in registry"
+      ]
+    },
+    {
+      "display_name": "DingoDB",
+      "entity_id": "dingo",
+      "priority_score": 40,
+      "reasons": [
+        "no dependency evidence found for benchmark entity"
+      ],
+      "suggested_actions": [
+        "expand package prefixes or manifest/SBOM extraction coverage"
+      ]
+    },
+    {
+      "display_name": "BentoML",
+      "entity_id": "bentoml",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "Google ADK",
+      "entity_id": "google-adk",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "LiteLLM",
+      "entity_id": "litellm",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "Ollama",
+      "entity_id": "ollama",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "OpenAI Agents",
+      "entity_id": "openai-agents",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "SGLang",
+      "entity_id": "sglang",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "Transformers",
+      "entity_id": "transformers",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "Vercel AI SDK",
+      "entity_id": "vercel-ai-sdk",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "vLLM",
+      "entity_id": "vllm",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    }
+  ],
+  "repo_discovered_by_anchor_rate": 0.0,
+  "repo_discovered_by_search_rate": 0.9388,
+  "repo_discovered_by_seed_only_rate": 0.0,
+  "repo_discovered_rate": 0.9388,
+  "repo_identity_mapped_rate": 0.8367,
+  "repo_included_rate": 0.9388,
+  "third_party_adoption_rate": 0.8776,
+  "thresholds": {
+    "min_dependency_evidence_rate": 0.7,
+    "min_holdout_repo_discovered_rate": 0.75,
+    "min_holdout_repo_included_rate": 0.5,
+    "min_negative_repo_excluded_rate": 0.95,
+    "min_repo_discovered_rate": 0.85,
+    "min_repo_identity_mapped_rate": 0.5,
+    "min_repo_included_rate": 0.5,
+    "min_third_party_adoption_rate": 0.4,
+    "severity": "warning"
+  },
+  "total_entity_count": 59,
+  "tuning_entity_count": 37
+}

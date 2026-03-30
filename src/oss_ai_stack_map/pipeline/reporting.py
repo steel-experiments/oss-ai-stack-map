@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
@@ -55,7 +56,11 @@ class GapReport:
 
 @dataclass
 class BenchmarkRecallReport:
+    total_entity_count: int
     entity_count: int
+    negative_entity_count: int
+    tuning_entity_count: int
+    holdout_entity_count: int
     entities_with_repo_discovered: int
     entities_with_repo_discovered_by_anchor: int
     entities_with_repo_discovered_by_search: int
@@ -72,10 +77,65 @@ class BenchmarkRecallReport:
     repo_identity_mapped_rate: float
     third_party_adoption_rate: float
     dependency_evidence_rate: float
+    negative_repo_excluded_rate: float
+    negative_repo_discovered_rate: float
+    holdout_repo_discovered_rate: float
+    holdout_repo_included_rate: float
     thresholds: dict[str, Any]
     failed_thresholds: list[dict[str, Any]]
     prioritized_gaps: list[dict[str, Any]]
     entities: list[dict[str, Any]]
+
+
+@dataclass
+class EvidenceTierReport:
+    final_repo_count: int
+    direct_supported_repo_count: int
+    fallback_supported_repo_count: int
+    unmapped_final_repo_count: int
+    readme_only_repo_count: int
+    repo_identity_only_repo_count: int
+    mixed_fallback_repo_count: int
+    tiers: list[dict[str, Any]]
+    repo_evidence_profiles: list[dict[str, Any]]
+
+
+@dataclass
+class ValidationAuditReport:
+    sample_count: int
+    changed_decision_count: int
+    exclusion_count: int
+    inclusion_change_rate: float
+    estimated_false_positive_rate: float
+    estimated_false_positive_rate_ci95: dict[str, float]
+    profile_counts: list[dict[str, Any]]
+    segment_counts: list[dict[str, Any]]
+    ai_score_band_counts: list[dict[str, Any]]
+    serious_score_band_counts: list[dict[str, Any]]
+    changed_repos: list[dict[str, Any]]
+    sampled_repos: list[dict[str, Any]]
+
+
+@dataclass
+class RobustnessReport:
+    rule_only: dict[str, Any]
+    judge_adjusted: dict[str, Any]
+    evidence_tiers: dict[str, Any]
+    temporal_comparison: dict[str, Any] | None
+
+
+@dataclass
+class ReviewQueueReport:
+    total_review_item_count: int
+    missing_edge_final_count: int
+    readme_only_final_count: int
+    audit_changed_repo_count: int
+    benchmark_priority_gap_count: int
+    missing_edge_finals: list[dict[str, Any]]
+    readme_only_finals: list[dict[str, Any]]
+    audit_changed_repos: list[dict[str, Any]]
+    benchmark_priority_gaps: list[dict[str, Any]]
+    prioritized_review_items: list[dict[str, Any]]
 
 
 @dataclass
@@ -88,6 +148,9 @@ class ReportSummary:
     top_providers: list[dict]
     gap_report: GapReport
     benchmark_recall_report: BenchmarkRecallReport | None = None
+    evidence_tier_report: EvidenceTierReport | None = None
+    validation_audit_report: ValidationAuditReport | None = None
+    robustness_report: RobustnessReport | None = None
 
 
 def build_report_summary(
@@ -155,6 +218,12 @@ def build_report_summary(
         )
 
     gap_report = build_gap_report(input_dir=input_dir, top_n=top_n)
+    evidence_tier_report = build_evidence_tier_report(input_dir=input_dir, top_n=top_n)
+    validation_audit_report = build_validation_audit_report(input_dir=input_dir, top_n=top_n)
+    robustness_report = build_robustness_report(
+        input_dir=input_dir,
+        evidence_tier_report=evidence_tier_report,
+    )
     benchmark_recall_report = (
         build_benchmark_recall_report(input_dir=input_dir, runtime=runtime)
         if runtime is not None and runtime.benchmarks.entities
@@ -170,6 +239,9 @@ def build_report_summary(
         top_providers=top_providers,
         gap_report=gap_report,
         benchmark_recall_report=benchmark_recall_report,
+        evidence_tier_report=evidence_tier_report,
+        validation_audit_report=validation_audit_report,
+        robustness_report=robustness_report,
     )
 
 
@@ -334,10 +406,440 @@ def build_gap_report(input_dir: Path, top_n: int = 10) -> GapReport:
     )
 
 
+DIRECT_EDGE_TYPES = {"manifest", "sbom", "import", "repo_identity"}
+
+
+def build_evidence_tier_report(input_dir: Path, top_n: int = 10) -> EvidenceTierReport:
+    decisions = _read_if_exists(
+        input_dir / "repo_inclusion_decisions.parquet",
+        columns=["repo_id", "full_name", "passed_major_filter"],
+    )
+    edges = _read_if_exists(
+        input_dir / "repo_technology_edges.parquet",
+        columns=["repo_id", "technology_id", "evidence_type"],
+    )
+    final_rows = [row for row in decisions if row.get("passed_major_filter")]
+    final_repo_ids = {row["repo_id"] for row in final_rows}
+
+    fallback_pairs: set[tuple[int, str]] = set()
+    direct_pairs: set[tuple[int, str]] = set()
+    repo_edge_types: dict[int, set[str]] = {}
+    for row in edges:
+        if row["repo_id"] not in final_repo_ids:
+            continue
+        pair = (row["repo_id"], row["technology_id"])
+        repo_edge_types.setdefault(row["repo_id"], set()).add(row.get("evidence_type") or "unknown")
+        fallback_pairs.add(pair)
+        if row.get("evidence_type") in DIRECT_EDGE_TYPES:
+            direct_pairs.add(pair)
+
+    profile_rows: list[dict[str, Any]] = []
+    profile_counts: Counter[str] = Counter()
+    for row in final_rows:
+        evidence_types = repo_edge_types.get(row["repo_id"], set())
+        profile = classify_repo_evidence_profile(evidence_types)
+        profile_counts[profile] += 1
+        profile_rows.append(
+            {
+                "repo_id": row["repo_id"],
+                "full_name": row.get("full_name"),
+                "evidence_profile": profile,
+            }
+        )
+
+    direct_supported_repo_ids = {
+        repo_id
+        for repo_id, evidence_types in repo_edge_types.items()
+        if evidence_types & DIRECT_EDGE_TYPES
+    }
+    fallback_supported_repo_ids = set(repo_edge_types)
+    repo_identity_only_repo_count = profile_counts.get("repo_identity_only", 0)
+    readme_only_repo_count = profile_counts.get("readme_only", 0)
+    mixed_fallback_repo_count = sum(
+        profile_counts.get(profile, 0)
+        for profile in ("mixed_direct_and_fallback", "repo_identity_plus_fallback")
+    )
+
+    tiers = [
+        {
+            "tier_id": "direct_only",
+            "label": "Direct only",
+            "repo_count": len(direct_supported_repo_ids),
+            "repo_share": ratio(len(direct_supported_repo_ids), len(final_rows)),
+            "edge_count": len(direct_pairs),
+        },
+        {
+            "tier_id": "reviewed_fallback",
+            "label": "Reviewed fallback",
+            "repo_count": len(fallback_supported_repo_ids),
+            "repo_share": ratio(len(fallback_supported_repo_ids), len(final_rows)),
+            "edge_count": len(fallback_pairs),
+        },
+        {
+            "tier_id": "full_final_population",
+            "label": "Full final population",
+            "repo_count": len(final_rows),
+            "repo_share": ratio(len(final_rows), len(final_rows)),
+            "edge_count": len(fallback_pairs),
+        },
+    ]
+
+    return EvidenceTierReport(
+        final_repo_count=len(final_rows),
+        direct_supported_repo_count=len(direct_supported_repo_ids),
+        fallback_supported_repo_count=len(fallback_supported_repo_ids),
+        unmapped_final_repo_count=len(final_rows) - len(fallback_supported_repo_ids),
+        readme_only_repo_count=readme_only_repo_count,
+        repo_identity_only_repo_count=repo_identity_only_repo_count,
+        mixed_fallback_repo_count=mixed_fallback_repo_count,
+        tiers=tiers,
+        repo_evidence_profiles=[
+            {"evidence_profile": profile, "repo_count": count}
+            for profile, count in profile_counts.most_common(top_n)
+        ],
+    )
+
+
+def build_validation_audit_report(input_dir: Path, top_n: int = 10) -> ValidationAuditReport | None:
+    judge_rows = _read_if_exists(
+        input_dir / "judge_decisions.parquet",
+        columns=[
+            "repo_id",
+            "full_name",
+            "judge_mode",
+            "applied",
+            "include_in_final_set",
+            "confidence",
+        ],
+    )
+    validation_rows = [row for row in judge_rows if row.get("judge_mode") == "validation"]
+    if not validation_rows:
+        return None
+
+    repo_rows = {
+        row["repo_id"]: row
+        for row in _read_if_exists(
+            input_dir / "repos.parquet",
+            columns=["repo_id", "full_name", "stars"],
+        )
+    }
+    decisions = {
+        row["repo_id"]: row
+        for row in _read_if_exists(
+            input_dir / "repo_inclusion_decisions.parquet",
+            columns=[
+                "repo_id",
+                "full_name",
+                "score_ai",
+                "score_serious",
+                "primary_segment",
+                "passed_major_filter",
+                "rule_passed_major_filter",
+                "judge_override_applied",
+            ],
+        )
+    }
+    edges = _read_if_exists(
+        input_dir / "repo_technology_edges.parquet",
+        columns=["repo_id", "evidence_type"],
+    )
+    repo_edge_types: dict[int, set[str]] = {}
+    for row in edges:
+        repo_edge_types.setdefault(row["repo_id"], set()).add(row.get("evidence_type") or "unknown")
+
+    profile_counts: Counter[str] = Counter()
+    segment_counts: Counter[str] = Counter()
+    ai_score_band_counts: Counter[str] = Counter()
+    serious_score_band_counts: Counter[str] = Counter()
+    changed_rows: list[dict[str, Any]] = []
+    sampled_rows: list[dict[str, Any]] = []
+    exclusion_count = 0
+
+    for row in validation_rows:
+        decision = decisions.get(row["repo_id"], {})
+        repo = repo_rows.get(row["repo_id"], {})
+        profile = classify_repo_evidence_profile(repo_edge_types.get(row["repo_id"], set()))
+        segment = decision.get("primary_segment") or "unassigned"
+        ai_band = score_band(decision.get("score_ai"))
+        serious_band = score_band(decision.get("score_serious"))
+        profile_counts[profile] += 1
+        segment_counts[segment] += 1
+        ai_score_band_counts[ai_band] += 1
+        serious_score_band_counts[serious_band] += 1
+        changed = bool(row.get("applied"))
+        excluded = changed and not row.get("include_in_final_set", True)
+        exclusion_count += int(excluded)
+        sample_row = {
+            "repo_id": row["repo_id"],
+            "full_name": row.get("full_name") or decision.get("full_name"),
+            "stars": int(repo.get("stars", 0) or 0),
+            "primary_segment": segment,
+            "evidence_profile": profile,
+            "score_ai_band": ai_band,
+            "score_serious_band": serious_band,
+            "judge_confidence": row.get("confidence"),
+            "validation_changed_decision": changed,
+            "final_included": bool(decision.get("passed_major_filter")),
+            "rule_included": bool(decision.get("rule_passed_major_filter")),
+            "prior_override_retained": bool(decision.get("judge_override_applied")),
+        }
+        sampled_rows.append(sample_row)
+        if changed:
+            changed_rows.append(sample_row)
+
+    sample_count = len(validation_rows)
+    changed_count = len(changed_rows)
+    exclusion_rate = ratio(exclusion_count, sample_count)
+    ci_low, ci_high = wilson_interval(exclusion_count, sample_count)
+
+    return ValidationAuditReport(
+        sample_count=sample_count,
+        changed_decision_count=changed_count,
+        exclusion_count=exclusion_count,
+        inclusion_change_rate=ratio(changed_count, sample_count),
+        estimated_false_positive_rate=exclusion_rate,
+        estimated_false_positive_rate_ci95={"lower": round(ci_low, 4), "upper": round(ci_high, 4)},
+        profile_counts=[
+            {"evidence_profile": key, "repo_count": value}
+            for key, value in profile_counts.most_common(top_n)
+        ],
+        segment_counts=[
+            {"primary_segment": key, "repo_count": value}
+            for key, value in segment_counts.most_common(top_n)
+        ],
+        ai_score_band_counts=[
+            {"score_ai_band": key, "repo_count": value}
+            for key, value in ai_score_band_counts.most_common(top_n)
+        ],
+        serious_score_band_counts=[
+            {"score_serious_band": key, "repo_count": value}
+            for key, value in serious_score_band_counts.most_common(top_n)
+        ],
+        changed_repos=sorted(changed_rows, key=lambda row: (-row["stars"], row["full_name"]))[:top_n],
+        sampled_repos=sorted(sampled_rows, key=lambda row: (-row["stars"], row["full_name"]))[: max(top_n, 20)],
+    )
+
+
+def build_robustness_report(
+    input_dir: Path,
+    evidence_tier_report: EvidenceTierReport | None = None,
+) -> RobustnessReport:
+    decisions = _read_if_exists(
+        input_dir / "repo_inclusion_decisions.parquet",
+        columns=["passed_major_filter", "rule_passed_major_filter"],
+    )
+    edges = _read_if_exists(
+        input_dir / "repo_technology_edges.parquet",
+        columns=["repo_id", "technology_id", "evidence_type"],
+    )
+    evidence_tier_report = evidence_tier_report or build_evidence_tier_report(input_dir=input_dir, top_n=10)
+    rule_only_final_repo_count = sum(1 for row in decisions if row.get("rule_passed_major_filter"))
+    judge_adjusted_final_repo_count = sum(1 for row in decisions if row.get("passed_major_filter"))
+    direct_edge_pairs = {
+        (row["repo_id"], row["technology_id"])
+        for row in edges
+        if row.get("evidence_type") in DIRECT_EDGE_TYPES
+    }
+    judge_changed_final_repo_count = sum(
+        1
+        for row in decisions
+        if row.get("rule_passed_major_filter") != row.get("passed_major_filter")
+    )
+
+    temporal_comparison = None
+    baseline_dir = load_temporal_baseline_dir(input_dir)
+    if baseline_dir is not None and baseline_dir.exists():
+        baseline_evidence = build_evidence_tier_report(input_dir=baseline_dir, top_n=10)
+        baseline_decisions = _read_if_exists(
+            baseline_dir / "repo_inclusion_decisions.parquet",
+            columns=["passed_major_filter"],
+        )
+        temporal_comparison = {
+            "baseline_snapshot_dir": str(baseline_dir),
+            "final_repo_delta": judge_adjusted_final_repo_count
+            - sum(1 for row in baseline_decisions if row.get("passed_major_filter")),
+            "mapped_repo_delta": evidence_tier_report.fallback_supported_repo_count
+            - baseline_evidence.fallback_supported_repo_count,
+            "readme_only_repo_delta": evidence_tier_report.readme_only_repo_count
+            - baseline_evidence.readme_only_repo_count,
+        }
+
+    return RobustnessReport(
+        rule_only={
+            "final_repo_count": rule_only_final_repo_count,
+        },
+        judge_adjusted={
+            "final_repo_count": judge_adjusted_final_repo_count,
+            "judge_changed_final_repo_count": judge_changed_final_repo_count,
+        },
+        evidence_tiers={
+            "direct_supported_repo_count": evidence_tier_report.direct_supported_repo_count,
+            "fallback_supported_repo_count": evidence_tier_report.fallback_supported_repo_count,
+            "unmapped_final_repo_count": evidence_tier_report.unmapped_final_repo_count,
+            "direct_edge_count": len(direct_edge_pairs),
+            "fallback_edge_count": next(
+                (tier["edge_count"] for tier in evidence_tier_report.tiers if tier["tier_id"] == "reviewed_fallback"),
+                0,
+            ),
+        },
+        temporal_comparison=temporal_comparison,
+    )
+
+
+def build_review_queue_report(
+    input_dir: Path,
+    runtime: RuntimeConfig | None = None,
+) -> ReviewQueueReport:
+    gap_report = build_gap_report(input_dir=input_dir, top_n=100000)
+    validation_audit_report = build_validation_audit_report(input_dir=input_dir, top_n=100000)
+
+    decisions = _read_if_exists(
+        input_dir / "repo_inclusion_decisions.parquet",
+        columns=["repo_id", "full_name", "passed_major_filter", "primary_segment"],
+    )
+    repo_rows = {
+        row["repo_id"]: row
+        for row in _read_if_exists(
+            input_dir / "repos.parquet",
+            columns=["repo_id", "full_name", "stars"],
+        )
+    }
+    edges = _read_if_exists(
+        input_dir / "repo_technology_edges.parquet",
+        columns=["repo_id", "evidence_type", "technology_id"],
+    )
+    repo_edge_types: dict[int, set[str]] = {}
+    repo_technology_ids: dict[int, set[str]] = {}
+    for row in edges:
+        repo_id = row["repo_id"]
+        repo_edge_types.setdefault(repo_id, set()).add(row.get("evidence_type") or "unknown")
+        if row.get("technology_id"):
+            repo_technology_ids.setdefault(repo_id, set()).add(row["technology_id"])
+
+    readme_only_finals: list[dict[str, Any]] = []
+    for row in decisions:
+        if not row.get("passed_major_filter"):
+            continue
+        repo_id = row["repo_id"]
+        if classify_repo_evidence_profile(repo_edge_types.get(repo_id, set())) != "readme_only":
+            continue
+        repo = repo_rows.get(repo_id, {})
+        readme_only_finals.append(
+            {
+                "repo_id": repo_id,
+                "full_name": row.get("full_name") or repo.get("full_name"),
+                "stars": int(repo.get("stars", 0) or 0),
+                "primary_segment": row.get("primary_segment") or "unassigned",
+                "evidence_profile": "readme_only",
+                "technology_ids": sorted(repo_technology_ids.get(repo_id, set())),
+            }
+        )
+    readme_only_finals = sorted(
+        readme_only_finals,
+        key=lambda row: (-row["stars"], row["full_name"] or ""),
+    )
+
+    benchmark_priority_gaps: list[dict[str, Any]] = []
+    benchmark_report_payload = _load_json_if_exists(input_dir / "benchmark_recall_report.json")
+    if benchmark_report_payload is None and runtime is not None and runtime.benchmarks.entities:
+        benchmark_report_payload = build_benchmark_recall_report(
+            input_dir=input_dir,
+            runtime=runtime,
+        ).__dict__
+    if benchmark_report_payload is not None:
+        benchmark_entities = {
+            row["entity_id"]: row for row in benchmark_report_payload.get("entities", [])
+        }
+        for row in benchmark_report_payload.get("prioritized_gaps", []):
+            entity = benchmark_entities.get(row["entity_id"], {})
+            benchmark_priority_gaps.append(
+                {
+                    **row,
+                    "expectation": entity.get("expectation"),
+                    "split": entity.get("split"),
+                    "segment_id": entity.get("segment_id"),
+                }
+            )
+
+    audit_changed_repos = (
+        validation_audit_report.changed_repos if validation_audit_report is not None else []
+    )
+
+    prioritized_review_items: list[dict[str, Any]] = []
+    for row in gap_report.final_repos_missing_edges:
+        prioritized_review_items.append(
+            {
+                "review_kind": "missing_edge_final",
+                "priority_score": 1000 + int(row.get("unmatched_dependency_count", 0) or 0),
+                **row,
+            }
+        )
+    for row in readme_only_finals:
+        prioritized_review_items.append(
+            {
+                "review_kind": "readme_only_final",
+                "priority_score": int(row.get("stars", 0) or 0),
+                **row,
+            }
+        )
+    for row in audit_changed_repos:
+        prioritized_review_items.append(
+            {
+                "review_kind": "audit_changed_repo",
+                "priority_score": 500 + int(row.get("stars", 0) or 0),
+                **row,
+            }
+        )
+    for row in benchmark_priority_gaps:
+        prioritized_review_items.append(
+            {
+                "review_kind": "benchmark_priority_gap",
+                "priority_score": int(row.get("priority_score", 0) or 0),
+                **row,
+            }
+        )
+    prioritized_review_items = sorted(
+        prioritized_review_items,
+        key=lambda row: (
+            -int(row.get("priority_score", 0) or 0),
+            row["review_kind"],
+            str(row.get("full_name") or row.get("entity_id") or ""),
+        ),
+    )
+
+    return ReviewQueueReport(
+        total_review_item_count=len(prioritized_review_items),
+        missing_edge_final_count=gap_report.final_repos_missing_edges_count,
+        readme_only_final_count=len(readme_only_finals),
+        audit_changed_repo_count=len(audit_changed_repos),
+        benchmark_priority_gap_count=len(benchmark_priority_gaps),
+        missing_edge_finals=gap_report.final_repos_missing_edges,
+        readme_only_finals=readme_only_finals,
+        audit_changed_repos=audit_changed_repos,
+        benchmark_priority_gaps=benchmark_priority_gaps,
+        prioritized_review_items=prioritized_review_items,
+    )
+
+
 def _read_if_exists(path: Path, columns: list[str] | None = None) -> list[dict[str, Any]]:
     if not path.exists():
         return []
-    return pq.read_table(path, columns=columns).to_pylist()
+    try:
+        return pq.read_table(path, columns=columns).to_pylist()
+    except Exception:
+        rows = pq.read_table(path).to_pylist()
+        if columns is None:
+            return rows
+        return [{column: row.get(column) for column in columns} for row in rows]
+
+
+def _load_json_if_exists(path: Path) -> dict[str, Any] | None:
+    if not path.exists():
+        return None
+    import json
+
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return payload if isinstance(payload, dict) else None
 
 
 def _load_dependency_evidence_rows(
@@ -479,6 +981,15 @@ def build_benchmark_recall_report(
     identity_count = 0
     adoption_count = 0
     evidence_count = 0
+    negative_excluded_count = 0
+    negative_discovered_count = 0
+    positive_entities = [entity for entity in runtime.benchmarks.entities if entity.expectation == "positive"]
+    negative_entities = [entity for entity in runtime.benchmarks.entities if entity.expectation == "negative"]
+    holdout_positive_entities = [
+        entity for entity in positive_entities if entity.split == "holdout"
+    ]
+    holdout_discovered_count = 0
+    holdout_included_count = 0
 
     anchor_ids = llm_anchor_technology_ids(runtime)
 
@@ -546,6 +1057,9 @@ def build_benchmark_recall_report(
         entity_row = {
             "entity_id": entity.entity_id,
             "display_name": entity.display_name,
+            "expectation": entity.expectation,
+            "split": entity.split,
+            "segment_id": entity.segment_id,
             "repo_discovered": bool(discovered_repo_names),
             "repo_discovered_by_anchor": bool(discovered_repo_names_by_anchor),
             "repo_discovered_by_search": bool(discovered_repo_names_by_search),
@@ -555,6 +1069,7 @@ def build_benchmark_recall_report(
             "third_party_adoption": bool(third_party_adoption_repo_ids),
             "dependency_evidence_found": bool(dependency_evidence_repo_ids),
             "third_party_dependency_evidence_found": bool(third_party_dependency_evidence_repo_ids),
+            "negative_repo_excluded": not bool(included_repo_names),
             "discovered_repo_names": discovered_repo_names,
             "discovered_repo_names_by_anchor": discovered_repo_names_by_anchor,
             "discovered_repo_names_by_search": discovered_repo_names_by_search,
@@ -569,16 +1084,27 @@ def build_benchmark_recall_report(
             "is_anchor_entity": bool(technology_ids & anchor_ids),
         }
         entity_rows.append(entity_row)
-        discovered_count += int(entity_row["repo_discovered"])
-        discovered_by_anchor_count += int(entity_row["repo_discovered_by_anchor"])
-        discovered_by_search_count += int(entity_row["repo_discovered_by_search"])
-        discovered_by_seed_only_count += int(entity_row["repo_discovered_by_seed_only"])
-        included_count += int(entity_row["repo_included"])
-        identity_count += int(entity_row["repo_identity_mapped"])
-        adoption_count += int(entity_row["third_party_adoption"])
-        evidence_count += int(entity_row["dependency_evidence_found"])
+        if entity.expectation == "positive":
+            discovered_count += int(entity_row["repo_discovered"])
+            discovered_by_anchor_count += int(entity_row["repo_discovered_by_anchor"])
+            discovered_by_search_count += int(entity_row["repo_discovered_by_search"])
+            discovered_by_seed_only_count += int(entity_row["repo_discovered_by_seed_only"])
+            included_count += int(entity_row["repo_included"])
+            identity_count += int(entity_row["repo_identity_mapped"])
+            adoption_count += int(entity_row["third_party_adoption"])
+            evidence_count += int(entity_row["dependency_evidence_found"])
+            if entity.split == "holdout":
+                holdout_discovered_count += int(entity_row["repo_discovered"])
+                holdout_included_count += int(entity_row["repo_included"])
+        else:
+            negative_excluded_count += int(entity_row["negative_repo_excluded"])
+            negative_discovered_count += int(entity_row["repo_discovered"])
 
-    entity_count = len(entity_rows)
+    entity_count = len(positive_entities)
+    total_entity_count = len(entity_rows)
+    negative_entity_count = len(negative_entities)
+    holdout_entity_count = len(holdout_positive_entities)
+    tuning_entity_count = len(positive_entities) - holdout_entity_count
     thresholds = runtime.benchmarks.thresholds
     rates = {
         "repo_discovered_rate": ratio(discovered_count, entity_count),
@@ -589,6 +1115,10 @@ def build_benchmark_recall_report(
         "repo_identity_mapped_rate": ratio(identity_count, entity_count),
         "third_party_adoption_rate": ratio(adoption_count, entity_count),
         "dependency_evidence_rate": ratio(evidence_count, entity_count),
+        "negative_repo_excluded_rate": ratio(negative_excluded_count, negative_entity_count),
+        "negative_repo_discovered_rate": ratio(negative_discovered_count, negative_entity_count),
+        "holdout_repo_discovered_rate": ratio(holdout_discovered_count, holdout_entity_count),
+        "holdout_repo_included_rate": ratio(holdout_included_count, holdout_entity_count),
     }
     threshold_rows = [
         {
@@ -622,12 +1152,42 @@ def build_benchmark_recall_report(
             "severity": thresholds.severity,
         },
     ]
+    if negative_entity_count:
+        threshold_rows.append(
+            {
+                "metric": "negative_repo_excluded_rate",
+                "actual": rates["negative_repo_excluded_rate"],
+                "minimum": thresholds.min_negative_repo_excluded_rate,
+                "severity": thresholds.severity,
+            }
+        )
+    if holdout_entity_count:
+        threshold_rows.extend(
+            [
+                {
+                    "metric": "holdout_repo_discovered_rate",
+                    "actual": rates["holdout_repo_discovered_rate"],
+                    "minimum": thresholds.min_holdout_repo_discovered_rate,
+                    "severity": thresholds.severity,
+                },
+                {
+                    "metric": "holdout_repo_included_rate",
+                    "actual": rates["holdout_repo_included_rate"],
+                    "minimum": thresholds.min_holdout_repo_included_rate,
+                    "severity": thresholds.severity,
+                },
+            ]
+        )
     failed_thresholds = [
         row for row in threshold_rows if row["actual"] + 1e-9 < row["minimum"]
     ]
 
     return BenchmarkRecallReport(
-        entity_count=len(entity_rows),
+        total_entity_count=total_entity_count,
+        entity_count=entity_count,
+        negative_entity_count=negative_entity_count,
+        tuning_entity_count=tuning_entity_count,
+        holdout_entity_count=holdout_entity_count,
         entities_with_repo_discovered=discovered_count,
         entities_with_repo_discovered_by_anchor=discovered_by_anchor_count,
         entities_with_repo_discovered_by_search=discovered_by_search_count,
@@ -644,23 +1204,30 @@ def build_benchmark_recall_report(
         repo_identity_mapped_rate=rates["repo_identity_mapped_rate"],
         third_party_adoption_rate=rates["third_party_adoption_rate"],
         dependency_evidence_rate=rates["dependency_evidence_rate"],
+        negative_repo_excluded_rate=rates["negative_repo_excluded_rate"],
+        negative_repo_discovered_rate=rates["negative_repo_discovered_rate"],
+        holdout_repo_discovered_rate=rates["holdout_repo_discovered_rate"],
+        holdout_repo_included_rate=rates["holdout_repo_included_rate"],
         thresholds={
             "min_repo_discovered_rate": thresholds.min_repo_discovered_rate,
             "min_repo_included_rate": thresholds.min_repo_included_rate,
             "min_repo_identity_mapped_rate": thresholds.min_repo_identity_mapped_rate,
             "min_third_party_adoption_rate": thresholds.min_third_party_adoption_rate,
             "min_dependency_evidence_rate": thresholds.min_dependency_evidence_rate,
+            "min_negative_repo_excluded_rate": thresholds.min_negative_repo_excluded_rate,
+            "min_holdout_repo_discovered_rate": thresholds.min_holdout_repo_discovered_rate,
+            "min_holdout_repo_included_rate": thresholds.min_holdout_repo_included_rate,
             "severity": thresholds.severity,
         },
         failed_thresholds=failed_thresholds,
-        prioritized_gaps=prioritize_benchmark_gaps(entity_rows),
+        prioritized_gaps=prioritize_benchmark_gaps([row for row in entity_rows if row["expectation"] == "positive"]),
         entities=entity_rows,
     )
 
 
 def _package_prefixes_for_entity(entity, runtime: RuntimeConfig) -> list[str]:
     prefixes: list[str] = []
-    for technology in runtime.registry.technologies:
+    for technology in [*runtime.aliases.technologies, *runtime.registry.technologies]:
         if (
             technology.technology_id == entity.entity_id
             or technology.technology_id in entity.technology_ids
@@ -718,6 +1285,66 @@ def ratio(numerator: int, denominator: int) -> float:
     if denominator == 0:
         return 0.0
     return round(numerator / denominator, 4)
+
+
+def wilson_interval(successes: int, total: int, z: float = 1.96) -> tuple[float, float]:
+    if total <= 0:
+        return (0.0, 0.0)
+    phat = successes / total
+    denom = 1 + (z * z) / total
+    center = (phat + (z * z) / (2 * total)) / denom
+    margin = (
+        z
+        * math.sqrt((phat * (1 - phat) + (z * z) / (4 * total)) / total)
+        / denom
+    )
+    return (max(0.0, center - margin), min(1.0, center + margin))
+
+
+def classify_repo_evidence_profile(evidence_types: set[str]) -> str:
+    if not evidence_types:
+        return "unmapped"
+    if evidence_types == {"readme_mention"}:
+        return "readme_only"
+    if evidence_types == {"repo_identity"}:
+        return "repo_identity_only"
+    if evidence_types <= {"repo_identity", "readme_mention"}:
+        return "repo_identity_plus_fallback"
+    if "readme_mention" in evidence_types:
+        return "mixed_direct_and_fallback"
+    if evidence_types & {"manifest", "sbom", "import"}:
+        return "direct_only"
+    return "other"
+
+
+def score_band(value: int | None) -> str:
+    if value is None:
+        return "unknown"
+    if value <= 1:
+        return "0-1"
+    if value <= 3:
+        return "2-3"
+    if value <= 5:
+        return "4-5"
+    if value <= 8:
+        return "6-8"
+    return "9+"
+
+
+def load_temporal_baseline_dir(input_dir: Path) -> Path | None:
+    validation_summary_path = input_dir / "validation_sample_summary.json"
+    if validation_summary_path.exists():
+        payload = _load_json_if_exists(validation_summary_path) or {}
+        baseline = payload.get("input_dir")
+        if baseline:
+            return Path(str(baseline)).resolve()
+    repair_summary_path = input_dir / "repair_summary.json"
+    if repair_summary_path.exists():
+        payload = _load_json_if_exists(repair_summary_path) or {}
+        baseline = payload.get("input_dir")
+        if baseline:
+            return Path(str(baseline)).resolve()
+    return None
 
 
 def prioritize_benchmark_gaps(entities: list[dict[str, Any]]) -> list[dict[str, Any]]:

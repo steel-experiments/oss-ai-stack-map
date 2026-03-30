@@ -1,0 +1,535 @@
+{
+  "ai_score_band_counts": [
+    {
+      "repo_count": 77,
+      "score_ai_band": "9+"
+    },
+    {
+      "repo_count": 18,
+      "score_ai_band": "4-5"
+    },
+    {
+      "repo_count": 14,
+      "score_ai_band": "6-8"
+    },
+    {
+      "repo_count": 10,
+      "score_ai_band": "2-3"
+    }
+  ],
+  "changed_decision_count": 17,
+  "changed_repos": [
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "huggingface/transformers",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 155220641,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 158388,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "Shubhamsaboo/awesome-llm-apps",
+      "judge_confidence": "high",
+      "primary_segment": "orchestration_framework",
+      "prior_override_retained": true,
+      "repo_id": 793375104,
+      "rule_included": false,
+      "score_ai_band": "9+",
+      "score_serious_band": "2-3",
+      "stars": 103524,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "anthropics/skills",
+      "judge_confidence": "medium",
+      "primary_segment": "agent_application",
+      "prior_override_retained": true,
+      "repo_id": 1061953414,
+      "rule_included": false,
+      "score_ai_band": "9+",
+      "score_serious_band": "0-1",
+      "stars": 102644,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "ggml-org/llama.cpp",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 612354784,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "9+",
+      "stars": 99281,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "PaddlePaddle/PaddleOCR",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 262296122,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 73043,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "qwibitai/nanoclaw",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 1146738089,
+      "rule_included": true,
+      "score_ai_band": "4-5",
+      "score_serious_band": "6-8",
+      "stars": 25424,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "meta-llama/llama-cookbook",
+      "judge_confidence": "medium",
+      "primary_segment": "training_finetuning",
+      "prior_override_retained": true,
+      "repo_id": 667297720,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 18265,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "0xJacky/nginx-ui",
+      "judge_confidence": "medium",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 340339997,
+      "rule_included": true,
+      "score_ai_band": "4-5",
+      "score_serious_band": "9+",
+      "stars": 10920,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "huggingface/skills",
+      "judge_confidence": "medium",
+      "primary_segment": "training_finetuning",
+      "prior_override_retained": true,
+      "repo_id": 1102903896,
+      "rule_included": true,
+      "score_ai_band": "6-8",
+      "score_serious_band": "6-8",
+      "stars": 9896,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "open-metadata/OpenMetadata",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 391740664,
+      "rule_included": true,
+      "score_ai_band": "6-8",
+      "score_serious_band": "6-8",
+      "stars": 9008,
+      "validation_changed_decision": true
+    }
+  ],
+  "estimated_false_positive_rate": 0.0588,
+  "estimated_false_positive_rate_ci95": {
+    "lower": 0.0288,
+    "upper": 0.1165
+  },
+  "exclusion_count": 7,
+  "inclusion_change_rate": 0.1429,
+  "profile_counts": [
+    {
+      "evidence_profile": "direct_only",
+      "repo_count": 106
+    },
+    {
+      "evidence_profile": "unmapped",
+      "repo_count": 8
+    },
+    {
+      "evidence_profile": "readme_only",
+      "repo_count": 4
+    },
+    {
+      "evidence_profile": "repo_identity_only",
+      "repo_count": 1
+    }
+  ],
+  "sample_count": 119,
+  "sampled_repos": [
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "openclaw/openclaw",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": false,
+      "repo_id": 1103012935,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "9+",
+      "stars": 335512,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "n8n-io/n8n",
+      "judge_confidence": "high",
+      "primary_segment": "vector_retrieval_infrastructure",
+      "prior_override_retained": false,
+      "repo_id": 193215554,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "9+",
+      "stars": 181001,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "repo_identity_only",
+      "final_included": true,
+      "full_name": "ollama/ollama",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": false,
+      "repo_id": 658928958,
+      "rule_included": true,
+      "score_ai_band": "4-5",
+      "score_serious_band": "9+",
+      "stars": 166127,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "huggingface/transformers",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 155220641,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 158388,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "langflow-ai/langflow",
+      "judge_confidence": "high",
+      "primary_segment": "vector_retrieval_infrastructure",
+      "prior_override_retained": false,
+      "repo_id": 599320067,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "9+",
+      "stars": 146222,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "langgenius/dify",
+      "judge_confidence": "high",
+      "primary_segment": "vector_retrieval_infrastructure",
+      "prior_override_retained": false,
+      "repo_id": 626805178,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 134413,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "langchain-ai/langchain",
+      "judge_confidence": "high",
+      "primary_segment": "vector_retrieval_infrastructure",
+      "prior_override_retained": false,
+      "repo_id": 552661142,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 131045,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "anomalyco/opencode",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": false,
+      "repo_id": 975734319,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "9+",
+      "stars": 130129,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "open-webui/open-webui",
+      "judge_confidence": "high",
+      "primary_segment": "vector_retrieval_infrastructure",
+      "prior_override_retained": false,
+      "repo_id": 701547123,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "9+",
+      "stars": 128629,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "Shubhamsaboo/awesome-llm-apps",
+      "judge_confidence": "high",
+      "primary_segment": "orchestration_framework",
+      "prior_override_retained": true,
+      "repo_id": 793375104,
+      "rule_included": false,
+      "score_ai_band": "9+",
+      "score_serious_band": "2-3",
+      "stars": 103524,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "anthropics/skills",
+      "judge_confidence": "medium",
+      "primary_segment": "agent_application",
+      "prior_override_retained": true,
+      "repo_id": 1061953414,
+      "rule_included": false,
+      "score_ai_band": "9+",
+      "score_serious_band": "0-1",
+      "stars": 102644,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "ggml-org/llama.cpp",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 612354784,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "9+",
+      "stars": 99281,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "google-gemini/gemini-cli",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": false,
+      "repo_id": 968197216,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "9+",
+      "stars": 99043,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "firecrawl/firecrawl",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": false,
+      "repo_id": 787076358,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 98050,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "browser-use/browser-use",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": false,
+      "repo_id": 881458615,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 84371,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "nomic-ai/gpt4all",
+      "judge_confidence": "high",
+      "primary_segment": "training_finetuning",
+      "prior_override_retained": false,
+      "repo_id": 619959033,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 77241,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "infiniflow/ragflow",
+      "judge_confidence": "high",
+      "primary_segment": "rag_search_application",
+      "prior_override_retained": false,
+      "repo_id": 730534580,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "9+",
+      "stars": 76106,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "lobehub/lobehub",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": false,
+      "repo_id": 643445235,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "9+",
+      "stars": 74298,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "vllm-project/vllm",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": false,
+      "repo_id": 599547518,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 74287,
+      "validation_changed_decision": false
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "PaddlePaddle/PaddleOCR",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 262296122,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 73043,
+      "validation_changed_decision": true
+    }
+  ],
+  "segment_counts": [
+    {
+      "primary_segment": "serving_runtime",
+      "repo_count": 42
+    },
+    {
+      "primary_segment": "training_finetuning",
+      "repo_count": 25
+    },
+    {
+      "primary_segment": "vector_retrieval_infrastructure",
+      "repo_count": 15
+    },
+    {
+      "primary_segment": "orchestration_framework",
+      "repo_count": 13
+    },
+    {
+      "primary_segment": "agent_application",
+      "repo_count": 10
+    },
+    {
+      "primary_segment": "rag_search_application",
+      "repo_count": 5
+    },
+    {
+      "primary_segment": "ai_application",
+      "repo_count": 3
+    },
+    {
+      "primary_segment": "ai_developer_tool",
+      "repo_count": 3
+    },
+    {
+      "primary_segment": "eval_guardrails_observability",
+      "repo_count": 2
+    },
+    {
+      "primary_segment": "unassigned",
+      "repo_count": 1
+    }
+  ],
+  "serious_score_band_counts": [
+    {
+      "repo_count": 74,
+      "score_serious_band": "6-8"
+    },
+    {
+      "repo_count": 33,
+      "score_serious_band": "9+"
+    },
+    {
+      "repo_count": 10,
+      "score_serious_band": "4-5"
+    },
+    {
+      "repo_count": 1,
+      "score_serious_band": "2-3"
+    },
+    {
+      "repo_count": 1,
+      "score_serious_band": "0-1"
+    }
+  ]
+}

@@ -29,7 +29,9 @@ judge:
   hardening_enabled: false
   validation_enabled: false
   model: gpt-5.4-nano
-  max_cases_per_run: 25
+  max_cases_per_run: 100
+  validation_sample_fraction: 0.10
+  validation_sample_seed: 7
   override_on_high_confidence: true
   min_confidence_to_override: high
   reasoning_effort: low

@@ -22,6 +22,8 @@ technologies:
     category_id: orchestration_and_agents
     aliases: [langchain, langchain-core, langchain-community, "@langchain/core"]
     import_aliases: [langchain]
+    package_prefixes: [langchain, "@langchain/"]
+    repo_names: [langchain-ai/langchain]
   - technology_id: langchain-openai
     display_name: LangChain OpenAI Integration
     category_id: orchestration_and_agents
@@ -45,31 +47,43 @@ technologies:
     category_id: orchestration_and_agents
     aliases: [langgraph, "@langchain/langgraph"]
     import_aliases: [langgraph, "@langchain/langgraph"]
+    package_prefixes: [langgraph, "@langchain/langgraph"]
+    repo_names: [langchain-ai/langgraph]
   - technology_id: llamaindex
     display_name: LlamaIndex
     category_id: orchestration_and_agents
     aliases: [llama-index, llama_index]
     import_aliases: [llama_index]
+    package_prefixes: [llama-index, llama_index]
+    repo_names: [run-llama/llama_index]
   - technology_id: autogen
     display_name: AutoGen
     category_id: orchestration_and_agents
     aliases: [autogen, pyautogen]
     import_aliases: [autogen]
+    package_prefixes: [autogen, pyautogen]
+    repo_names: [microsoft/autogen]
   - technology_id: crewai
     display_name: CrewAI
     category_id: orchestration_and_agents
     aliases: [crewai]
     import_aliases: [crewai]
+    package_prefixes: [crewai]
+    repo_names: [crewAIInc/crewAI]
   - technology_id: pydanticai
     display_name: PydanticAI
     category_id: orchestration_and_agents
     aliases: [pydantic-ai, pydantic_ai]
     import_aliases: [pydantic_ai]
+    package_prefixes: [pydantic-ai, pydantic_ai]
+    repo_names: [pydantic/pydantic-ai]
   - technology_id: semantic-kernel
     display_name: Semantic Kernel
     category_id: orchestration_and_agents
     aliases: [semantic-kernel]
     import_aliases: [semantic_kernel]
+    package_prefixes: [semantic-kernel]
+    repo_names: [microsoft/semantic-kernel]
   - technology_id: dspy
     display_name: DSPy
     category_id: orchestration_and_agents
@@ -80,6 +94,8 @@ technologies:
     category_id: model_access_and_providers
     aliases: [litellm]
     import_aliases: [litellm]
+    package_prefixes: [litellm]
+    repo_names: [BerriAI/litellm]
   - technology_id: instructor
     display_name: Instructor
     category_id: orchestration_and_agents
@@ -90,31 +106,43 @@ technologies:
     category_id: orchestration_and_agents
     aliases: [haystack, farm-haystack]
     import_aliases: [haystack]
+    package_prefixes: [haystack, farm-haystack]
+    repo_names: [deepset-ai/haystack]
   - technology_id: smolagents
     display_name: smolagents
     category_id: orchestration_and_agents
     aliases: [smolagents]
     import_aliases: [smolagents]
+    package_prefixes: [smolagents]
+    repo_names: [huggingface/smolagents]
   - technology_id: qdrant
     display_name: Qdrant
     category_id: vector_and_knowledge_storage
     aliases: [qdrant-client, qdrant]
     import_aliases: [qdrant_client, qdrant]
+    package_prefixes: [qdrant-client, qdrant]
+    repo_names: [qdrant/qdrant]
   - technology_id: weaviate
     display_name: Weaviate
     category_id: vector_and_knowledge_storage
     aliases: [weaviate-client, weaviate]
     import_aliases: [weaviate]
+    package_prefixes: [weaviate-client, weaviate]
+    repo_names: [weaviate/weaviate]
   - technology_id: chroma
     display_name: Chroma
     category_id: vector_and_knowledge_storage
     aliases: [chromadb, chroma]
     import_aliases: [chromadb, chroma]
+    package_prefixes: [chromadb, chroma]
+    repo_names: [chroma-core/chroma]
   - technology_id: milvus
     display_name: Milvus
     category_id: vector_and_knowledge_storage
     aliases: [pymilvus, milvus]
     import_aliases: [pymilvus, milvus]
+    package_prefixes: [pymilvus, milvus]
+    repo_names: [milvus-io/milvus]
   - technology_id: pgvector
     display_name: pgvector
     category_id: vector_and_knowledge_storage
@@ -130,6 +158,8 @@ technologies:
     category_id: serving_inference_and_local_runtimes
     aliases: [vllm]
     import_aliases: [vllm]
+    package_prefixes: [vllm]
+    repo_names: [vllm-project/vllm]
   - technology_id: tgi
     display_name: TGI
     category_id: serving_inference_and_local_runtimes
@@ -139,6 +169,8 @@ technologies:
     category_id: serving_inference_and_local_runtimes
     aliases: [ollama]
     import_aliases: [ollama]
+    package_prefixes: [ollama]
+    repo_names: [ollama/ollama]
   - technology_id: llama-cpp
     display_name: llama.cpp
     category_id: serving_inference_and_local_runtimes
@@ -149,11 +181,15 @@ technologies:
     category_id: serving_inference_and_local_runtimes
     aliases: [sglang]
     import_aliases: [sglang]
+    package_prefixes: [sglang]
+    repo_names: [sgl-project/sglang]
   - technology_id: bentoml
     display_name: BentoML
     category_id: serving_inference_and_local_runtimes
     aliases: [bentoml]
     import_aliases: [bentoml]
+    package_prefixes: [bentoml]
+    repo_names: [bentoml/BentoML]
   - technology_id: ray-serve
     display_name: Ray Serve
     category_id: serving_inference_and_local_runtimes
@@ -164,11 +200,15 @@ technologies:
     category_id: training_finetuning_and_model_ops
     aliases: [transformers]
     import_aliases: [transformers]
+    package_prefixes: [transformers]
+    repo_names: [huggingface/transformers]
   - technology_id: peft
     display_name: PEFT
     category_id: training_finetuning_and_model_ops
     aliases: [peft]
     import_aliases: [peft]
+    package_prefixes: [peft]
+    repo_names: [huggingface/peft]
   - technology_id: trl
     display_name: TRL
     category_id: training_finetuning_and_model_ops
@@ -189,20 +229,28 @@ technologies:
     category_id: evaluation_guardrails_and_safety
     aliases: [ragas]
     import_aliases: [ragas]
+    package_prefixes: [ragas]
+    repo_names: [explodinggradients/ragas]
   - technology_id: deepeval
     display_name: DeepEval
     category_id: evaluation_guardrails_and_safety
     aliases: [deepeval]
     import_aliases: [deepeval]
+    package_prefixes: [deepeval]
+    repo_names: [confident-ai/deepeval]
   - technology_id: promptfoo
     display_name: Promptfoo
     category_id: evaluation_guardrails_and_safety
     aliases: [promptfoo]
+    package_prefixes: [promptfoo]
+    repo_names: [promptfoo/promptfoo]
   - technology_id: guardrails
     display_name: Guardrails
     category_id: evaluation_guardrails_and_safety
     aliases: [guardrails-ai, guardrails]
     import_aliases: [guardrails]
+    package_prefixes: [guardrails-ai, guardrails]
+    repo_names: [guardrails-ai/guardrails]
   - technology_id: nemo-guardrails
     display_name: NeMo Guardrails
     category_id: evaluation_guardrails_and_safety
@@ -213,11 +261,15 @@ technologies:
     category_id: observability_tracing_and_monitoring
     aliases: [langfuse]
     import_aliases: [langfuse]
+    package_prefixes: [langfuse]
+    repo_names: [langfuse/langfuse]
   - technology_id: phoenix
     display_name: Arize Phoenix
     category_id: observability_tracing_and_monitoring
     aliases: [arize-phoenix, phoenix]
     import_aliases: [phoenix]
+    package_prefixes: [arize-phoenix, phoenix]
+    repo_names: [Arize-ai/phoenix]
   - technology_id: helicone
     display_name: Helicone
     category_id: observability_tracing_and_monitoring
@@ -243,3 +295,5 @@ technologies:
     category_id: ui_and_app_frameworks
     aliases: [chainlit]
     import_aliases: [chainlit]
+    package_prefixes: [chainlit]
+    repo_names: [Chainlit/chainlit]

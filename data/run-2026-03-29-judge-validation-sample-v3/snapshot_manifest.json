@@ -1,0 +1,120 @@
+{
+  "files": [
+    {
+      "path": "checkpoints/run_state.json",
+      "sha256": "c72725b958fab090a6c5f2178629f1af7bfe00b8d731daa6abd746295c0506f6",
+      "size_bytes": 364
+    },
+    {
+      "path": "classification_stage_timings.parquet",
+      "row_count": 4,
+      "sha256": "1639ef47fe07eb0bfbc1250ee5664c2b622cf12211a26d71832f1c7157b5f3c1",
+      "size_bytes": 1874
+    },
+    {
+      "path": "discovery_stage_timings.parquet",
+      "row_count": 3,
+      "sha256": "0b32817ffc72d6906f3f56d035ea7894cae60c31cf153ea592bb95a145464142",
+      "size_bytes": 1559
+    },
+    {
+      "path": "judge_decisions.csv",
+      "sha256": "2e0166e71938067b25e2233c62b25f9cbac85ed396f803927a9dd1bd51ab9dac",
+      "size_bytes": 387807
+    },
+    {
+      "path": "judge_decisions.parquet",
+      "row_count": 651,
+      "sha256": "f1c939833439650b24a2c31099155b62c455f2c1db7a541c5df86d1c30963eaa",
+      "size_bytes": 179104
+    },
+    {
+      "path": "repo_contexts.csv",
+      "sha256": "6115ce8b820f64a4bb1496ebed67ceea62d3d5b80e102e358e0d7e50e4488e96",
+      "size_bytes": 340804117
+    },
+    {
+      "path": "repo_contexts.parquet",
+      "row_count": 1522,
+      "sha256": "000a26e8b4ff2c753aa5a9b620e5dfa1a99f86136167947cfd8bdfdbddc7ed4b",
+      "size_bytes": 46521696
+    },
+    {
+      "path": "repo_dependency_evidence.csv",
+      "sha256": "cd71c4278f439afd98036745637db6f19d740fe63e877ecf24e72384f382c087",
+      "size_bytes": 57382172
+    },
+    {
+      "path": "repo_dependency_evidence.parquet",
+      "row_count": 414455,
+      "sha256": "2494ac6aac1bb9726c7ee50e7afa4ef07c27ef38d030a30545ebc51576682a8b",
+      "size_bytes": 7227213
+    },
+    {
+      "path": "repo_inclusion_decisions.csv",
+      "sha256": "947b6c470d4d433f65a1c6f6baf5ed9c07b3bfcb0ce98b41b55be5cdde7bd2e9",
+      "size_bytes": 1229150
+    },
+    {
+      "path": "repo_inclusion_decisions.parquet",
+      "row_count": 1522,
+      "sha256": "e721d53ef285e7553b95b1adecdc4856b1b6a96fe39ee2a83fa420729232a415",
+      "size_bytes": 243950
+    },
+    {
+      "path": "repo_technology_edges.csv",
+      "sha256": "30caac62f45bab1f0fea1c30cd4ef7bc8c46349e81829b5d835b023ca899e024",
+      "size_bytes": 1161857
+    },
+    {
+      "path": "repo_technology_edges.parquet",
+      "row_count": 5164,
+      "sha256": "62c24f581fefe7337df2d1512409e4e25dad73f289bfdc65d31d32084eb0784b",
+      "size_bytes": 124471
+    },
+    {
+      "path": "repos.parquet",
+      "row_count": 1522,
+      "sha256": "50cd0b8ab21865c544a5b2b8daaff5be2161f67e6b2b73f4d69f0bb0b94e337e",
+      "size_bytes": 331031
+    },
+    {
+      "path": "stage_timings.parquet",
+      "row_count": 123,
+      "sha256": "e966b5ab3184c58efa2891758d8af4b2360aa98167b55da7349bb66ed896924d",
+      "size_bytes": 3418
+    },
+    {
+      "path": "technologies.csv",
+      "sha256": "6aa783f6a79c9ddbfdde44e6c52028e53acd69c363612188d3b1f8178d1ec1d4",
+      "size_bytes": 10919
+    },
+    {
+      "path": "technologies.parquet",
+      "row_count": 66,
+      "sha256": "e1fa8ff0fbb6246ae8ddc6ad34961d07067a9c529fd92565d40764ea67e15ce7",
+      "size_bytes": 8872
+    }
+  ],
+  "generated_at": "2026-03-29T09:02:34.304072+00:00",
+  "metrics": {
+    "ai_relevant_repos": 1083,
+    "final_repos": 980,
+    "final_repos_missing_edges": 5,
+    "final_repos_with_edges": 975,
+    "final_repos_with_mapped_dependency_evidence_but_no_edge": 0,
+    "final_repos_with_no_dependency_evidence": 0,
+    "final_repos_with_only_unmapped_dependency_evidence": 5,
+    "judge_decisions": 651,
+    "repo_contexts": 1522,
+    "repo_inclusion_decisions": 1522,
+    "repo_technology_edges": 5164,
+    "repos": 1522,
+    "rule_flag_missing_rows": 0,
+    "run_state_status": "completed",
+    "serious_repos": 1219,
+    "technologies": 66
+  },
+  "snapshot_date": "2026-03-25",
+  "snapshot_dir": "/home/agent/oss-ai-stack-map/data/run-2026-03-29-judge-validation-sample-v3"
+}

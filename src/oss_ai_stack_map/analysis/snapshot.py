@@ -32,8 +32,12 @@ from oss_ai_stack_map.pipeline.normalize import build_repo_technology_edges, bui
 from oss_ai_stack_map.pipeline.registry_suggestions import build_registry_suggestion_report
 from oss_ai_stack_map.pipeline.reporting import (
     build_benchmark_recall_report,
+    build_evidence_tier_report,
     build_gap_report,
     build_report_summary,
+    build_review_queue_report,
+    build_robustness_report,
+    build_validation_audit_report,
 )
 from oss_ai_stack_map.pipeline.technology_discovery import build_technology_discovery_report
 from oss_ai_stack_map.storage.tables import read_parquet_models, write_rows
@@ -657,6 +661,12 @@ def _write_rebuilt_snapshot_outputs(
             [decision.to_row() for decision in existing_judge_decisions],
             write_csv=runtime.study.outputs.write_csv,
         )
+    validation_sample_summary_path = input_dir / "validation_sample_summary.json"
+    if validation_sample_summary_path.exists():
+        shutil.copy2(
+            validation_sample_summary_path,
+            output_dir / "validation_sample_summary.json",
+        )
 
     _reconciled_run_state(input_dir=input_dir, output_dir=output_dir, repo_count=len(repos))
     manifest = build_snapshot_manifest(output_dir)
@@ -665,9 +675,21 @@ def _write_rebuilt_snapshot_outputs(
     _write_json(output_dir / "validation_report.json", validation)
     gap_report = build_gap_report(output_dir)
     _write_json(output_dir / "gap_report.json", gap_report.__dict__)
+    evidence_tier_report = build_evidence_tier_report(output_dir)
+    _write_json(output_dir / "evidence_tier_report.json", evidence_tier_report.__dict__)
+    validation_audit_report = build_validation_audit_report(output_dir)
+    if validation_audit_report is not None:
+        _write_json(output_dir / "validation_audit_report.json", validation_audit_report.__dict__)
     if runtime.benchmarks.entities:
         benchmark_recall = build_benchmark_recall_report(input_dir=output_dir, runtime=runtime)
         _write_json(output_dir / "benchmark_recall_report.json", benchmark_recall.__dict__)
+    review_queue_report = build_review_queue_report(input_dir=output_dir, runtime=runtime)
+    _write_json(output_dir / "review_queue.json", review_queue_report.__dict__)
+    robustness_report = build_robustness_report(
+        input_dir=output_dir,
+        evidence_tier_report=evidence_tier_report,
+    )
+    _write_json(output_dir / "robustness_report.json", robustness_report.__dict__)
     technology_discovery = build_technology_discovery_report(
         input_dir=output_dir,
         runtime=runtime,

@@ -1,0 +1,829 @@
+{
+  "candidate_count": 36,
+  "graph_edge_count": 0,
+  "graph_node_count": 36,
+  "top_candidates": [
+    {
+      "benchmark_overlap_count": 0,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Platform",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "@angular/platform-browser",
+        "@angular/platform-browser-dynamic",
+        "@nestjs/platform-express",
+        "platform",
+        "@nestjs/platform-ws"
+      ],
+      "example_repos": [
+        "anomalyco/opencode",
+        "meilisearch/meilisearch",
+        "ToolJet/ToolJet",
+        "CopilotKit/CopilotKit",
+        "nrwl/nx"
+      ],
+      "family_id": "platform",
+      "final_repo_count": 21,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 1,
+      "priority_score": 22.79,
+      "repo_count": 31,
+      "scoped_package_count": 103,
+      "star_sum": 491066,
+      "suggested_repo_names": [
+        "GoogleCloudPlatform/generative-ai",
+        "GoogleCloudPlatform/agent-starter-pack",
+        "open-edge-platform/training_extensions"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Langchain",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "langchain-text-splitters",
+        "langchain-ollama",
+        "langchain-aws",
+        "langchain-huggingface",
+        "langchain-experimental"
+      ],
+      "example_repos": [
+        "langflow-ai/langflow",
+        "langchain-ai/langchain",
+        "open-webui/open-webui",
+        "Shubhamsaboo/awesome-llm-apps",
+        "PaddlePaddle/PaddleOCR"
+      ],
+      "family_id": "langchain",
+      "final_repo_count": 144,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 20.98,
+      "repo_count": 170,
+      "scoped_package_count": 0,
+      "star_sum": 2329032,
+      "suggested_repo_names": [
+        "langchain-ai/langchain",
+        "chatchat-space/Langchain-Chatchat",
+        "langchain-ai/langgraph"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Pydantic",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "pydantic",
+        "pydantic-settings",
+        "pydantic-core",
+        "pydantic_core",
+        "pydantic-ai-slim"
+      ],
+      "example_repos": [
+        "langflow-ai/langflow",
+        "langgenius/dify",
+        "langchain-ai/langchain",
+        "open-webui/open-webui",
+        "Shubhamsaboo/awesome-llm-apps"
+      ],
+      "family_id": "pydantic",
+      "final_repo_count": 456,
+      "generic_penalty": 0.65,
+      "missing_edge_repo_count": 0,
+      "priority_score": 18.55,
+      "repo_count": 530,
+      "scoped_package_count": 0,
+      "star_sum": 6150240,
+      "suggested_repo_names": [
+        "pydantic/pydantic-ai",
+        "pydantic/logfire"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Langgraph",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "langgraph-sdk",
+        "langgraph-checkpoint",
+        "langgraph-prebuilt",
+        "@langchain/langgraph-checkpoint",
+        "langgraph-cli"
+      ],
+      "example_repos": [
+        "langflow-ai/langflow",
+        "langchain-ai/langchain",
+        "microsoft/autogen",
+        "bytedance/deer-flow",
+        "HKUDS/LightRAG"
+      ],
+      "family_id": "langgraph",
+      "final_repo_count": 73,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 12.8,
+      "repo_count": 82,
+      "scoped_package_count": 63,
+      "star_sum": 1083660,
+      "suggested_repo_names": [
+        "langchain-ai/langgraph",
+        "google-gemini/gemini-fullstack-langgraph-quickstart",
+        "langchain-ai/langgraphjs"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Semantic",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "@opentelemetry/semantic-conventions",
+        "semantic-version",
+        "semantic-release",
+        "semantic-router",
+        "semantic-ui-css"
+      ],
+      "example_repos": [
+        "openclaw/openclaw",
+        "google-gemini/gemini-cli",
+        "lobehub/lobehub",
+        "ansible/ansible",
+        "cline/cline"
+      ],
+      "family_id": "semantic",
+      "final_repo_count": 57,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 12.52,
+      "repo_count": 73,
+      "scoped_package_count": 76,
+      "star_sum": 1454166,
+      "suggested_repo_names": [
+        "microsoft/semantic-kernel",
+        "vllm-project/semantic-router"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Llama",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "llama-index-core",
+        "llama-index-llms-openai",
+        "llama-index-embeddings-openai",
+        "llama-index-readers-file",
+        "llama-parse"
+      ],
+      "example_repos": [
+        "langflow-ai/langflow",
+        "Shubhamsaboo/awesome-llm-apps",
+        "binary-husky/gpt_academic",
+        "microsoft/autogen",
+        "run-llama/llama_index"
+      ],
+      "family_id": "llama",
+      "final_repo_count": 58,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 11.83,
+      "repo_count": 73,
+      "scoped_package_count": 0,
+      "star_sum": 1077703,
+      "suggested_repo_names": [
+        "ollama/ollama",
+        "ggml-org/llama.cpp",
+        "hiyouga/LlamaFactory"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Openai",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "openai-whisper",
+        "openai-harmony",
+        "openai-clip",
+        "@azure/openai-assistants",
+        "openai_dive"
+      ],
+      "example_repos": [
+        "infiniflow/ragflow",
+        "vllm-project/vllm",
+        "unslothai/unsloth",
+        "microsoft/autogen",
+        "ggml-org/whisper.cpp"
+      ],
+      "family_id": "openai",
+      "final_repo_count": 50,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 10.62,
+      "repo_count": 58,
+      "scoped_package_count": 9,
+      "star_sum": 856348,
+      "suggested_repo_names": [
+        "openai/codex",
+        "openai/openai-python",
+        "openai/openai-agents-python"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Cloudflare",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "@cloudflare/workers-types",
+        "cloudflare",
+        "@cloudflare/agents-ui",
+        "@cloudflare/workers-oauth-provider",
+        "@astrojs/cloudflare"
+      ],
+      "example_repos": [
+        "anomalyco/opencode",
+        "lobehub/lobehub",
+        "FlowiseAI/Flowise",
+        "mem0ai/mem0",
+        "BerriAI/litellm"
+      ],
+      "family_id": "cloudflare",
+      "final_repo_count": 36,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 9.02,
+      "repo_count": 41,
+      "scoped_package_count": 164,
+      "star_sum": 614435,
+      "suggested_repo_names": [
+        "cloudflare/agents",
+        "cloudflare/agents-starter",
+        "cloudflare/partykit"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Chroma",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "chroma-hnswlib",
+        "chroma-types",
+        "chroma-error",
+        "chroma-config",
+        "chroma-js"
+      ],
+      "example_repos": [
+        "langgenius/dify",
+        "langchain-ai/langchain",
+        "lobehub/lobehub",
+        "microsoft/autogen",
+        "mem0ai/mem0"
+      ],
+      "family_id": "chroma",
+      "final_repo_count": 25,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 8.36,
+      "repo_count": 28,
+      "scoped_package_count": 5,
+      "star_sum": 726458,
+      "suggested_repo_names": [
+        "chroma-core/chroma"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Transformers",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "transformers-stream-generator",
+        "transformers_stream_generator",
+        "transformers-cfg",
+        "transformers-v4-55-0-glm-4-5v-preview"
+      ],
+      "example_repos": [
+        "vllm-project/vllm",
+        "binary-husky/gpt_academic",
+        "unslothai/unsloth",
+        "run-llama/llama_index",
+        "QwenLM/Qwen"
+      ],
+      "family_id": "transformers",
+      "final_repo_count": 26,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 7.82,
+      "repo_count": 28,
+      "scoped_package_count": 0,
+      "star_sum": 425225,
+      "suggested_repo_names": [
+        "huggingface/transformers",
+        "kvcache-ai/ktransformers",
+        "Tencent/TurboTransformers"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Qdrant",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "@qdrant/js-client-rest",
+        "qdrant.client",
+        "qdrant-haystack",
+        "qdrant-ruby"
+      ],
+      "example_repos": [
+        "n8n-io/n8n",
+        "Mintplex-Labs/anything-llm",
+        "FlowiseAI/Flowise",
+        "mem0ai/mem0",
+        "ToolJet/ToolJet"
+      ],
+      "family_id": "qdrant",
+      "final_repo_count": 22,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 7.72,
+      "repo_count": 22,
+      "scoped_package_count": 38,
+      "star_sum": 553385,
+      "suggested_repo_names": [
+        "qdrant/qdrant",
+        "qdrant/fastembed",
+        "qdrant/mcp-server-qdrant"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Ollama",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "ollama-ai-provider-v2",
+        "ollama-ai-provider",
+        "ollama-rs",
+        "ollama-haystack"
+      ],
+      "example_repos": [
+        "firecrawl/firecrawl",
+        "CherryHQ/cherry-studio",
+        "browserbase/stagehand",
+        "kortix-ai/suna",
+        "elizaOS/eliza"
+      ],
+      "family_id": "ollama",
+      "final_repo_count": 17,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 6.8,
+      "repo_count": 17,
+      "scoped_package_count": 0,
+      "star_sum": 272733,
+      "suggested_repo_names": [
+        "ollama/ollama",
+        "datawhalechina/handy-ollama",
+        "DAMO-NLP-SG/VideoLLaMA3"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Crewai",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "crewai-tools"
+      ],
+      "example_repos": [
+        "Shubhamsaboo/awesome-llm-apps",
+        "patchy631/ai-engineering-hub",
+        "ComposioHQ/composio",
+        "comet-ml/opik",
+        "MemoriLabs/Memori"
+      ],
+      "family_id": "crewai",
+      "final_repo_count": 15,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 6.73,
+      "repo_count": 19,
+      "scoped_package_count": 0,
+      "star_sum": 259352,
+      "suggested_repo_names": [
+        "crewAIInc/crewAI",
+        "strnad/CrewAI-Studio"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Milvus",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "milvus-lite",
+        "milvus.client",
+        "milvus-model"
+      ],
+      "example_repos": [
+        "mem0ai/mem0",
+        "run-llama/llama_index",
+        "bytedance/deer-flow",
+        "microsoft/semantic-kernel",
+        "Cinnamon/kotaemon"
+      ],
+      "family_id": "milvus",
+      "final_repo_count": 14,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 6.6,
+      "repo_count": 14,
+      "scoped_package_count": 0,
+      "star_sum": 284712,
+      "suggested_repo_names": [
+        "milvus-io/milvus",
+        "milvus-io/bootcamp",
+        "milvus-io/pymilvus"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Autogen",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "autogen-agentchat",
+        "autogen-ext",
+        "autogen-core",
+        "autogen_agentchat",
+        "autogen_ext"
+      ],
+      "example_repos": [
+        "Shubhamsaboo/awesome-llm-apps",
+        "microsoft/autogen",
+        "datawhalechina/hello-agents",
+        "microsoft/semantic-kernel",
+        "ComposioHQ/composio"
+      ],
+      "family_id": "autogen",
+      "final_repo_count": 10,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 6.39,
+      "repo_count": 12,
+      "scoped_package_count": 0,
+      "star_sum": 302988,
+      "suggested_repo_names": [
+        "microsoft/autogen"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Llamaindex",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "@llamaindex/core",
+        "llamaindex",
+        "llamaindex-py-client",
+        "@ag-ui/llamaindex",
+        "@composio/llamaindex"
+      ],
+      "example_repos": [
+        "langflow-ai/langflow",
+        "FlowiseAI/Flowise",
+        "ComposioHQ/composio",
+        "googleapis/genai-toolbox",
+        "ag-ui-protocol/ag-ui"
+      ],
+      "family_id": "llamaindex",
+      "final_repo_count": 8,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 6.18,
+      "repo_count": 10,
+      "scoped_package_count": 96,
+      "star_sum": 272005,
+      "suggested_repo_names": [
+        "run-llama/LlamaIndexTS"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Arize",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "arize-phoenix-otel",
+        "arize-phoenix-evals",
+        "arize",
+        "arize-phoenix-client",
+        "arize-otel"
+      ],
+      "example_repos": [
+        "langflow-ai/langflow",
+        "langgenius/dify",
+        "Arize-ai/phoenix",
+        "google/adk-samples",
+        "droidrun/droidrun"
+      ],
+      "family_id": "arize",
+      "final_repo_count": 6,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 6.05,
+      "repo_count": 6,
+      "scoped_package_count": 0,
+      "star_sum": 309582,
+      "suggested_repo_names": [
+        "Arize-ai/phoenix"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Haystack",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "haystack-ai",
+        "haystack-experimental"
+      ],
+      "example_repos": [
+        "mlflow/mlflow",
+        "deepset-ai/haystack",
+        "comet-ml/opik",
+        "raga-ai-hub/RagaAI-Catalyst",
+        "Canner/WrenAI"
+      ],
+      "family_id": "haystack",
+      "final_repo_count": 10,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 6.03,
+      "repo_count": 11,
+      "scoped_package_count": 0,
+      "star_sum": 132336,
+      "suggested_repo_names": [
+        "deepset-ai/haystack"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Langfuse",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "langfuse-langchain",
+        "langfuse-vercel",
+        "langfuse-core",
+        "@langfuse/client",
+        "@langfuse/ee"
+      ],
+      "example_repos": [
+        "lobehub/lobehub",
+        "FlowiseAI/Flowise",
+        "langfuse/langfuse",
+        "mcp-use/mcp-use",
+        "VoltAgent/voltagent"
+      ],
+      "family_id": "langfuse",
+      "final_repo_count": 8,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 5.93,
+      "repo_count": 8,
+      "scoped_package_count": 4,
+      "star_sum": 168901,
+      "suggested_repo_names": [
+        "langfuse/langfuse"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Litellm",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "litellm-proxy-extras",
+        "litellm-enterprise"
+      ],
+      "example_repos": [
+        "BerriAI/litellm",
+        "usestrix/strix",
+        "microsoft/agent-framework",
+        "inclusionAI/AReaL",
+        "TracecatHQ/tracecat"
+      ],
+      "family_id": "litellm",
+      "final_repo_count": 6,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 5.64,
+      "repo_count": 7,
+      "scoped_package_count": 0,
+      "star_sum": 84423,
+      "suggested_repo_names": [
+        "BerriAI/litellm"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Browser",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "browser-image-compression",
+        "browser-or-node"
+      ],
+      "example_repos": [
+        "CherryHQ/cherry-studio",
+        "simstudioai/sim",
+        "botpress/botpress",
+        "doocs/md",
+        "agentset-ai/agentset"
+      ],
+      "family_id": "browser",
+      "final_repo_count": 5,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 5.56,
+      "repo_count": 5,
+      "scoped_package_count": 0,
+      "star_sum": 98140,
+      "suggested_repo_names": [
+        "browser-use/browser-use",
+        "vercel-labs/agent-browser",
+        "browserbase/stagehand"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Weaviate",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "weaviate-ts-client",
+        "weaviate-ruby"
+      ],
+      "example_repos": [
+        "Mintplex-Labs/anything-llm",
+        "campfirein/cipher",
+        "Mintplex-Labs/vector-admin",
+        "patterns-ai-core/langchainrb"
+      ],
+      "family_id": "weaviate",
+      "final_repo_count": 4,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 5.42,
+      "repo_count": 4,
+      "scoped_package_count": 0,
+      "star_sum": 64470,
+      "suggested_repo_names": [
+        "weaviate/weaviate",
+        "weaviate/Verba"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Agents",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "agents"
+      ],
+      "example_repos": [
+        "idosal/git-mcp",
+        "cloudflare/agents",
+        "MCP-UI-Org/mcp-ui",
+        "stripe/ai",
+        "cloudflare/agents-starter"
+      ],
+      "family_id": "agents",
+      "final_repo_count": 4,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 5.36,
+      "repo_count": 5,
+      "scoped_package_count": 0,
+      "star_sum": 19626,
+      "suggested_repo_names": [
+        "FoundationAgents/MetaGPT",
+        "msitarzewski/agency-agents",
+        "microsoft/ai-agents-for-beginners"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Sglang",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "sglang-kernel",
+        "sglang-kt",
+        "sglang-router"
+      ],
+      "example_repos": [
+        "sgl-project/sglang",
+        "kvcache-ai/ktransformers",
+        "THUDM/slime"
+      ],
+      "family_id": "sglang",
+      "final_repo_count": 3,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 5.32,
+      "repo_count": 3,
+      "scoped_package_count": 0,
+      "star_sum": 46807,
+      "suggested_repo_names": [
+        "sgl-project/sglang",
+        "sgl-project/mini-sglang"
+      ],
+      "weighted_degree": 0.0
+    },
+    {
+      "benchmark_overlap_count": 1,
+      "betweenness_centrality": 0.0,
+      "degree_centrality": 0.0,
+      "display_name": "Chromadb",
+      "eigenvector_centrality": 0.0,
+      "example_packages": [
+        "chromadb-default-embed",
+        "chromadb-client",
+        "chromadb-js-bindings-darwin-arm64",
+        "chromadb-js-bindings-darwin-x64",
+        "chromadb-js-bindings-linux-arm64-gnu"
+      ],
+      "example_repos": [
+        "chroma-core/chroma",
+        "run-llama/LlamaIndexTS",
+        "dynamiq-ai/dynamiq"
+      ],
+      "family_id": "chromadb",
+      "final_repo_count": 3,
+      "generic_penalty": 0.0,
+      "missing_edge_repo_count": 0,
+      "priority_score": 5.28,
+      "repo_count": 3,
+      "scoped_package_count": 2,
+      "star_sum": 30926,
+      "suggested_repo_names": [],
+      "weighted_degree": 0.0
+    }
+  ],
+  "unmatched_package_count": 362561,
+  "unmatched_repo_count": 1317
+}

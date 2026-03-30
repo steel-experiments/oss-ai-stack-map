@@ -169,6 +169,8 @@ Important edge types now supported:
 
 This is the key shift from earlier snapshots: normalization is no longer limited to exact alias luck. It now captures family/package patterns such as Vercel AI SDK, Browserbase, MCP, OpenAI Agents, PyTorch, Hugging Face Hub, Tokenizers, and similar ecosystems.
 
+README mention edges are an explicit low-confidence fallback layer. They are only added when an included repo would otherwise remain unmapped, and they should be reviewed separately from direct dependency evidence before carrying strong graph-interpretation weight.
+
 ## Snapshot Repair
 
 Primary file:

@@ -20,8 +20,10 @@ from oss_ai_stack_map.pipeline.classification import (
     classify_candidates,
     educational_material_signal,
     extract_package_candidates_from_sbom,
+    matches_package_prefix,
     parse_sbom_dependencies,
     rebind_package_dependency,
+    resolve_package_match,
     safe_call,
     score_serious,
 )
@@ -302,6 +304,68 @@ def test_extract_package_candidates_from_scoped_npm_purl() -> None:
     )
     assert candidates[0] == "@langchain/openai"
     assert "openai" in candidates
+
+
+def test_extract_package_candidates_skips_ambiguous_scoped_basenames() -> None:
+    package = {"name": "@spectrum-css/modal"}
+    candidates = extract_package_candidates_from_sbom(
+        package,
+        "pkg:npm/%40spectrum-css/modal@3.0.0",
+    )
+    assert "@spectrum-css/modal" in candidates
+    assert "modal" not in candidates
+
+
+def test_resolve_package_match_supports_scoped_sandbox_prefixes() -> None:
+    registry_rules = [
+        (
+            "@e2b/",
+            TechnologyAlias(
+                technology_id="e2b",
+                display_name="E2B",
+                category_id="sandbox_and_isolated_execution",
+                aliases=["e2b"],
+                package_prefixes=["@e2b/"],
+            ),
+        ),
+        (
+            "@daytonaio/",
+            TechnologyAlias(
+                technology_id="daytona",
+                display_name="Daytona",
+                category_id="sandbox_and_isolated_execution",
+                aliases=["daytona"],
+                package_prefixes=["@daytonaio/"],
+            ),
+        ),
+        (
+            "@vercel/sandbox",
+            TechnologyAlias(
+                technology_id="vercel-sandbox",
+                display_name="Vercel Sandbox",
+                category_id="sandbox_and_isolated_execution",
+                aliases=["@vercel/sandbox"],
+                package_prefixes=["@vercel/sandbox"],
+            ),
+        ),
+    ]
+
+    assert matches_package_prefix("@e2b/code-interpreter", "@e2b/")
+    assert matches_package_prefix("@daytonaio/sdk", "@daytonaio/")
+    assert matches_package_prefix("@vercel/sandbox", "@vercel/sandbox")
+
+    assert (
+        resolve_package_match("@e2b/code-interpreter", {}, {}, registry_rules).technology_id
+        == "e2b"
+    )
+    assert (
+        resolve_package_match("@daytonaio/sdk", {}, {}, registry_rules).technology_id
+        == "daytona"
+    )
+    assert (
+        resolve_package_match("@vercel/sandbox", {}, {}, registry_rules).technology_id
+        == "vercel-sandbox"
+    )
 
 
 def test_educational_material_signal_detects_book_repo(runtime_config) -> None:

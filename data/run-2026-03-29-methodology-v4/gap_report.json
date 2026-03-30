@@ -1,0 +1,408 @@
+{
+  "final_repos_missing_edges": [
+    {
+      "full_name": "grafbase/grafbase",
+      "gap_reason": "unmapped_dependency_evidence",
+      "repo_id": 370342171,
+      "stars": 1222,
+      "unmatched_dependency_count": 2145
+    },
+    {
+      "full_name": "FrigadeHQ/trench",
+      "gap_reason": "unmapped_dependency_evidence",
+      "repo_id": 865585945,
+      "stars": 1620,
+      "unmatched_dependency_count": 114
+    },
+    {
+      "full_name": "RunanywhereAI/RCLI",
+      "gap_reason": "unmapped_dependency_evidence",
+      "repo_id": 1172340808,
+      "stars": 1299,
+      "unmatched_dependency_count": 2
+    }
+  ],
+  "final_repos_missing_edges_count": 3,
+  "final_repos_missing_edges_with_no_dependency_evidence_count": 0,
+  "final_repos_missing_edges_with_unmapped_dependency_evidence_count": 3,
+  "suggested_discovery_inputs": [
+    {
+      "entry_type": "repo_seed",
+      "matched_terms": [
+        "client",
+        "development",
+        "serve",
+        "server"
+      ],
+      "priority_score": 181001,
+      "stars": 181001,
+      "suggested_action": "consider exact repo seed and canonical repo_names mapping",
+      "value": "n8n-io/n8n"
+    },
+    {
+      "entry_type": "repo_seed",
+      "matched_terms": [
+        "community",
+        "openai"
+      ],
+      "priority_score": 154200,
+      "stars": 154200,
+      "suggested_action": "consider exact repo seed and canonical repo_names mapping",
+      "value": "f/prompts.chat"
+    },
+    {
+      "entry_type": "repo_seed",
+      "matched_terms": [
+        "model"
+      ],
+      "priority_score": 146222,
+      "stars": 146222,
+      "suggested_action": "consider exact repo seed and canonical repo_names mapping",
+      "value": "langflow-ai/langflow"
+    },
+    {
+      "entry_type": "repo_seed",
+      "matched_terms": [
+        "development",
+        "genai",
+        "openai",
+        "python"
+      ],
+      "priority_score": 134413,
+      "stars": 134413,
+      "suggested_action": "consider exact repo seed and canonical repo_names mapping",
+      "value": "langgenius/dify"
+    },
+    {
+      "entry_type": "repo_seed",
+      "matched_terms": [
+        "model"
+      ],
+      "priority_score": 133195,
+      "stars": 133195,
+      "suggested_action": "consider exact repo seed and canonical repo_names mapping",
+      "value": "x1xhlol/system-prompts-and-models-of-ai-tools"
+    },
+    {
+      "entry_type": "repo_seed",
+      "matched_terms": [
+        "llama",
+        "ollama",
+        "openai"
+      ],
+      "priority_score": 128629,
+      "stars": 128629,
+      "suggested_action": "consider exact repo seed and canonical repo_names mapping",
+      "value": "open-webui/open-webui"
+    },
+    {
+      "entry_type": "repo_seed",
+      "matched_terms": [
+        "development"
+      ],
+      "priority_score": 112083,
+      "stars": 112083,
+      "suggested_action": "consider exact repo seed and canonical repo_names mapping",
+      "value": "obra/superpowers"
+    },
+    {
+      "entry_type": "repo_seed",
+      "matched_terms": [
+        "anthropic",
+        "development"
+      ],
+      "priority_score": 106792,
+      "stars": 106792,
+      "suggested_action": "consider exact repo seed and canonical repo_names mapping",
+      "value": "affaan-m/everything-claude-code"
+    },
+    {
+      "entry_type": "repo_seed",
+      "matched_terms": [
+        "anthropic",
+        "apps",
+        "model",
+        "openai",
+        "python"
+      ],
+      "priority_score": 103524,
+      "stars": 103524,
+      "suggested_action": "consider exact repo seed and canonical repo_names mapping",
+      "value": "Shubhamsaboo/awesome-llm-apps"
+    },
+    {
+      "entry_type": "repo_seed",
+      "matched_terms": [
+        "anthropic"
+      ],
+      "priority_score": 102644,
+      "stars": 102644,
+      "suggested_action": "consider exact repo seed and canonical repo_names mapping",
+      "value": "anthropics/skills"
+    }
+  ],
+  "top_ai_specific_unmatched_package_prefixes": [
+    {
+      "count": 2535,
+      "package_prefix": "google"
+    },
+    {
+      "count": 2523,
+      "package_prefix": "pydantic"
+    },
+    {
+      "count": 1986,
+      "package_prefix": "@activepieces/"
+    },
+    {
+      "count": 1975,
+      "package_prefix": "llama"
+    },
+    {
+      "count": 1867,
+      "package_prefix": "nvidia"
+    },
+    {
+      "count": 1708,
+      "package_prefix": "windows"
+    },
+    {
+      "count": 1541,
+      "package_prefix": "async"
+    },
+    {
+      "count": 1440,
+      "package_prefix": "vitest"
+    },
+    {
+      "count": 1205,
+      "package_prefix": "fastapi"
+    },
+    {
+      "count": 1193,
+      "package_prefix": "aws"
+    }
+  ],
+  "top_commodity_unmatched_package_prefixes": [
+    {
+      "count": 4114,
+      "package_prefix": "@rollup/"
+    },
+    {
+      "count": 3528,
+      "package_prefix": "typescript"
+    },
+    {
+      "count": 3366,
+      "package_prefix": "opentelemetry"
+    },
+    {
+      "count": 3337,
+      "package_prefix": "github"
+    },
+    {
+      "count": 3318,
+      "package_prefix": "python"
+    },
+    {
+      "count": 2855,
+      "package_prefix": "serde"
+    },
+    {
+      "count": 2612,
+      "package_prefix": "@coze-arch/"
+    },
+    {
+      "count": 2249,
+      "package_prefix": "@img/"
+    },
+    {
+      "count": 1997,
+      "package_prefix": "pytest"
+    },
+    {
+      "count": 1895,
+      "package_prefix": "requests"
+    }
+  ],
+  "top_unmatched_package_prefixes": [
+    {
+      "count": 4114,
+      "package_prefix": "@rollup/"
+    },
+    {
+      "count": 3528,
+      "package_prefix": "typescript"
+    },
+    {
+      "count": 3366,
+      "package_prefix": "opentelemetry"
+    },
+    {
+      "count": 3337,
+      "package_prefix": "github"
+    },
+    {
+      "count": 3318,
+      "package_prefix": "python"
+    },
+    {
+      "count": 2855,
+      "package_prefix": "serde"
+    },
+    {
+      "count": 2612,
+      "package_prefix": "@coze-arch/"
+    },
+    {
+      "count": 2535,
+      "package_prefix": "google"
+    },
+    {
+      "count": 2523,
+      "package_prefix": "pydantic"
+    },
+    {
+      "count": 2249,
+      "package_prefix": "@img/"
+    }
+  ],
+  "top_unmatched_packages": [
+    {
+      "count": 3197,
+      "package_name": "typescript"
+    },
+    {
+      "count": 1552,
+      "package_name": "pydantic"
+    },
+    {
+      "count": 1504,
+      "package_name": "requests"
+    },
+    {
+      "count": 1447,
+      "package_name": "zod"
+    },
+    {
+      "count": 1438,
+      "package_name": "numpy"
+    },
+    {
+      "count": 1394,
+      "package_name": "vitest"
+    },
+    {
+      "count": 1376,
+      "package_name": "python-dotenv"
+    },
+    {
+      "count": 1048,
+      "package_name": "uvicorn"
+    },
+    {
+      "count": 1039,
+      "package_name": "fastapi"
+    },
+    {
+      "count": 990,
+      "package_name": "pandas"
+    }
+  ],
+  "top_vendor_like_unmapped_repos": [
+    {
+      "full_name": "n8n-io/n8n",
+      "matched_terms": [
+        "client",
+        "development",
+        "serve",
+        "server"
+      ],
+      "repo_id": 193215554,
+      "stars": 181001
+    },
+    {
+      "full_name": "f/prompts.chat",
+      "matched_terms": [
+        "community",
+        "openai"
+      ],
+      "repo_id": 574523116,
+      "stars": 154200
+    },
+    {
+      "full_name": "langflow-ai/langflow",
+      "matched_terms": [
+        "model"
+      ],
+      "repo_id": 599320067,
+      "stars": 146222
+    },
+    {
+      "full_name": "langgenius/dify",
+      "matched_terms": [
+        "development",
+        "genai",
+        "openai",
+        "python"
+      ],
+      "repo_id": 626805178,
+      "stars": 134413
+    },
+    {
+      "full_name": "x1xhlol/system-prompts-and-models-of-ai-tools",
+      "matched_terms": [
+        "model"
+      ],
+      "repo_id": 943398999,
+      "stars": 133195
+    },
+    {
+      "full_name": "open-webui/open-webui",
+      "matched_terms": [
+        "llama",
+        "ollama",
+        "openai"
+      ],
+      "repo_id": 701547123,
+      "stars": 128629
+    },
+    {
+      "full_name": "obra/superpowers",
+      "matched_terms": [
+        "development"
+      ],
+      "repo_id": 1073224795,
+      "stars": 112083
+    },
+    {
+      "full_name": "affaan-m/everything-claude-code",
+      "matched_terms": [
+        "anthropic",
+        "development"
+      ],
+      "repo_id": 1136590548,
+      "stars": 106792
+    },
+    {
+      "full_name": "Shubhamsaboo/awesome-llm-apps",
+      "matched_terms": [
+        "anthropic",
+        "apps",
+        "model",
+        "openai",
+        "python"
+      ],
+      "repo_id": 793375104,
+      "stars": 103524
+    },
+    {
+      "full_name": "anthropics/skills",
+      "matched_terms": [
+        "anthropic"
+      ],
+      "repo_id": 1061953414,
+      "stars": 102644
+    }
+  ]
+}

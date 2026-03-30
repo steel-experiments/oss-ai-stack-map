@@ -98,7 +98,7 @@ def build_page(input_dir: Path) -> str:
         ),
         (
             "What this map is not",
-            "It is not a generic dependency census, README keyword scrape, or popularity leaderboard.",
+            "It is not a generic dependency census, unreviewed README keyword scrape, or popularity leaderboard.",
         ),
         (
             "Why repair-first matters",
@@ -120,7 +120,7 @@ def build_page(input_dir: Path) -> str:
         "SBOM direct dependencies from GitHub dependency graph exports.",
         "Import-derived fallback detection when manifest coverage is incomplete.",
         "Repo identity edges for upstream canonical projects.",
-        "Low-confidence README fallback only when a final repo would otherwise remain unmapped.",
+        "Curator-reviewed low-confidence README fallback only when a final repo would otherwise remain unmapped.",
     ]
 
     curation_rules = [
@@ -149,7 +149,7 @@ def build_page(input_dir: Path) -> str:
         ),
         (
             "What does the benchmark measure?",
-            "The benchmark measures whether known important entities are discovered, included, identity-mapped, observed in third-party adoption, and supported by dependency evidence. It is the main regression guard for recall.",
+            "The benchmark measures whether curated important entities are discovered, included, identity-mapped, observed in third-party adoption, and supported by dependency evidence. It is both a regression guard and a growing recall panel.",
         ),
         (
             "What counts as a good improvement?",
@@ -470,7 +470,7 @@ flowchart LR
       </section>
 
       <footer class="mt-14 border border-line bg-paper px-6 py-5 text-sm leading-7 text-muted">
-        <span class="font-mono text-ink">[source]</span> this explainer is generated from the current project architecture and methodology, and paired with the latest repaired snapshot under <span class="break-all font-mono text-ink">{escape(str(input_dir))}</span>.
+        <span class="font-mono text-ink">[source]</span> this explainer is generated from the current project architecture and methodology, and paired with the latest validated snapshot under <span class="break-all font-mono text-ink">{escape(str(input_dir))}</span>.
       </footer>
     </main>
   </body>

@@ -15,10 +15,13 @@ It discovers candidate repositories, hydrates metadata, collects repo context, e
   - manifests for Python, JavaScript/TypeScript, Go, and Rust
   - GitHub dependency graph SBOM exports
   - bounded import scanning for initial ecosystems
+- Publishes reviewed low-confidence README fallback edges only when an included repo would otherwise remain unmapped
 - Normalizes evidence through a curated alias table of 48 technologies across 8 categories
+- Publishes explicit evidence tiers: direct-only, reviewed-fallback, and full-final-population coverage
 - Produces Parquet and CSV outputs for downstream analysis
 - Supports resumable classification via on-disk checkpoints
-- Optionally runs OpenAI judge passes for borderline hardening and selected-repo validation
+- Optionally runs OpenAI judge passes for borderline hardening and stratified sampled final-set validation
+- Emits validation audit, robustness, and benchmark split reports alongside the main snapshot outputs
 
 ## Current status
 
@@ -35,13 +38,15 @@ Implemented today:
 - Technology normalization
 - Reporting summary generation
 - Snapshot-level descriptive statistics and graph analysis
-- Optional LLM judge modes for borderline hardening and selected-repo validation
+- Static HTML publication under `docs/`
+- Snapshot repair, validation, benchmark recall, and registry suggestion artifacts
+- Optional LLM judge modes for borderline hardening and stratified sampled final-set validation
+- Evidence-tier, validation-audit, and robustness report artifacts
 
-Not implemented yet:
+Still limited:
 
-- Final publication/reporting layers described in the full spec
 - Broader ecosystem coverage beyond the current manifest/import support boundary
-- More advanced normalization beyond curated alias matching
+- A larger benchmark panel beyond the current positive, holdout, and negative-control set
 
 ## How the pipeline works
 
@@ -199,6 +204,11 @@ Core tables:
 - `repo_technology_edges.parquet`: normalized repo-to-technology edges for included repos
 - `technologies.parquet`: canonical technology dimension table
 - `judge_decisions.parquet`: optional LLM judge outputs
+- `evidence_tier_report.json`: direct-only, reviewed-fallback, and full-population coverage views
+- `validation_audit_report.json`: stratified sampled validation audit summary
+- `robustness_report.json`: rule-only vs judge-adjusted and evidence-tier robustness checks
+- `benchmark_recall_report.json`: positive recall, holdout coverage, and negative-control precision
+- `review_queue.json`: machine-readable queue for README-only finals, audit-changed repos, benchmark gaps, and remaining missing-edge finals
 - `discovery_stage_timings.parquet`
 - `classification_stage_timings.parquet`
 - `stage_timings.parquet`
