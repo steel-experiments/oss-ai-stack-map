@@ -4,6 +4,8 @@ import time
 from pathlib import Path
 from typing import Callable
 
+import httpx
+
 from oss_ai_stack_map.config.loader import RuntimeConfig
 from oss_ai_stack_map.github.client import GitHubClient
 from oss_ai_stack_map.models.core import DiscoveredRepo, DiscoveryResult, StageTiming
@@ -36,8 +38,13 @@ def discover_candidates(
             1 if query.startswith("repo:") else runtime.study.filters.max_search_pages_per_query
         )
         for page in range(1, max_pages + 1):
-            payload = client.search_repositories(query=query, page=page)
-            items = payload.get("items", [])
+            if query.startswith("repo:"):
+                full_name = query.removeprefix("repo:")
+                item = fetch_seed_repository(client=client, full_name=full_name)
+                items = [item] if item else []
+            else:
+                payload = client.search_repositories(query=query, page=page)
+                items = payload.get("items", [])
             if not items:
                 break
             for item in items:
@@ -280,6 +287,37 @@ def hydrate_discovered_repos(
             )
         )
     return repos
+
+
+def fetch_seed_repository(client: GitHubClient, *, full_name: str) -> dict | None:
+    owner, repo = full_name.split("/", 1)
+    try:
+        payload = client.get_repo(owner, repo)
+    except httpx.HTTPStatusError as exc:
+        if exc.response.status_code in {403, 404, 422}:
+            return None
+        raise
+    if not payload:
+        return None
+    return {
+        "id": payload["id"],
+        "full_name": payload["full_name"],
+        "html_url": payload["html_url"],
+        "description": payload.get("description"),
+        "owner": {"type": (payload.get("owner") or {}).get("type")},
+        "stargazers_count": payload.get("stargazers_count", 0),
+        "forks_count": payload.get("forks_count", 0),
+        "language": payload.get("language"),
+        "topics": payload.get("topics") or [],
+        "license": {"spdx_id": (payload.get("license") or {}).get("spdx_id")},
+        "archived": payload.get("archived", False),
+        "fork": payload.get("fork", False),
+        "is_template": payload.get("is_template", False),
+        "created_at": payload["created_at"],
+        "updated_at": payload["updated_at"],
+        "pushed_at": payload["pushed_at"],
+        "default_branch": payload.get("default_branch") or "HEAD",
+    }
 
 
 def normalize_graphql_repo(

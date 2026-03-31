@@ -1,0 +1,50 @@
+{
+  "direct_supported_repo_count": 938,
+  "fallback_supported_repo_count": 979,
+  "final_repo_count": 981,
+  "mixed_fallback_repo_count": 0,
+  "readme_only_repo_count": 41,
+  "repo_evidence_profiles": [
+    {
+      "evidence_profile": "direct_only",
+      "repo_count": 925
+    },
+    {
+      "evidence_profile": "readme_only",
+      "repo_count": 41
+    },
+    {
+      "evidence_profile": "repo_identity_only",
+      "repo_count": 13
+    },
+    {
+      "evidence_profile": "unmapped",
+      "repo_count": 2
+    }
+  ],
+  "repo_identity_only_repo_count": 13,
+  "tiers": [
+    {
+      "edge_count": 5107,
+      "label": "Direct only",
+      "repo_count": 938,
+      "repo_share": 0.9562,
+      "tier_id": "direct_only"
+    },
+    {
+      "edge_count": 5227,
+      "label": "Reviewed fallback",
+      "repo_count": 979,
+      "repo_share": 0.998,
+      "tier_id": "reviewed_fallback"
+    },
+    {
+      "edge_count": 5227,
+      "label": "Full final population",
+      "repo_count": 981,
+      "repo_share": 1.0,
+      "tier_id": "full_final_population"
+    }
+  ],
+  "unmapped_final_repo_count": 2
+}

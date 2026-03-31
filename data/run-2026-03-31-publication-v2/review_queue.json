@@ -1,0 +1,2043 @@
+{
+  "audit_changed_repo_count": 17,
+  "audit_changed_repos": [
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "huggingface/transformers",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 155220641,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 158388,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "Shubhamsaboo/awesome-llm-apps",
+      "judge_confidence": "high",
+      "primary_segment": "orchestration_framework",
+      "prior_override_retained": true,
+      "repo_id": 793375104,
+      "rule_included": false,
+      "score_ai_band": "9+",
+      "score_serious_band": "2-3",
+      "stars": 103524,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "anthropics/skills",
+      "judge_confidence": "medium",
+      "primary_segment": "agent_application",
+      "prior_override_retained": true,
+      "repo_id": 1061953414,
+      "rule_included": false,
+      "score_ai_band": "9+",
+      "score_serious_band": "0-1",
+      "stars": 102644,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "ggml-org/llama.cpp",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 612354784,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "9+",
+      "stars": 100389,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "PaddlePaddle/PaddleOCR",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 262296122,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 73043,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "qwibitai/nanoclaw",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 1146738089,
+      "rule_included": true,
+      "score_ai_band": "4-5",
+      "score_serious_band": "6-8",
+      "stars": 25424,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "meta-llama/llama-cookbook",
+      "judge_confidence": "medium",
+      "primary_segment": "training_finetuning",
+      "prior_override_retained": true,
+      "repo_id": 667297720,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 18265,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "0xJacky/nginx-ui",
+      "judge_confidence": "medium",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 340339997,
+      "rule_included": true,
+      "score_ai_band": "4-5",
+      "score_serious_band": "9+",
+      "stars": 10920,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "huggingface/skills",
+      "judge_confidence": "medium",
+      "primary_segment": "training_finetuning",
+      "prior_override_retained": true,
+      "repo_id": 1102903896,
+      "rule_included": true,
+      "score_ai_band": "6-8",
+      "score_serious_band": "6-8",
+      "stars": 9896,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "open-metadata/OpenMetadata",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 391740664,
+      "rule_included": true,
+      "score_ai_band": "6-8",
+      "score_serious_band": "6-8",
+      "stars": 9008,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "CoplayDev/unity-mcp",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 950564038,
+      "rule_included": true,
+      "score_ai_band": "6-8",
+      "score_serious_band": "6-8",
+      "stars": 7552,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "panaversity/learn-agentic-ai",
+      "judge_confidence": "high",
+      "primary_segment": "orchestration_framework",
+      "prior_override_retained": true,
+      "repo_id": 814028199,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "4-5",
+      "stars": 4008,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "google-agentic-commerce/AP2",
+      "judge_confidence": "medium",
+      "primary_segment": "orchestration_framework",
+      "prior_override_retained": true,
+      "repo_id": 993436316,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 2885,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "huggingface/evaluate",
+      "judge_confidence": "high",
+      "primary_segment": "eval_guardrails_observability",
+      "prior_override_retained": true,
+      "repo_id": 475932672,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 2433,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "readme_only",
+      "final_included": true,
+      "full_name": "vearch/vearch",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 186332888,
+      "rule_included": false,
+      "score_ai_band": "2-3",
+      "score_serious_band": "6-8",
+      "stars": 2291,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "repo_identity_only",
+      "final_included": true,
+      "full_name": "grafbase/grafbase",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 370342171,
+      "rule_included": true,
+      "score_ai_band": "4-5",
+      "score_serious_band": "9+",
+      "stars": 1222,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "carlini/yet-another-applied-llm-benchmark",
+      "judge_confidence": "medium",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "repo_id": 732850673,
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "4-5",
+      "stars": 1049,
+      "validation_changed_decision": true
+    }
+  ],
+  "benchmark_priority_gap_count": 15,
+  "benchmark_priority_gaps": [
+    {
+      "display_name": "LanceDB",
+      "entity_id": "lancedb",
+      "expectation": "positive",
+      "priority_score": 80,
+      "reasons": [
+        "repo included but canonical repo identity is not mapped"
+      ],
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "add or fix repo_names mapping in registry"
+      ]
+    },
+    {
+      "display_name": "DingoDB",
+      "entity_id": "dingo",
+      "expectation": "positive",
+      "priority_score": 40,
+      "reasons": [
+        "no dependency evidence found for benchmark entity"
+      ],
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "expand package prefixes or manifest/SBOM extraction coverage"
+      ]
+    },
+    {
+      "display_name": "Daytona",
+      "entity_id": "daytona",
+      "expectation": "positive",
+      "priority_score": 30,
+      "reasons": [
+        "benchmark repo discovered only via exact seed"
+      ],
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "improve topic or description query coverage"
+      ]
+    },
+    {
+      "display_name": "DSPy",
+      "entity_id": "dspy",
+      "expectation": "positive",
+      "priority_score": 30,
+      "reasons": [
+        "benchmark repo discovered only via exact seed"
+      ],
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "improve topic or description query coverage"
+      ]
+    },
+    {
+      "display_name": "llama.cpp",
+      "entity_id": "llama-cpp",
+      "expectation": "positive",
+      "priority_score": 30,
+      "reasons": [
+        "benchmark repo discovered only via exact seed"
+      ],
+      "segment_id": null,
+      "split": "holdout",
+      "suggested_actions": [
+        "improve topic or description query coverage"
+      ]
+    },
+    {
+      "display_name": "TGI",
+      "entity_id": "tgi",
+      "expectation": "positive",
+      "priority_score": 30,
+      "reasons": [
+        "benchmark repo discovered only via exact seed"
+      ],
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "improve topic or description query coverage"
+      ]
+    },
+    {
+      "display_name": "BentoML",
+      "entity_id": "bentoml",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "segment_id": null,
+      "split": "holdout",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "Google ADK",
+      "entity_id": "google-adk",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "segment_id": null,
+      "split": "holdout",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "LiteLLM",
+      "entity_id": "litellm",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "Ollama",
+      "entity_id": "ollama",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "OpenAI Agents",
+      "entity_id": "openai-agents",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "segment_id": null,
+      "split": "holdout",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "SGLang",
+      "entity_id": "sglang",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "Transformers",
+      "entity_id": "transformers",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "Vercel AI SDK",
+      "entity_id": "vercel-ai-sdk",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "vLLM",
+      "entity_id": "vllm",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "segment_id": null,
+      "split": "holdout",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    }
+  ],
+  "missing_edge_final_count": 0,
+  "missing_edge_finals": [],
+  "prioritized_review_items": [
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "huggingface/transformers",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "priority_score": 158888,
+      "repo_id": 155220641,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 158388,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "Shubhamsaboo/awesome-llm-apps",
+      "judge_confidence": "high",
+      "primary_segment": "orchestration_framework",
+      "prior_override_retained": true,
+      "priority_score": 104024,
+      "repo_id": 793375104,
+      "review_kind": "audit_changed_repo",
+      "rule_included": false,
+      "score_ai_band": "9+",
+      "score_serious_band": "2-3",
+      "stars": 103524,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "anthropics/skills",
+      "judge_confidence": "medium",
+      "primary_segment": "agent_application",
+      "prior_override_retained": true,
+      "priority_score": 103144,
+      "repo_id": 1061953414,
+      "review_kind": "audit_changed_repo",
+      "rule_included": false,
+      "score_ai_band": "9+",
+      "score_serious_band": "0-1",
+      "stars": 102644,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "ggml-org/llama.cpp",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "priority_score": 100889,
+      "repo_id": 612354784,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "9+",
+      "stars": 100389,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "PaddlePaddle/PaddleOCR",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "priority_score": 73543,
+      "repo_id": 262296122,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 73043,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "Kong/kong",
+      "primary_segment": "serving_runtime",
+      "priority_score": 43037,
+      "repo_id": 26783295,
+      "review_kind": "readme_only_final",
+      "stars": 43037,
+      "technology_ids": [
+        "anthropic",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "farion1231/cc-switch",
+      "primary_segment": "agent_application",
+      "priority_score": 33306,
+      "repo_id": 1031912724,
+      "review_kind": "readme_only_final",
+      "stars": 33306,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "songquanpeng/one-api",
+      "primary_segment": "serving_runtime",
+      "priority_score": 30975,
+      "repo_id": 631254164,
+      "review_kind": "readme_only_final",
+      "stars": 30975,
+      "technology_ids": [
+        "anthropic",
+        "cloudflare-agents",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "qwibitai/nanoclaw",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "priority_score": 25924,
+      "repo_id": 1146738089,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "4-5",
+      "score_serious_band": "6-8",
+      "stars": 25424,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "SillyTavern/SillyTavern",
+      "primary_segment": "serving_runtime",
+      "priority_score": 24811,
+      "repo_id": 599524116,
+      "review_kind": "readme_only_final",
+      "stars": 24811,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "vanna-ai/vanna",
+      "primary_segment": "vector_retrieval_infrastructure",
+      "priority_score": 23107,
+      "repo_id": 640317662,
+      "review_kind": "readme_only_final",
+      "stars": 23107,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "meta-llama/llama-cookbook",
+      "judge_confidence": "medium",
+      "primary_segment": "training_finetuning",
+      "prior_override_retained": true,
+      "priority_score": 18765,
+      "repo_id": 667297720,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 18265,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "RightNow-AI/openfang",
+      "primary_segment": "serving_runtime",
+      "priority_score": 15518,
+      "repo_id": 1166139870,
+      "review_kind": "readme_only_final",
+      "stars": 15518,
+      "technology_ids": [
+        "anthropic",
+        "autogen",
+        "crewai",
+        "guardrails",
+        "langchain",
+        "langgraph",
+        "ollama",
+        "openai",
+        "vllm"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "rtk-ai/rtk",
+      "primary_segment": "serving_runtime",
+      "priority_score": 13186,
+      "repo_id": 1139971460,
+      "review_kind": "readme_only_final",
+      "stars": 13186,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "cft0808/edict",
+      "primary_segment": "serving_runtime",
+      "priority_score": 12733,
+      "repo_id": 1164832776,
+      "review_kind": "readme_only_final",
+      "stars": 12733,
+      "technology_ids": [
+        "autogen",
+        "crewai",
+        "langgraph"
+      ]
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "0xJacky/nginx-ui",
+      "judge_confidence": "medium",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "priority_score": 11420,
+      "repo_id": 340339997,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "4-5",
+      "score_serious_band": "9+",
+      "stars": 10920,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "huggingface/skills",
+      "judge_confidence": "medium",
+      "primary_segment": "training_finetuning",
+      "prior_override_retained": true,
+      "priority_score": 10396,
+      "repo_id": 1102903896,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "6-8",
+      "score_serious_band": "6-8",
+      "stars": 9896,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "oramasearch/orama",
+      "primary_segment": "serving_runtime",
+      "priority_score": 10260,
+      "repo_id": 490677825,
+      "review_kind": "readme_only_final",
+      "stars": 10260,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "sigoden/aichat",
+      "primary_segment": "rag_search_application",
+      "priority_score": 9617,
+      "repo_id": 608896930,
+      "review_kind": "readme_only_final",
+      "stars": 9617,
+      "technology_ids": [
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "open-metadata/OpenMetadata",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "priority_score": 9508,
+      "repo_id": 391740664,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "6-8",
+      "score_serious_band": "6-8",
+      "stars": 9008,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "CoplayDev/unity-mcp",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "priority_score": 8052,
+      "repo_id": 950564038,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "6-8",
+      "score_serious_band": "6-8",
+      "stars": 7552,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "BlockRunAI/ClawRouter",
+      "primary_segment": "serving_runtime",
+      "priority_score": 6390,
+      "repo_id": 1149071982,
+      "review_kind": "readme_only_final",
+      "stars": 6390,
+      "technology_ids": [
+        "anthropic",
+        "litellm",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "olimorris/codecompanion.nvim",
+      "primary_segment": "serving_runtime",
+      "priority_score": 6344,
+      "repo_id": 736363011,
+      "review_kind": "readme_only_final",
+      "stars": 6344,
+      "technology_ids": [
+        "anthropic",
+        "model-context-protocol",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "winfunc/deepreasoning",
+      "primary_segment": "serving_runtime",
+      "priority_score": 5366,
+      "repo_id": 922596686,
+      "review_kind": "readme_only_final",
+      "stars": 5366,
+      "technology_ids": [
+        "anthropic"
+      ]
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "panaversity/learn-agentic-ai",
+      "judge_confidence": "high",
+      "primary_segment": "orchestration_framework",
+      "prior_override_retained": true,
+      "priority_score": 4508,
+      "repo_id": 814028199,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "4-5",
+      "stars": 4008,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "casibase/casibase",
+      "primary_segment": "serving_runtime",
+      "priority_score": 4478,
+      "repo_id": 267749451,
+      "review_kind": "readme_only_final",
+      "stars": 4478,
+      "technology_ids": [
+        "anthropic",
+        "model-context-protocol",
+        "ollama",
+        "openai",
+        "transformers"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "osaurus-ai/osaurus",
+      "primary_segment": "serving_runtime",
+      "priority_score": 4448,
+      "repo_id": 1039587768,
+      "review_kind": "readme_only_final",
+      "stars": 4448,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "google-deepmind/acme",
+      "primary_segment": "agent_application",
+      "priority_score": 3947,
+      "repo_id": 260420185,
+      "review_kind": "readme_only_final",
+      "stars": 3947,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "JetBrains/koog",
+      "primary_segment": "orchestration_framework",
+      "priority_score": 3944,
+      "repo_id": 976095156,
+      "review_kind": "readme_only_final",
+      "stars": 3944,
+      "technology_ids": [
+        "anthropic",
+        "langfuse",
+        "ollama",
+        "openai",
+        "weave"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "Lightning-AI/LitServe",
+      "primary_segment": "serving_runtime",
+      "priority_score": 3833,
+      "repo_id": 730728120,
+      "review_kind": "readme_only_final",
+      "stars": 3833,
+      "technology_ids": [
+        "modal",
+        "ollama",
+        "openai",
+        "pytorch",
+        "vllm"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "crmne/ruby_llm",
+      "primary_segment": "agent_application",
+      "priority_score": 3773,
+      "repo_id": 924568745,
+      "review_kind": "readme_only_final",
+      "stars": 3773,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "max-sixty/worktrunk",
+      "primary_segment": "agent_application",
+      "priority_score": 3710,
+      "repo_id": 1078528927,
+      "review_kind": "readme_only_final",
+      "stars": 3710,
+      "technology_ids": [
+        "anthropic"
+      ]
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "google-agentic-commerce/AP2",
+      "judge_confidence": "medium",
+      "primary_segment": "orchestration_framework",
+      "prior_override_retained": true,
+      "priority_score": 3385,
+      "repo_id": 993436316,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 2885,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "karthink/gptel",
+      "primary_segment": "ai_developer_tool",
+      "priority_score": 3265,
+      "repo_id": 610038902,
+      "review_kind": "readme_only_final",
+      "stars": 3265,
+      "technology_ids": [
+        "anthropic",
+        "llama-cpp",
+        "modal",
+        "model-context-protocol",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "steipete/Peekaboo",
+      "primary_segment": "agent_application",
+      "priority_score": 2968,
+      "repo_id": 988488798,
+      "review_kind": "readme_only_final",
+      "stars": 2968,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "direct_only",
+      "final_included": true,
+      "full_name": "huggingface/evaluate",
+      "judge_confidence": "high",
+      "primary_segment": "eval_guardrails_observability",
+      "prior_override_retained": true,
+      "priority_score": 2933,
+      "repo_id": 475932672,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "6-8",
+      "stars": 2433,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "readme_only",
+      "final_included": true,
+      "full_name": "vearch/vearch",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "priority_score": 2791,
+      "repo_id": 186332888,
+      "review_kind": "audit_changed_repo",
+      "rule_included": false,
+      "score_ai_band": "2-3",
+      "score_serious_band": "6-8",
+      "stars": 2291,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "tursodatabase/agentfs",
+      "primary_segment": "agent_application",
+      "priority_score": 2727,
+      "repo_id": 1082722503,
+      "review_kind": "readme_only_final",
+      "stars": 2727,
+      "technology_ids": [
+        "anthropic",
+        "mastra",
+        "openai",
+        "openai-agents",
+        "vercel-ai-sdk"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "vearch/vearch",
+      "primary_segment": "serving_runtime",
+      "priority_score": 2291,
+      "repo_id": 186332888,
+      "review_kind": "readme_only_final",
+      "stars": 2291,
+      "technology_ids": [
+        "langchain",
+        "llamaindex"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "liyupi/yu-ai-agent",
+      "primary_segment": "rag_search_application",
+      "priority_score": 1930,
+      "repo_id": 970578570,
+      "review_kind": "readme_only_final",
+      "stars": 1930,
+      "technology_ids": [
+        "ollama",
+        "pgvector"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "neuron-core/neuron-ai",
+      "primary_segment": "vector_retrieval_infrastructure",
+      "priority_score": 1802,
+      "repo_id": 941562247,
+      "review_kind": "readme_only_final",
+      "stars": 1802,
+      "technology_ids": [
+        "anthropic",
+        "model-context-protocol",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "repo_identity_only",
+      "final_included": true,
+      "full_name": "grafbase/grafbase",
+      "judge_confidence": "high",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "priority_score": 1722,
+      "repo_id": 370342171,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "4-5",
+      "score_serious_band": "9+",
+      "stars": 1222,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "travisvn/openai-edge-tts",
+      "primary_segment": "serving_runtime",
+      "priority_score": 1718,
+      "repo_id": 870374636,
+      "review_kind": "readme_only_final",
+      "stars": 1718,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "qingchencloud/clawpanel",
+      "primary_segment": "agent_application",
+      "priority_score": 1611,
+      "repo_id": 1167607007,
+      "review_kind": "readme_only_final",
+      "stars": 1611,
+      "technology_ids": [
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "unmapped",
+      "final_included": false,
+      "full_name": "carlini/yet-another-applied-llm-benchmark",
+      "judge_confidence": "medium",
+      "primary_segment": "serving_runtime",
+      "prior_override_retained": true,
+      "priority_score": 1549,
+      "repo_id": 732850673,
+      "review_kind": "audit_changed_repo",
+      "rule_included": true,
+      "score_ai_band": "9+",
+      "score_serious_band": "4-5",
+      "stars": 1049,
+      "validation_changed_decision": true
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "yoanbernabeu/grepai",
+      "primary_segment": "vector_retrieval_infrastructure",
+      "priority_score": 1518,
+      "repo_id": 1131085323,
+      "review_kind": "readme_only_final",
+      "stars": 1518,
+      "technology_ids": [
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "langwatch/better-agents",
+      "primary_segment": "agent_application",
+      "priority_score": 1507,
+      "repo_id": 969264611,
+      "review_kind": "readme_only_final",
+      "stars": 1507,
+      "technology_ids": [
+        "anthropic",
+        "langgraph",
+        "mastra"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "langgraph4j/langgraph4j",
+      "primary_segment": "agent_application",
+      "priority_score": 1466,
+      "repo_id": 774011471,
+      "review_kind": "readme_only_final",
+      "stars": 1466,
+      "technology_ids": [
+        "langchain",
+        "langfuse",
+        "langgraph",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "ComposioHQ/secure-openclaw",
+      "primary_segment": "ai_application",
+      "priority_score": 1333,
+      "repo_id": 1152654395,
+      "review_kind": "readme_only_final",
+      "stars": 1333,
+      "technology_ids": [
+        "anthropic"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "BlackSnufkin/LitterBox",
+      "primary_segment": "serving_runtime",
+      "priority_score": 1332,
+      "repo_id": 908183333,
+      "review_kind": "readme_only_final",
+      "stars": 1332,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "RunanywhereAI/RCLI",
+      "primary_segment": "rag_search_application",
+      "priority_score": 1299,
+      "repo_id": 1172340808,
+      "review_kind": "readme_only_final",
+      "stars": 1299,
+      "technology_ids": [
+        "llama-cpp"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "valentinfrlch/ha-llmvision",
+      "primary_segment": "unassigned",
+      "priority_score": 1282,
+      "repo_id": 800568407,
+      "review_kind": "readme_only_final",
+      "stars": 1282,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "Snailclimb/interview-guide",
+      "primary_segment": "rag_search_application",
+      "priority_score": 1278,
+      "repo_id": 1127191351,
+      "review_kind": "readme_only_final",
+      "stars": 1278,
+      "technology_ids": [
+        "pgvector"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "moyangzhan/langchain4j-aideepin",
+      "primary_segment": "rag_search_application",
+      "priority_score": 1213,
+      "repo_id": 675911200,
+      "review_kind": "readme_only_final",
+      "stars": 1213,
+      "technology_ids": [
+        "langchain",
+        "ollama",
+        "openai",
+        "pgvector"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "stakpak/agent",
+      "primary_segment": "agent_application",
+      "priority_score": 1183,
+      "repo_id": 901554449,
+      "review_kind": "readme_only_final",
+      "stars": 1183,
+      "technology_ids": [
+        "anthropic",
+        "guardrails",
+        "model-context-protocol",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "xtreme1-io/xtreme1",
+      "primary_segment": "serving_runtime",
+      "priority_score": 1171,
+      "repo_id": 522563260,
+      "review_kind": "readme_only_final",
+      "stars": 1171,
+      "technology_ids": [
+        "accelerate"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "nextlevelbuilder/goclaw",
+      "primary_segment": "agent_application",
+      "priority_score": 1140,
+      "repo_id": 1163814566,
+      "review_kind": "readme_only_final",
+      "stars": 1140,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai",
+        "pgvector"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "nageoffer/ragent",
+      "primary_segment": "rag_search_application",
+      "priority_score": 1039,
+      "repo_id": 1100363827,
+      "review_kind": "readme_only_final",
+      "stars": 1039,
+      "technology_ids": [
+        "langchain",
+        "milvus",
+        "ollama",
+        "openai",
+        "vllm"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "DeepMyst/Mysti",
+      "primary_segment": "agent_application",
+      "priority_score": 1020,
+      "repo_id": 1106550266,
+      "review_kind": "readme_only_final",
+      "stars": 1020,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "display_name": "LanceDB",
+      "entity_id": "lancedb",
+      "expectation": "positive",
+      "priority_score": 80,
+      "reasons": [
+        "repo included but canonical repo identity is not mapped"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "add or fix repo_names mapping in registry"
+      ]
+    },
+    {
+      "display_name": "DingoDB",
+      "entity_id": "dingo",
+      "expectation": "positive",
+      "priority_score": 40,
+      "reasons": [
+        "no dependency evidence found for benchmark entity"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "expand package prefixes or manifest/SBOM extraction coverage"
+      ]
+    },
+    {
+      "display_name": "Daytona",
+      "entity_id": "daytona",
+      "expectation": "positive",
+      "priority_score": 30,
+      "reasons": [
+        "benchmark repo discovered only via exact seed"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "improve topic or description query coverage"
+      ]
+    },
+    {
+      "display_name": "DSPy",
+      "entity_id": "dspy",
+      "expectation": "positive",
+      "priority_score": 30,
+      "reasons": [
+        "benchmark repo discovered only via exact seed"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "improve topic or description query coverage"
+      ]
+    },
+    {
+      "display_name": "llama.cpp",
+      "entity_id": "llama-cpp",
+      "expectation": "positive",
+      "priority_score": 30,
+      "reasons": [
+        "benchmark repo discovered only via exact seed"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "holdout",
+      "suggested_actions": [
+        "improve topic or description query coverage"
+      ]
+    },
+    {
+      "display_name": "TGI",
+      "entity_id": "tgi",
+      "expectation": "positive",
+      "priority_score": 30,
+      "reasons": [
+        "benchmark repo discovered only via exact seed"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "improve topic or description query coverage"
+      ]
+    },
+    {
+      "display_name": "BentoML",
+      "entity_id": "bentoml",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "holdout",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "Google ADK",
+      "entity_id": "google-adk",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "holdout",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "LiteLLM",
+      "entity_id": "litellm",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "Ollama",
+      "entity_id": "ollama",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "OpenAI Agents",
+      "entity_id": "openai-agents",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "holdout",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "SGLang",
+      "entity_id": "sglang",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "Transformers",
+      "entity_id": "transformers",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "Vercel AI SDK",
+      "entity_id": "vercel-ai-sdk",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "tuning",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    },
+    {
+      "display_name": "vLLM",
+      "entity_id": "vllm",
+      "expectation": "positive",
+      "priority_score": 20,
+      "reasons": [
+        "anchor entity is not covered by anchor seed inputs"
+      ],
+      "review_kind": "benchmark_priority_gap",
+      "segment_id": null,
+      "split": "holdout",
+      "suggested_actions": [
+        "add or fix anchor repo_names coverage"
+      ]
+    }
+  ],
+  "readme_only_final_count": 42,
+  "readme_only_finals": [
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "Kong/kong",
+      "primary_segment": "serving_runtime",
+      "repo_id": 26783295,
+      "stars": 43037,
+      "technology_ids": [
+        "anthropic",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "farion1231/cc-switch",
+      "primary_segment": "agent_application",
+      "repo_id": 1031912724,
+      "stars": 33306,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "songquanpeng/one-api",
+      "primary_segment": "serving_runtime",
+      "repo_id": 631254164,
+      "stars": 30975,
+      "technology_ids": [
+        "anthropic",
+        "cloudflare-agents",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "SillyTavern/SillyTavern",
+      "primary_segment": "serving_runtime",
+      "repo_id": 599524116,
+      "stars": 24811,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "vanna-ai/vanna",
+      "primary_segment": "vector_retrieval_infrastructure",
+      "repo_id": 640317662,
+      "stars": 23107,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "RightNow-AI/openfang",
+      "primary_segment": "serving_runtime",
+      "repo_id": 1166139870,
+      "stars": 15518,
+      "technology_ids": [
+        "anthropic",
+        "autogen",
+        "crewai",
+        "guardrails",
+        "langchain",
+        "langgraph",
+        "ollama",
+        "openai",
+        "vllm"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "rtk-ai/rtk",
+      "primary_segment": "serving_runtime",
+      "repo_id": 1139971460,
+      "stars": 13186,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "cft0808/edict",
+      "primary_segment": "serving_runtime",
+      "repo_id": 1164832776,
+      "stars": 12733,
+      "technology_ids": [
+        "autogen",
+        "crewai",
+        "langgraph"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "oramasearch/orama",
+      "primary_segment": "serving_runtime",
+      "repo_id": 490677825,
+      "stars": 10260,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "sigoden/aichat",
+      "primary_segment": "rag_search_application",
+      "repo_id": 608896930,
+      "stars": 9617,
+      "technology_ids": [
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "BlockRunAI/ClawRouter",
+      "primary_segment": "serving_runtime",
+      "repo_id": 1149071982,
+      "stars": 6390,
+      "technology_ids": [
+        "anthropic",
+        "litellm",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "olimorris/codecompanion.nvim",
+      "primary_segment": "serving_runtime",
+      "repo_id": 736363011,
+      "stars": 6344,
+      "technology_ids": [
+        "anthropic",
+        "model-context-protocol",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "winfunc/deepreasoning",
+      "primary_segment": "serving_runtime",
+      "repo_id": 922596686,
+      "stars": 5366,
+      "technology_ids": [
+        "anthropic"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "casibase/casibase",
+      "primary_segment": "serving_runtime",
+      "repo_id": 267749451,
+      "stars": 4478,
+      "technology_ids": [
+        "anthropic",
+        "model-context-protocol",
+        "ollama",
+        "openai",
+        "transformers"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "osaurus-ai/osaurus",
+      "primary_segment": "serving_runtime",
+      "repo_id": 1039587768,
+      "stars": 4448,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "google-deepmind/acme",
+      "primary_segment": "agent_application",
+      "repo_id": 260420185,
+      "stars": 3947,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "JetBrains/koog",
+      "primary_segment": "orchestration_framework",
+      "repo_id": 976095156,
+      "stars": 3944,
+      "technology_ids": [
+        "anthropic",
+        "langfuse",
+        "ollama",
+        "openai",
+        "weave"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "Lightning-AI/LitServe",
+      "primary_segment": "serving_runtime",
+      "repo_id": 730728120,
+      "stars": 3833,
+      "technology_ids": [
+        "modal",
+        "ollama",
+        "openai",
+        "pytorch",
+        "vllm"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "crmne/ruby_llm",
+      "primary_segment": "agent_application",
+      "repo_id": 924568745,
+      "stars": 3773,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "max-sixty/worktrunk",
+      "primary_segment": "agent_application",
+      "repo_id": 1078528927,
+      "stars": 3710,
+      "technology_ids": [
+        "anthropic"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "karthink/gptel",
+      "primary_segment": "ai_developer_tool",
+      "repo_id": 610038902,
+      "stars": 3265,
+      "technology_ids": [
+        "anthropic",
+        "llama-cpp",
+        "modal",
+        "model-context-protocol",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "steipete/Peekaboo",
+      "primary_segment": "agent_application",
+      "repo_id": 988488798,
+      "stars": 2968,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "tursodatabase/agentfs",
+      "primary_segment": "agent_application",
+      "repo_id": 1082722503,
+      "stars": 2727,
+      "technology_ids": [
+        "anthropic",
+        "mastra",
+        "openai",
+        "openai-agents",
+        "vercel-ai-sdk"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "vearch/vearch",
+      "primary_segment": "serving_runtime",
+      "repo_id": 186332888,
+      "stars": 2291,
+      "technology_ids": [
+        "langchain",
+        "llamaindex"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "liyupi/yu-ai-agent",
+      "primary_segment": "rag_search_application",
+      "repo_id": 970578570,
+      "stars": 1930,
+      "technology_ids": [
+        "ollama",
+        "pgvector"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "neuron-core/neuron-ai",
+      "primary_segment": "vector_retrieval_infrastructure",
+      "repo_id": 941562247,
+      "stars": 1802,
+      "technology_ids": [
+        "anthropic",
+        "model-context-protocol",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "travisvn/openai-edge-tts",
+      "primary_segment": "serving_runtime",
+      "repo_id": 870374636,
+      "stars": 1718,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "qingchencloud/clawpanel",
+      "primary_segment": "agent_application",
+      "repo_id": 1167607007,
+      "stars": 1611,
+      "technology_ids": [
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "yoanbernabeu/grepai",
+      "primary_segment": "vector_retrieval_infrastructure",
+      "repo_id": 1131085323,
+      "stars": 1518,
+      "technology_ids": [
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "langwatch/better-agents",
+      "primary_segment": "agent_application",
+      "repo_id": 969264611,
+      "stars": 1507,
+      "technology_ids": [
+        "anthropic",
+        "langgraph",
+        "mastra"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "langgraph4j/langgraph4j",
+      "primary_segment": "agent_application",
+      "repo_id": 774011471,
+      "stars": 1466,
+      "technology_ids": [
+        "langchain",
+        "langfuse",
+        "langgraph",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "ComposioHQ/secure-openclaw",
+      "primary_segment": "ai_application",
+      "repo_id": 1152654395,
+      "stars": 1333,
+      "technology_ids": [
+        "anthropic"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "BlackSnufkin/LitterBox",
+      "primary_segment": "serving_runtime",
+      "repo_id": 908183333,
+      "stars": 1332,
+      "technology_ids": [
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "RunanywhereAI/RCLI",
+      "primary_segment": "rag_search_application",
+      "repo_id": 1172340808,
+      "stars": 1299,
+      "technology_ids": [
+        "llama-cpp"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "valentinfrlch/ha-llmvision",
+      "primary_segment": "unassigned",
+      "repo_id": 800568407,
+      "stars": 1282,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "Snailclimb/interview-guide",
+      "primary_segment": "rag_search_application",
+      "repo_id": 1127191351,
+      "stars": 1278,
+      "technology_ids": [
+        "pgvector"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "moyangzhan/langchain4j-aideepin",
+      "primary_segment": "rag_search_application",
+      "repo_id": 675911200,
+      "stars": 1213,
+      "technology_ids": [
+        "langchain",
+        "ollama",
+        "openai",
+        "pgvector"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "stakpak/agent",
+      "primary_segment": "agent_application",
+      "repo_id": 901554449,
+      "stars": 1183,
+      "technology_ids": [
+        "anthropic",
+        "guardrails",
+        "model-context-protocol",
+        "ollama",
+        "openai"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "xtreme1-io/xtreme1",
+      "primary_segment": "serving_runtime",
+      "repo_id": 522563260,
+      "stars": 1171,
+      "technology_ids": [
+        "accelerate"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "nextlevelbuilder/goclaw",
+      "primary_segment": "agent_application",
+      "repo_id": 1163814566,
+      "stars": 1140,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai",
+        "pgvector"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "nageoffer/ragent",
+      "primary_segment": "rag_search_application",
+      "repo_id": 1100363827,
+      "stars": 1039,
+      "technology_ids": [
+        "langchain",
+        "milvus",
+        "ollama",
+        "openai",
+        "vllm"
+      ]
+    },
+    {
+      "evidence_profile": "readme_only",
+      "full_name": "DeepMyst/Mysti",
+      "primary_segment": "agent_application",
+      "repo_id": 1106550266,
+      "stars": 1020,
+      "technology_ids": [
+        "anthropic",
+        "ollama",
+        "openai"
+      ]
+    }
+  ],
+  "total_review_item_count": 74
+}

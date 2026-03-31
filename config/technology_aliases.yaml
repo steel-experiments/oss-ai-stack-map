@@ -89,6 +89,8 @@ technologies:
     category_id: orchestration_and_agents
     aliases: [dspy, dspy-ai]
     import_aliases: [dspy]
+    package_prefixes: [dspy, dspy-ai, dspy_ai]
+    repo_names: [stanfordnlp/dspy]
   - technology_id: litellm
     display_name: LiteLLM
     category_id: model_access_and_providers
@@ -164,6 +166,8 @@ technologies:
     display_name: TGI
     category_id: serving_inference_and_local_runtimes
     aliases: [text-generation-inference]
+    package_prefixes: [text-generation-inference, text-generation-router]
+    repo_names: [huggingface/text-generation-inference]
   - technology_id: ollama
     display_name: Ollama
     category_id: serving_inference_and_local_runtimes
@@ -174,8 +178,10 @@ technologies:
   - technology_id: llama-cpp
     display_name: llama.cpp
     category_id: serving_inference_and_local_runtimes
-    aliases: [llama-cpp-python]
+    aliases: [llama.cpp, llama-cpp, llama-cpp-python]
     import_aliases: [llama_cpp]
+    package_prefixes: [llama-cpp-python]
+    repo_names: [ggml-org/llama.cpp]
   - technology_id: sglang
     display_name: SGLang
     category_id: serving_inference_and_local_runtimes
@@ -195,6 +201,7 @@ technologies:
     category_id: serving_inference_and_local_runtimes
     aliases: [ray, ray-serve]
     import_aliases: [ray]
+    repo_names: [ray-project/ray]
   - technology_id: transformers
     display_name: Transformers
     category_id: training_finetuning_and_model_ops
@@ -219,6 +226,8 @@ technologies:
     category_id: training_finetuning_and_model_ops
     aliases: [deepspeed]
     import_aliases: [deepspeed]
+    package_prefixes: [deepspeed]
+    repo_names: [deepspeedai/DeepSpeed]
   - technology_id: accelerate
     display_name: Accelerate
     category_id: training_finetuning_and_model_ops
@@ -275,6 +284,8 @@ technologies:
     category_id: observability_tracing_and_monitoring
     aliases: [helicone]
     import_aliases: [helicone]
+    package_prefixes: [helicone, "@helicone/"]
+    repo_names: [Helicone/helicone]
   - technology_id: weave
     display_name: Weave
     category_id: observability_tracing_and_monitoring

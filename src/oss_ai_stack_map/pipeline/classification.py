@@ -42,6 +42,8 @@ from oss_ai_stack_map.pipeline.normalize import (
 from oss_ai_stack_map.storage.checkpoints import ClassificationCheckpointStore, stable_hash
 from oss_ai_stack_map.storage.tables import read_parquet_models, write_rows, write_rows_to_paths
 
+MAX_MANIFEST_SCAN_FILES = 40
+
 
 @dataclass
 class JudgeCandidate:
@@ -990,10 +992,16 @@ def build_repo_context(
     alias_lookup: dict[str, TechnologyAlias],
 ) -> RepoContext:
     owner, name = repo.full_name.split("/", 1)
-    readme_text = safe_call(lambda: client.get_readme(owner, name), default="")
+    non_critical_fetch_status_codes = {429, 500, 502, 503, 504}
+    readme_text = safe_call(
+        lambda: client.get_readme(owner, name),
+        default="",
+        reraise_status_codes=non_critical_fetch_status_codes,
+    )
     tree_paths = safe_call(
         lambda: client.get_tree(owner, name, repo.default_branch),
         default=[],
+        reraise_status_codes=non_critical_fetch_status_codes,
     )
     manifest_paths = find_manifest_paths(tree_paths, runtime)
     registry_lookup = runtime.registry.alias_lookup()
@@ -1003,7 +1011,11 @@ def build_repo_context(
 
     manifest_dependencies: list[ManifestDependency] = []
     for path in manifest_paths:
-        text = safe_call(lambda path=path: client.get_file_text(owner, name, path), default="")
+        text = safe_call(
+            lambda path=path: client.get_file_text(owner, name, path),
+            default="",
+            reraise_status_codes=non_critical_fetch_status_codes,
+        )
         manifest_dependencies.extend(
             parse_manifest_dependencies(
                 path,
@@ -1451,7 +1463,20 @@ def find_manifest_paths(tree_paths: list[str], runtime: RuntimeConfig) -> list[s
         name = Path(path).name
         if name in allowed_names or name.endswith((".csproj",)):
             manifests.append(path)
-    return manifests
+    manifests.sort(key=manifest_path_priority)
+    return manifests[:MAX_MANIFEST_SCAN_FILES]
+
+
+def manifest_path_priority(path: str) -> tuple[int, int, str]:
+    root_name = Path(path).name
+    if "/" not in path:
+        return (0, 0, path)
+    high_signal_prefixes = ("src/", "app/", "packages/", "pkg/", "server/", "cmd/", "lib/")
+    if path.startswith(high_signal_prefixes):
+        return (1, path.count("/"), path)
+    if root_name in {"pyproject.toml", "package.json", "go.mod", "requirements.txt", "Cargo.toml"}:
+        return (2, path.count("/"), path)
+    return (3, path.count("/"), path)
 
 
 def parse_manifest_dependencies(

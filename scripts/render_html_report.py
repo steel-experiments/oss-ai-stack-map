@@ -14,12 +14,16 @@ import pyarrow.parquet as pq
 CATEGORY_LABELS = {
     "model_access_and_providers": "Providers and access",
     "orchestration_and_agents": "Orchestration and agents",
-    "training_finetuning_and_model_ops": "Training and model ops",
+    "training_finetuning_and_model_ops": "Model frameworks and HF stack",
     "vector_and_knowledge_storage": "Retrieval and vector storage",
     "serving_inference_and_local_runtimes": "Serving and local runtimes",
     "ui_and_app_frameworks": "UI and app frameworks",
     "observability_tracing_and_monitoring": "Observability",
     "evaluation_guardrails_and_safety": "Evaluation and guardrails",
+    "ai_developer_tools_and_sdk_families": "Protocols and developer SDKs",
+    "sandbox_and_isolated_execution": "Sandbox and isolated execution",
+    "browser_and_computer_use_infra": "Browser and computer use infra",
+    "runtime_and_agent_deployment": "Runtime and agent deployment",
 }
 
 SEGMENT_LABELS = {
@@ -833,6 +837,7 @@ def build_report(input_dir: Path) -> str:
                 "share": pct(count, len(unique_repo_tech_pairs)),
                 "repo_count": len(category_repo_ids[category_id]),
                 "repo_share": pct(len(category_repo_ids[category_id]), final_repos),
+                "technology_count": len(category_top[category_id]),
                 "rows": top_rows,
             }
         )
@@ -1096,6 +1101,17 @@ def build_report(input_dir: Path) -> str:
         for title, body in findings
     )
 
+    primary_category_sections = [
+        section
+        for section in category_sections
+        if section["technology_count"] >= 2 and section["count"] >= 10
+    ]
+    thin_category_sections = [
+        section
+        for section in category_sections
+        if section not in primary_category_sections
+    ]
+
     category_cards = "\n".join(
         f"""
         <article class="border border-line bg-ink">
@@ -1117,7 +1133,21 @@ def build_report(input_dir: Path) -> str:
           </div>
         </article>
         """
-        for section in category_sections
+        for section in primary_category_sections
+    )
+
+    thin_category_rows = "\n".join(
+        f"""
+        <div class="grid grid-cols-1 gap-3 border-t border-line py-4 first:border-t-0 first:pt-0 last:pb-0 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-ink">{escape(section['label'])}</div>
+            <div class="mt-1 text-xs text-muted">{fmt_int(section['count'])} normalized repo-tech edges across {fmt_int(section['repo_count'])} repos. Thin categories stay listed here until coverage is broad enough for a full card.</div>
+            <div class="mt-2 text-xs text-muted">{escape(', '.join(f"{row['label']} {fmt_int(row['count'])}" for row in section['rows']))}</div>
+          </div>
+          <div class="font-mono text-xs text-muted lg:text-right">[{section['share']:.1f}% edges • {section['repo_share']:.1f}% repos]</div>
+        </div>
+        """
+        for section in thin_category_sections
     )
 
     pair_rows = "\n".join(
@@ -1419,11 +1449,12 @@ def build_report(input_dir: Path) -> str:
         <div class="max-w-3xl">
           <div class="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">+ modern ai stack layers</div>
           <h2 class="mt-3 text-3xl font-semibold tracking-[-0.03em] text-ink">Where normalized stack usage concentrates</h2>
-          <p class="mt-3 text-sm leading-7 text-muted">These cards rank categories by normalized repo-tech edges, not by architectural importance. Each card now shows both edge share and repo prevalence across the {fmt_int(final_repos)} final repos.</p>
+          <p class="mt-3 text-sm leading-7 text-muted">These cards rank categories by normalized repo-tech edges, not by architectural importance. Each card now shows both edge share and repo prevalence across the {fmt_int(final_repos)} final repos. Very thin categories are summarized separately below.</p>
         </div>
         <div class="mt-8 grid gap-5 lg:grid-cols-2 2xl:grid-cols-3">
           {category_cards}
         </div>
+        {'<article class="mt-6 border border-line bg-paper p-6"><div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ thinly tracked layers</div><h3 class="mt-3 text-xl font-semibold tracking-tight text-ink">Visible, but not broad enough for a primary card</h3><div class="mt-6">' + thin_category_rows + '</div></article>' if thin_category_sections else ''}
       </section>
 
       <section class="mt-14 grid gap-6 xl:grid-cols-[0.92fr_1.08fr]">

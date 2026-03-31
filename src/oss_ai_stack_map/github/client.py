@@ -28,6 +28,7 @@ class GitHubClient:
                 "User-Agent": runtime.study.http.user_agent,
                 "X-GitHub-Api-Version": "2022-11-28",
             },
+            follow_redirects=True,
             timeout=runtime.study.http.timeout_seconds,
         )
 

@@ -62,6 +62,43 @@ technologies:
     repo_names: [browser-use/browser-use, browser-use/web-ui]
     capabilities: [browser_automation]
 
+  - technology_id: kernel
+    display_name: Kernel
+    category_id: browser_and_computer_use_infra
+    entity_type: product
+    aliases: [onkernel, kernel browser]
+    package_prefixes: ["@onkernel/"]
+    repo_names: [kernel/kernel-mcp-server, kernel/kernel-node-sdk]
+    capabilities: [browser_automation, browser_runtime]
+
+  - technology_id: hyperbrowser
+    display_name: Hyperbrowser
+    category_id: browser_and_computer_use_infra
+    entity_type: product
+    aliases: [hyperbrowser]
+    package_prefixes: [hyperbrowser, "@hyperbrowser/"]
+    repo_names:
+      [hyperbrowserai/python-sdk, hyperbrowserai/node-sdk, hyperbrowserai/mcp, hyperbrowserai/HyperAgent]
+    capabilities: [browser_automation, browser_runtime, web_scraping]
+
+  - technology_id: browserless
+    display_name: Browserless
+    category_id: browser_and_computer_use_infra
+    entity_type: product
+    aliases: [browserless]
+    package_prefixes: ["@browserless.io/"]
+    repo_names: [browserless/browserless]
+    capabilities: [browser_automation, browser_runtime]
+
+  - technology_id: notte
+    display_name: Notte
+    category_id: browser_and_computer_use_infra
+    entity_type: product
+    aliases: [notte, notte-sdk]
+    package_prefixes: [notte, notte-sdk, notte_sdk]
+    repo_names: [nottelabs/notte]
+    capabilities: [browser_automation, browser_runtime]
+
   - technology_id: cloudflare-agents
     display_name: Cloudflare Agents
     category_id: runtime_and_agent_deployment

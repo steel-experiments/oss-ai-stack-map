@@ -759,3 +759,56 @@ def test_build_repo_technology_edges_can_fallback_to_readme_alias_mentions() -> 
     assert "anthropic" in by_id
     assert by_id["openai"].evidence_type == "readme_mention"
     assert by_id["openai"].match_method == "readme_alias"
+
+
+def test_build_repo_technology_edges_can_fallback_to_punctuated_readme_alias_mentions() -> None:
+    runtime = RuntimeConfig(
+        config_dir=Path("config"),
+        study=StudyConfig(
+            snapshot_date=date(2026, 3, 25),
+            classification=ClassificationConfig(readme_mentions_used_for_edges=True),
+            outputs=OutputConfig(write_csv=False),
+            http=HttpConfig(),
+        ),
+        discovery=DiscoveryConfig(topics=[], description_keywords=[], manual_seed_repos=[]),
+        exclusions=ExclusionConfig(
+            hard_keywords=[],
+            excluded_directories=[],
+            source_extensions=[".py"],
+            manifest_files=["pyproject.toml"],
+        ),
+        aliases=TechnologyAliasConfig(
+            technologies=[
+                TechnologyAlias(
+                    technology_id="llama-cpp",
+                    display_name="llama.cpp",
+                    category_id="serving_inference_and_local_runtimes",
+                    aliases=["llama.cpp", "llama-cpp"],
+                )
+            ]
+        ),
+        registry=TechnologyAliasConfig(technologies=[]),
+        segments=SegmentConfig(precedence=[], rules=[]),
+        env=EnvSettings(github_token="test-token"),
+    )
+    context = RepoContext(
+        repo_id=1,
+        full_name="runanywhere/rcli",
+        readme_text="M1 and M2 Macs fall back to llama.cpp automatically for local inference.",
+    )
+    decision = ClassificationDecision(
+        repo_id=1,
+        full_name="runanywhere/rcli",
+        passed_candidate_filter=True,
+        passed_serious_filter=True,
+        passed_ai_relevance_filter=True,
+        passed_major_filter=True,
+        score_serious=5,
+        score_ai=5,
+    )
+
+    edges = build_repo_technology_edges(runtime=runtime, contexts=[context], decisions=[decision])
+
+    assert len(edges) == 1
+    assert edges[0].technology_id == "llama-cpp"
+    assert edges[0].evidence_type == "readme_mention"

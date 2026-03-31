@@ -19,10 +19,14 @@ description_keywords:
   - agent
   - ai assistant
   - ai runtime
+  - daytona
+  - dspy
   - rag
   - vector database
   - inference server
   - model serving
+  - text generation inference
+  - tgi
   - evaluation
   - guardrails
   - multimodal
@@ -35,12 +39,16 @@ manual_seed_repos:
   - langchain-ai/langchain
   - langchain-ai/langgraph
   - run-llama/llama_index
+  - stanfordnlp/dspy
+  - huggingface/text-generation-inference
   - qdrant/qdrant
   - milvus-io/milvus
   - weaviate/weaviate
   - vllm-project/vllm
   - ollama/ollama
   - bentoml/BentoML
+  - ggml-org/llama.cpp
+  - ray-project/ray
   - crewAIInc/crewAI
   - microsoft/autogen
   - steel-dev/steel-browser

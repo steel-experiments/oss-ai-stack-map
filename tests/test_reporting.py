@@ -354,12 +354,9 @@ def test_build_gap_report_surfaces_missing_edges_and_unmatched_prefixes(tmp_path
     assert gap_report.final_repos_missing_edges[0]["gap_reason"] == "unmapped_dependency_evidence"
     assert gap_report.top_unmatched_packages[0]["package_name"] == "@unknownco/agent-sdk"
     assert gap_report.top_unmatched_package_prefixes[0]["package_prefix"] == "@unknownco/"
-    assert (
-        gap_report.top_ai_specific_unmatched_package_prefixes[0]["package_prefix"]
-        == "@unknownco/"
-    )
+    assert gap_report.top_ai_specific_unmatched_package_prefixes == []
     assert not gap_report.top_commodity_unmatched_package_prefixes
-    assert any(
+    assert not any(
         row["entry_type"] == "package_prefix" and row["value"] == "@unknownco/"
         for row in gap_report.suggested_discovery_inputs
     )
@@ -368,6 +365,221 @@ def test_build_gap_report_surfaces_missing_edges_and_unmatched_prefixes(tmp_path
         row["package_prefix"] != "@types/" for row in gap_report.top_unmatched_package_prefixes
     )
     assert gap_report.top_vendor_like_unmapped_repos[0]["full_name"] == "cloudflare/partykit"
+
+
+def test_build_gap_report_suppresses_internal_scopes_and_rollup_noise(tmp_path: Path) -> None:
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "full_name": "activepieces/activepieces",
+                    "description": "Automation platform",
+                    "topics": ["ai"],
+                    "stars": 1000,
+                },
+                {
+                    "repo_id": 2,
+                    "full_name": "custom/app",
+                    "description": "App using niche SDKs",
+                    "topics": ["ai"],
+                    "stars": 200,
+                },
+            ]
+        ),
+        tmp_path / "repos.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "full_name": "activepieces/activepieces",
+                    "passed_serious_filter": True,
+                    "passed_ai_relevance_filter": True,
+                    "passed_major_filter": True,
+                },
+                {
+                    "repo_id": 2,
+                    "full_name": "custom/app",
+                    "passed_serious_filter": True,
+                    "passed_ai_relevance_filter": True,
+                    "passed_major_filter": True,
+                },
+            ]
+        ),
+        tmp_path / "repo_inclusion_decisions.parquet",
+    )
+    pq.write_table(pa.Table.from_pylist([]), tmp_path / "repo_technology_edges.parquet")
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "package_name": "@activepieces/shared",
+                    "technology_id": None,
+                    "source_path": "package.json",
+                    "evidence_type": "manifest",
+                },
+                {
+                    "repo_id": 2,
+                    "package_name": "@rollup/rollup-linux-x64-gnu",
+                    "technology_id": None,
+                    "source_path": "package.json",
+                    "evidence_type": "manifest",
+                },
+                {
+                    "repo_id": 2,
+                    "package_name": "@unknownco/agent-sdk",
+                    "technology_id": None,
+                    "source_path": "package.json",
+                    "evidence_type": "manifest",
+                },
+            ]
+        ),
+        tmp_path / "repo_dependency_evidence.parquet",
+    )
+    pq.write_table(pa.Table.from_pylist([]), tmp_path / "technologies.parquet")
+
+    gap_report = build_gap_report(tmp_path, top_n=5)
+
+    assert gap_report.top_unmatched_packages == [{"package_name": "@unknownco/agent-sdk", "count": 1}]
+    assert gap_report.top_unmatched_package_prefixes == [{"package_prefix": "@unknownco/", "count": 1}]
+    assert gap_report.top_ai_specific_unmatched_package_prefixes == []
+    assert gap_report.top_commodity_unmatched_package_prefixes == []
+    assert gap_report.final_repos_missing_edges[0]["full_name"] == "custom/app"
+
+
+def test_build_gap_report_keeps_high_signal_prefixes_and_demotes_generic_families(
+    tmp_path: Path,
+) -> None:
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "full_name": "custom/app",
+                    "description": "App using a mix of packages",
+                    "topics": ["ai"],
+                    "stars": 200,
+                },
+            ]
+        ),
+        tmp_path / "repos.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "full_name": "custom/app",
+                    "passed_serious_filter": True,
+                    "passed_ai_relevance_filter": True,
+                    "passed_major_filter": True,
+                },
+            ]
+        ),
+        tmp_path / "repo_inclusion_decisions.parquet",
+    )
+    pq.write_table(pa.Table.from_pylist([]), tmp_path / "repo_technology_edges.parquet")
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "package_name": "llama-index-core",
+                    "technology_id": None,
+                    "source_path": "requirements.txt",
+                    "evidence_type": "manifest",
+                },
+                {
+                    "repo_id": 1,
+                    "package_name": "nvidia-cuda-runtime-cu12",
+                    "technology_id": None,
+                    "source_path": "requirements.txt",
+                    "evidence_type": "manifest",
+                },
+                {
+                    "repo_id": 1,
+                    "package_name": "langchain-openai",
+                    "technology_id": None,
+                    "source_path": "requirements.txt",
+                    "evidence_type": "manifest",
+                },
+                {
+                    "repo_id": 1,
+                    "package_name": "azure-ai-agents",
+                    "technology_id": None,
+                    "source_path": "requirements.txt",
+                    "evidence_type": "manifest",
+                },
+                {
+                    "repo_id": 1,
+                    "package_name": "remark-gfm",
+                    "technology_id": None,
+                    "source_path": "package.json",
+                    "evidence_type": "manifest",
+                },
+                {
+                    "repo_id": 1,
+                    "package_name": "@tanstack/react-query",
+                    "technology_id": None,
+                    "source_path": "package.json",
+                    "evidence_type": "manifest",
+                },
+                {
+                    "repo_id": 1,
+                    "package_name": "@codemirror/view",
+                    "technology_id": None,
+                    "source_path": "package.json",
+                    "evidence_type": "manifest",
+                },
+                {
+                    "repo_id": 1,
+                    "package_name": "http-status-codes",
+                    "technology_id": None,
+                    "source_path": "package.json",
+                    "evidence_type": "manifest",
+                },
+                {
+                    "repo_id": 1,
+                    "package_name": "tree-sitter",
+                    "technology_id": None,
+                    "source_path": "package.json",
+                    "evidence_type": "manifest",
+                },
+                {
+                    "repo_id": 1,
+                    "package_name": "tauri-plugin-shell",
+                    "technology_id": None,
+                    "source_path": "package.json",
+                    "evidence_type": "manifest",
+                },
+            ]
+        ),
+        tmp_path / "repo_dependency_evidence.parquet",
+    )
+    pq.write_table(pa.Table.from_pylist([]), tmp_path / "technologies.parquet")
+
+    gap_report = build_gap_report(tmp_path, top_n=10)
+
+    assert gap_report.top_ai_specific_unmatched_package_prefixes == [
+        {"package_prefix": "llama", "count": 1},
+        {"package_prefix": "nvidia", "count": 1},
+        {"package_prefix": "langchain", "count": 1},
+    ]
+    commodity_prefixes = {
+        row["package_prefix"] for row in gap_report.top_commodity_unmatched_package_prefixes
+    }
+    assert {
+        "azure",
+        "remark",
+        "@tanstack/",
+        "@codemirror/",
+        "http",
+        "tree",
+        "tauri",
+    } <= commodity_prefixes
 
 
 def test_build_benchmark_recall_report_tracks_entity_coverage(tmp_path: Path) -> None:

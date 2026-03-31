@@ -24,19 +24,61 @@ NOISY_UNMATCHED_PACKAGE_NAMES = {
     "react-dom",
     "eslint",
 }
-COMMODITY_UNMATCHED_PACKAGE_PREFIXES = {
+SUPPRESSED_UNMATCHED_PACKAGE_PREFIXES = {
     "@rollup/",
+}
+COMMODITY_UNMATCHED_PACKAGE_PREFIXES = {
+    "@angular/",
+    "@aws-sdk/",
+    "@babel/",
+    "@codemirror/",
+    "@cubejs-backend/",
+    "@img/",
+    "@internal/",
+    "@nx/",
+    "@opentelemetry/",
+    "@parcel/",
+    "@rollup/",
+    "@sentry/",
+    "@storybook/",
+    "@tanstack/",
     "@types/",
+    "@vitest/",
+    "@vscode/",
+    "async",
+    "aws",
+    "azure",
     "eslint",
+    "fastapi",
     "github",
+    "jest",
+    "google",
+    "http",
     "opentelemetry",
+    "pydantic",
+    "pytest",
+    "pyobjc",
     "python",
     "react",
+    "remark",
     "requests",
     "rollup",
     "serde",
     "tailwind",
+    "tailwindcss",
+    "tauri",
+    "tokio",
+    "tree",
     "typescript",
+    "vitest",
+    "windows",
+}
+HIGH_SIGNAL_UNMATCHED_PACKAGE_PREFIXES = {
+    "llama",
+    "nvidia",
+}
+HIGH_SIGNAL_SCOPED_UNMATCHED_PACKAGE_PREFIXES = {
+    "@crawlee/",
 }
 
 
@@ -272,7 +314,10 @@ def build_gap_report(input_dir: Path, top_n: int = 10) -> GapReport:
         if row.get("repo_id") is None or row.get("technology_id"):
             continue
         package_name = row.get("package_name")
-        if not package_name or is_noisy_unmatched_package(package_name):
+        if not package_name or should_suppress_unmatched_package(
+            package_name,
+            full_name=row.get("full_name"),
+        ):
             continue
         unmatched_evidence_counts[row["repo_id"]] += 1
 
@@ -318,7 +363,10 @@ def build_gap_report(input_dir: Path, top_n: int = 10) -> GapReport:
         package_name = row.get("package_name")
         if not package_name:
             continue
-        if is_noisy_unmatched_package(package_name):
+        if should_suppress_unmatched_package(
+            package_name,
+            full_name=row.get("full_name"),
+        ):
             continue
         unmatched_packages[package_name] += 1
         package_prefix = infer_package_prefix(package_name)
@@ -849,10 +897,13 @@ def _load_dependency_evidence_rows(
 ) -> list[dict[str, Any]]:
     evidence_path = input_dir / "repo_dependency_evidence.parquet"
     if evidence_path.exists():
-        return _read_if_exists(
+        rows = _read_if_exists(
             evidence_path,
             columns=["repo_id", "package_name", "technology_id", "source_path", "evidence_type"],
         )
+        for row in rows:
+            row["full_name"] = repo_by_id.get(row["repo_id"], {}).get("full_name")
+        return rows
 
     rows: list[dict[str, Any]] = []
     for context in _read_if_exists(input_dir / "repo_contexts.parquet"):
@@ -891,8 +942,32 @@ def is_noisy_unmatched_package(package_name: str) -> bool:
     return normalized.startswith(NOISY_UNMATCHED_PACKAGE_PREFIXES)
 
 
+def should_suppress_unmatched_package(package_name: str, *, full_name: str | None = None) -> bool:
+    normalized = package_name.casefold()
+    package_prefix = infer_package_prefix(normalized)
+    if is_noisy_unmatched_package(normalized):
+        return True
+    if package_prefix in SUPPRESSED_UNMATCHED_PACKAGE_PREFIXES:
+        return True
+    return is_internal_self_scoped_package(normalized, full_name=full_name)
+
+
+def is_internal_self_scoped_package(package_name: str, *, full_name: str | None = None) -> bool:
+    if not full_name or not package_name.startswith("@") or "/" not in package_name:
+        return False
+    owner = full_name.split("/", 1)[0]
+    scope = package_name[1:].split("/", 1)[0]
+    return normalize_unmatched_namespace(scope) == normalize_unmatched_namespace(owner)
+
+
+def normalize_unmatched_namespace(value: str) -> str:
+    return value.casefold().replace("-", "").replace("_", "")
+
+
 def is_commodity_unmatched_prefix(package_prefix: str, ai_occurrence_count: int = 0) -> bool:
     normalized = package_prefix.casefold()
+    if normalized in HIGH_SIGNAL_UNMATCHED_PACKAGE_PREFIXES:
+        return False
     if normalized in COMMODITY_UNMATCHED_PACKAGE_PREFIXES:
         return True
     if normalized.startswith(("@rollup/", "@types/")):
@@ -902,9 +977,18 @@ def is_commodity_unmatched_prefix(package_prefix: str, ai_occurrence_count: int 
 
 def is_ai_specific_unmatched_prefix(package_prefix: str, ai_occurrence_count: int = 0) -> bool:
     normalized = package_prefix.casefold()
+    if not normalized.startswith("@") and len(normalized) < 4:
+        return False
     if is_commodity_unmatched_prefix(normalized, ai_occurrence_count=ai_occurrence_count):
         return False
-    return ai_occurrence_count > 0 or package_has_ai_affinity(normalized)
+    if normalized in HIGH_SIGNAL_UNMATCHED_PACKAGE_PREFIXES:
+        return True
+    if normalized.startswith("@"):
+        return (
+            normalized in HIGH_SIGNAL_SCOPED_UNMATCHED_PACKAGE_PREFIXES
+            or package_has_ai_affinity(normalized)
+        )
+    return package_has_ai_affinity(normalized)
 
 
 def build_vendor_terms(technologies: list[dict[str, Any]]) -> set[str]:

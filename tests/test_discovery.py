@@ -2,44 +2,46 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import httpx
+
 from oss_ai_stack_map.config.loader import BenchmarkEntity, TechnologyAlias
 from oss_ai_stack_map.pipeline.discovery import (
     build_query_specs,
     derived_seed_repos,
     discover_candidates,
+    fetch_seed_repository,
     select_preflight_repositories,
 )
 
 
 class FakeGitHubClient:
     def search_repositories(self, query: str, page: int) -> dict:
-        if query == "repo:daytonaio/daytona" and page == 1:
-            return {
-                "items": [
-                    {
-                        "id": 753490180,
-                        "full_name": "daytonaio/daytona",
-                        "html_url": "https://github.com/daytonaio/daytona",
-                        "description": (
-                            "Daytona is a Secure and Elastic Infrastructure "
-                            "for Running AI-Generated Code"
-                        ),
-                        "owner": {"type": "Organization"},
-                        "stargazers_count": 70785,
-                        "forks_count": 5517,
-                        "language": "TypeScript",
-                        "topics": ["ai", "ai-runtime"],
-                        "license": {"spdx_id": "AGPL-3.0"},
-                        "archived": False,
-                        "fork": False,
-                        "is_template": False,
-                        "created_at": "2024-02-06T08:21:20Z",
-                        "updated_at": "2026-03-26T16:10:11Z",
-                        "pushed_at": "2026-03-26T15:42:06Z",
-                    }
-                ]
-            }
         return {"items": []}
+
+    def get_repo(self, owner: str, repo: str) -> dict:
+        assert (owner, repo) == ("daytonaio", "daytona")
+        return {
+            "id": 753490180,
+            "full_name": "daytonaio/daytona",
+            "html_url": "https://github.com/daytonaio/daytona",
+            "description": (
+                "Daytona is a Secure and Elastic Infrastructure "
+                "for Running AI-Generated Code"
+            ),
+            "owner": {"type": "Organization"},
+            "stargazers_count": 70785,
+            "forks_count": 5517,
+            "language": "TypeScript",
+            "topics": ["ai", "ai-runtime"],
+            "license": {"spdx_id": "AGPL-3.0"},
+            "archived": False,
+            "fork": False,
+            "is_template": False,
+            "created_at": "2024-02-06T08:21:20Z",
+            "updated_at": "2026-03-26T16:10:11Z",
+            "pushed_at": "2026-03-26T15:42:06Z",
+            "default_branch": "main",
+        }
 
     def get_repositories_metadata(self, full_names: list[str]) -> dict[str, dict]:
         assert full_names == ["daytonaio/daytona"]
@@ -135,30 +137,6 @@ def test_discover_candidates_prioritizes_seed_queries_before_broad_search_when_c
 
     class SeedFirstClient:
         def search_repositories(self, query: str, page: int) -> dict:
-            if query == "repo:seed/repo":
-                return {
-                    "items": [
-                        {
-                            "id": 2,
-                            "full_name": "seed/repo",
-                            "html_url": "https://github.com/seed/repo",
-                            "description": "Seed repo",
-                            "owner": {"type": "Organization"},
-                            "stargazers_count": 50,
-                            "forks_count": 5,
-                            "language": "Python",
-                            "topics": ["llm"],
-                            "license": {"spdx_id": "MIT"},
-                            "archived": False,
-                            "fork": False,
-                            "is_template": False,
-                            "created_at": "2026-01-01T00:00:00Z",
-                            "updated_at": "2026-01-01T00:00:00Z",
-                            "pushed_at": "2026-01-01T00:00:00Z",
-                            "default_branch": "main",
-                        }
-                    ]
-                }
             if query.startswith("topic:"):
                 return {
                     "items": [
@@ -184,6 +162,28 @@ def test_discover_candidates_prioritizes_seed_queries_before_broad_search_when_c
                     ]
                 }
             return {"items": []}
+
+        def get_repo(self, owner: str, repo: str) -> dict:
+            assert (owner, repo) == ("seed", "repo")
+            return {
+                "id": 2,
+                "full_name": "seed/repo",
+                "html_url": "https://github.com/seed/repo",
+                "description": "Seed repo",
+                "owner": {"type": "Organization"},
+                "stargazers_count": 50,
+                "forks_count": 5,
+                "language": "Python",
+                "topics": ["llm"],
+                "license": {"spdx_id": "MIT"},
+                "archived": False,
+                "fork": False,
+                "is_template": False,
+                "created_at": "2026-01-01T00:00:00Z",
+                "updated_at": "2026-01-01T00:00:00Z",
+                "pushed_at": "2026-01-01T00:00:00Z",
+                "default_branch": "main",
+            }
 
         def get_repositories_metadata(self, full_names: list[str]) -> dict[str, dict]:
             return {}
@@ -226,6 +226,45 @@ def test_derived_seed_repos_marks_anchor_registry_and_alias_repos(runtime_config
 
     assert seed_sources["openai/openai-python"] == {"alias_seed", "anchor_seed"}
     assert seed_sources["vercel/ai"] == {"anchor_seed", "registry_seed"}
+
+
+def test_derived_seed_repos_marks_serving_alias_repo_names_as_anchor_seeds(runtime_config) -> None:
+    runtime = runtime_config["runtime"]
+    runtime.discovery.manual_seed_repos = []
+    runtime.aliases.technologies = [
+        TechnologyAlias(
+            technology_id="llama-cpp",
+            display_name="llama.cpp",
+            category_id="serving_inference_and_local_runtimes",
+            aliases=["llama-cpp", "llama-cpp-python"],
+            repo_names=["ggml-org/llama.cpp"],
+        ),
+        TechnologyAlias(
+            technology_id="ray-serve",
+            display_name="Ray Serve",
+            category_id="serving_inference_and_local_runtimes",
+            aliases=["ray", "ray-serve"],
+            repo_names=["ray-project/ray"],
+        ),
+    ]
+    runtime.registry.technologies = []
+
+    seed_sources = derived_seed_repos(runtime)
+
+    assert seed_sources["ggml-org/llama.cpp"] == {"alias_seed", "anchor_seed"}
+    assert seed_sources["ray-project/ray"] == {"alias_seed", "anchor_seed"}
+
+
+def test_fetch_seed_repository_suppresses_forbidden_seed_repo() -> None:
+    request = httpx.Request("GET", "https://api.github.com/repos/example/repo")
+    response = httpx.Response(403, request=request)
+    error = httpx.HTTPStatusError("forbidden", request=request, response=response)
+
+    class ForbiddenClient:
+        def get_repo(self, owner: str, repo: str) -> dict:
+            raise error
+
+    assert fetch_seed_repository(ForbiddenClient(), full_name="example/repo") is None
 
 
 def test_select_preflight_repositories_prioritizes_benchmark_repos(runtime_config) -> None:

@@ -20,7 +20,9 @@ from oss_ai_stack_map.pipeline.classification import (
     classify_candidates,
     educational_material_signal,
     extract_package_candidates_from_sbom,
+    find_manifest_paths,
     matches_package_prefix,
+    MAX_MANIFEST_SCAN_FILES,
     parse_sbom_dependencies,
     rebind_package_dependency,
     resolve_package_match,
@@ -138,6 +140,65 @@ def test_build_repo_context_persists_repo_default_branch(runtime_config) -> None
 
     assert context.default_branch == "main"
     assert context.manifest_paths == ["pyproject.toml"]
+
+
+def test_build_repo_context_suppresses_manifest_fetch_forbidden(runtime_config) -> None:
+    runtime = runtime_config["runtime"]
+    repo = DiscoveredRepo(
+        repo_id=1,
+        full_name="owner/repo",
+        html_url="https://github.com/owner/repo",
+        stars=1000,
+        forks=10,
+        is_archived=False,
+        is_fork=False,
+        is_template=False,
+        created_at="2026-01-01T00:00:00Z",
+        updated_at="2026-01-01T00:00:00Z",
+        pushed_at="2026-01-01T00:00:00Z",
+        default_branch="main",
+        snapshot_date="2026-03-25",
+    )
+    request = httpx.Request("GET", "https://api.github.com/repos/owner/repo/contents/pyproject.toml")
+    response = httpx.Response(403, request=request)
+    error = httpx.HTTPStatusError("forbidden", request=request, response=response)
+
+    class FakeClient:
+        def get_readme(self, owner: str, name: str) -> str:
+            return "# Example"
+
+        def get_tree(self, owner: str, name: str, branch: str | None = None) -> list[str]:
+            assert branch == "main"
+            return ["pyproject.toml", "src/app.py"]
+
+        def get_file_text(self, owner: str, name: str, path: str) -> str:
+            raise error
+
+        def get_sbom(self, owner: str, name: str) -> dict:
+            return {}
+
+    context = build_repo_context(
+        runtime=runtime,
+        client=FakeClient(),
+        repo=repo,
+        alias_lookup={},
+    )
+
+    assert context.manifest_paths == ["pyproject.toml"]
+    assert context.manifest_dependencies == []
+
+
+def test_find_manifest_paths_caps_large_monorepo_manifest_lists(runtime_config) -> None:
+    runtime = runtime_config["runtime"]
+    tree_paths = [f"services/pkg-{index}/pyproject.toml" for index in range(MAX_MANIFEST_SCAN_FILES + 10)]
+    tree_paths.append("pyproject.toml")
+    tree_paths.append("server/pyproject.toml")
+
+    manifest_paths = find_manifest_paths(tree_paths, runtime)
+
+    assert len(manifest_paths) == MAX_MANIFEST_SCAN_FILES
+    assert manifest_paths[0] == "pyproject.toml"
+    assert "server/pyproject.toml" in manifest_paths
 
 
 def test_safe_call_reraises_rate_limit_http_errors() -> None:

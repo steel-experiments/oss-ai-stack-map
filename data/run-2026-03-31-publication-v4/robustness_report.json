@@ -1,0 +1,17 @@
+{
+  "evidence_tiers": {
+    "direct_edge_count": 5134,
+    "direct_supported_repo_count": 941,
+    "fallback_edge_count": 5255,
+    "fallback_supported_repo_count": 983,
+    "unmapped_final_repo_count": 0
+  },
+  "judge_adjusted": {
+    "final_repo_count": 983,
+    "judge_changed_final_repo_count": 34
+  },
+  "rule_only": {
+    "final_repo_count": 975
+  },
+  "temporal_comparison": null
+}

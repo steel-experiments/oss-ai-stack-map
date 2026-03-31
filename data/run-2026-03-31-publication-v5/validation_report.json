@@ -1,0 +1,24 @@
+{
+  "errors": [],
+  "metrics": {
+    "ai_relevant_repos": 1086,
+    "final_repos": 983,
+    "final_repos_missing_edges": 0,
+    "final_repos_with_edges": 983,
+    "final_repos_with_mapped_dependency_evidence_but_no_edge": 0,
+    "final_repos_with_no_dependency_evidence": 0,
+    "final_repos_with_only_unmapped_dependency_evidence": 0,
+    "judge_decisions": 651,
+    "repo_contexts": 1525,
+    "repo_inclusion_decisions": 1525,
+    "repo_technology_edges": 5255,
+    "repos": 1525,
+    "rule_flag_missing_rows": 0,
+    "run_state_status": "completed",
+    "serious_repos": 1222,
+    "technologies": 77
+  },
+  "snapshot_dir": "/home/agent/oss-ai-stack-map/data/run-2026-03-31-publication-v5",
+  "status": "ok",
+  "warnings": []
+}

@@ -1,0 +1,125 @@
+{
+  "files": [
+    {
+      "path": "checkpoints/run_state.json",
+      "sha256": "7378a4c153f5dca020a84b324d2f708e3a61ac4fe17ebb90196f7c6e36d4d555",
+      "size_bytes": 348
+    },
+    {
+      "path": "classification_stage_timings.parquet",
+      "row_count": 4,
+      "sha256": "1639ef47fe07eb0bfbc1250ee5664c2b622cf12211a26d71832f1c7157b5f3c1",
+      "size_bytes": 1874
+    },
+    {
+      "path": "discovery_stage_timings.parquet",
+      "row_count": 3,
+      "sha256": "0b32817ffc72d6906f3f56d035ea7894cae60c31cf153ea592bb95a145464142",
+      "size_bytes": 1559
+    },
+    {
+      "path": "judge_decisions.csv",
+      "sha256": "2e0166e71938067b25e2233c62b25f9cbac85ed396f803927a9dd1bd51ab9dac",
+      "size_bytes": 387807
+    },
+    {
+      "path": "judge_decisions.parquet",
+      "row_count": 651,
+      "sha256": "f1c939833439650b24a2c31099155b62c455f2c1db7a541c5df86d1c30963eaa",
+      "size_bytes": 179104
+    },
+    {
+      "path": "repo_contexts.csv",
+      "sha256": "39e37961a6f8352b64d97e551191080b1776530bd22661dcaae2c1daa850508b",
+      "size_bytes": 340818104
+    },
+    {
+      "path": "repo_contexts.parquet",
+      "row_count": 1522,
+      "sha256": "bd7574bb45863011c61d7736bdd35de1ddb8cc0cc66d1c0b44a72fb944067cc7",
+      "size_bytes": 46528553
+    },
+    {
+      "path": "repo_dependency_evidence.csv",
+      "sha256": "65dcef05038cbb0476debb20becb48d41c4b47a72cc9ba6c57946df9529c4381",
+      "size_bytes": 57399215
+    },
+    {
+      "path": "repo_dependency_evidence.parquet",
+      "row_count": 414455,
+      "sha256": "2c2353628c6c2a2831bc8d19b3f4bf5a8ed89ca6c75b45cef073314536d36576",
+      "size_bytes": 7231618
+    },
+    {
+      "path": "repo_inclusion_decisions.csv",
+      "sha256": "4a11261843f9902fe1e2d9d7faf484ddbd2a117337365a2f87ab67cf7552ba61",
+      "size_bytes": 1231896
+    },
+    {
+      "path": "repo_inclusion_decisions.parquet",
+      "row_count": 1522,
+      "sha256": "20a2161b640d423f951ae04dda959b451a826f844d895385b159d700b98d3951",
+      "size_bytes": 244303
+    },
+    {
+      "path": "repo_technology_edges.csv",
+      "sha256": "74c4034bf8d63f4f0a184e356d95a4133dfa49e199c5dc240445eb7c24d4bb3b",
+      "size_bytes": 1175987
+    },
+    {
+      "path": "repo_technology_edges.parquet",
+      "row_count": 5227,
+      "sha256": "dbdeba34aca3a119412ded22fdc12a7a7e1bbf046323f5b4b4f31c81736362aa",
+      "size_bytes": 128033
+    },
+    {
+      "path": "repos.parquet",
+      "row_count": 1522,
+      "sha256": "50cd0b8ab21865c544a5b2b8daaff5be2161f67e6b2b73f4d69f0bb0b94e337e",
+      "size_bytes": 331031
+    },
+    {
+      "path": "stage_timings.parquet",
+      "row_count": 123,
+      "sha256": "e966b5ab3184c58efa2891758d8af4b2360aa98167b55da7349bb66ed896924d",
+      "size_bytes": 3418
+    },
+    {
+      "path": "technologies.csv",
+      "sha256": "6685f0a279bac9defdd294e8e4c5e490e517dbe20b0f5eba24b0d3b88035fcdb",
+      "size_bytes": 13749
+    },
+    {
+      "path": "technologies.parquet",
+      "row_count": 77,
+      "sha256": "deaae5e39bf047dabebe353460abf9667c87dd7acddc3c14ca4e8048213af73f",
+      "size_bytes": 10128
+    },
+    {
+      "path": "validation_sample_summary.json",
+      "sha256": "0347f66686facb4a5e53d663060ed22459e8318022188f08b2dce0ae881014f7",
+      "size_bytes": 247
+    }
+  ],
+  "generated_at": "2026-03-31T17:43:58.516369+00:00",
+  "metrics": {
+    "ai_relevant_repos": 1084,
+    "final_repos": 981,
+    "final_repos_missing_edges": 2,
+    "final_repos_with_edges": 979,
+    "final_repos_with_mapped_dependency_evidence_but_no_edge": 0,
+    "final_repos_with_no_dependency_evidence": 0,
+    "final_repos_with_only_unmapped_dependency_evidence": 2,
+    "judge_decisions": 651,
+    "repo_contexts": 1522,
+    "repo_inclusion_decisions": 1522,
+    "repo_technology_edges": 5227,
+    "repos": 1522,
+    "rule_flag_missing_rows": 0,
+    "run_state_status": "completed",
+    "serious_repos": 1219,
+    "technologies": 77
+  },
+  "snapshot_date": "2026-03-25",
+  "snapshot_dir": "/home/agent/oss-ai-stack-map/data/run-2026-03-31-browser-infra-v1"
+}
