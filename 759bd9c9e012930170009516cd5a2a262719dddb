@@ -1,0 +1,3 @@
+Publication repair batch for the 2026-03-31 snapshot series.
+
+Includes benchmark discovery/identity fixes, sandbox/browser normalization updates, report wording cleanup, stricter unmatched-prefix classification, and regenerated publication snapshots through data/run-2026-03-31-publication-v7 with stable docs pointing to docs/oss-ai-stack-report-2026-03-31-v9.html.
