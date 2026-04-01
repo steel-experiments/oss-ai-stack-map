@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import math
+import re
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 import pyarrow.parquet as pq
 
@@ -181,6 +183,20 @@ class ReviewQueueReport:
 
 
 @dataclass
+class EntityReport:
+    entity_count: int
+    steward_mapped_final_repo_count: int
+    steward_mapped_final_repo_share: float
+    vendor_mapped_technology_count: int
+    vendor_mapped_final_repo_count: int
+    vendor_mapped_final_repo_share: float
+    entity_type_counts: list[dict[str, Any]]
+    top_repo_stewards: list[dict[str, Any]]
+    top_technology_vendors: list[dict[str, Any]]
+    repo_steward_confidence_counts: list[dict[str, Any]]
+
+
+@dataclass
 class ReportSummary:
     total_repos: int
     serious_repos: int
@@ -193,6 +209,7 @@ class ReportSummary:
     evidence_tier_report: EvidenceTierReport | None = None
     validation_audit_report: ValidationAuditReport | None = None
     robustness_report: RobustnessReport | None = None
+    entity_report: EntityReport | None = None
 
 
 def build_report_summary(
@@ -271,6 +288,11 @@ def build_report_summary(
         if runtime is not None and runtime.benchmarks.entities
         else None
     )
+    entity_report = (
+        build_entity_report(input_dir=input_dir, runtime=runtime, top_n=top_n)
+        if runtime is not None and runtime.entities.entities
+        else None
+    )
 
     return ReportSummary(
         total_repos=total_repos,
@@ -284,6 +306,7 @@ def build_report_summary(
         evidence_tier_report=evidence_tier_report,
         validation_audit_report=validation_audit_report,
         robustness_report=robustness_report,
+        entity_report=entity_report,
     )
 
 
@@ -866,6 +889,198 @@ def build_review_queue_report(
         audit_changed_repos=audit_changed_repos,
         benchmark_priority_gaps=benchmark_priority_gaps,
         prioritized_review_items=prioritized_review_items,
+    )
+
+
+def build_entity_rows(runtime: RuntimeConfig) -> list[dict[str, Any]]:
+    return [entity.model_dump(mode="json") for entity in runtime.entities.entities]
+
+
+def build_technology_entity_edge_rows(runtime: RuntimeConfig) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for entity in runtime.entities.entities:
+        for technology_id in entity.technology_ids:
+            rows.append(
+                {
+                    "technology_id": technology_id,
+                    "entity_id": entity.entity_id,
+                    "entity_display_name": entity.display_name,
+                    "entity_type": entity.entity_type,
+                    "relationship_type": "vendor",
+                    "evidence_type": "curated_entity_config",
+                    "confidence": "high",
+                }
+            )
+    return rows
+
+
+def build_repo_entity_edge_rows(
+    *,
+    runtime: RuntimeConfig,
+    repos: list[dict[str, Any]],
+    decisions: list[dict[str, Any]],
+    contexts: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    if not runtime.entities.entities:
+        return []
+    repo_lookup = runtime.entities.repo_lookup()
+    github_org_lookup = runtime.entities.github_org_lookup()
+    context_by_repo = {row["repo_id"]: row for row in contexts}
+    final_repo_ids = {
+        row["repo_id"] for row in decisions if row.get("passed_major_filter")
+    }
+    rows: list[dict[str, Any]] = []
+    for repo in repos:
+        repo_id = repo["repo_id"]
+        if repo_id not in final_repo_ids:
+            continue
+        full_name = str(repo.get("full_name") or "")
+        owner = full_name.split("/", 1)[0].casefold() if "/" in full_name else ""
+        readme_text = str(context_by_repo.get(repo_id, {}).get("readme_text") or "")
+        match = match_repo_entity(
+            full_name=full_name,
+            owner=owner,
+            readme_text=readme_text,
+            repo_lookup=repo_lookup,
+            github_org_lookup=github_org_lookup,
+            entities=runtime.entities.entities,
+        )
+        if match is None:
+            continue
+        rows.append(
+            {
+                "repo_id": repo_id,
+                "full_name": full_name,
+                "entity_id": match["entity_id"],
+                "entity_display_name": match["display_name"],
+                "entity_type": match["entity_type"],
+                "relationship_type": "stewarded_by",
+                "evidence_type": match["evidence_type"],
+                "evidence_value": match["evidence_value"],
+                "confidence": match["confidence"],
+            }
+        )
+    return rows
+
+
+def build_entity_report(
+    *,
+    input_dir: Path,
+    runtime: RuntimeConfig,
+    top_n: int = 10,
+) -> EntityReport:
+    decisions = _read_if_exists(
+        input_dir / "repo_inclusion_decisions.parquet",
+        columns=["repo_id", "passed_major_filter"],
+    )
+    final_repo_ids = {
+        row["repo_id"] for row in decisions if row.get("passed_major_filter")
+    }
+    repo_entity_edges = _read_if_exists(input_dir / "repo_entity_edges.parquet")
+    technology_entity_edges = _read_if_exists(input_dir / "technology_entity_edges.parquet")
+    technology_edges = _read_if_exists(
+        input_dir / "repo_technology_edges.parquet",
+        columns=["repo_id", "technology_id"],
+    )
+
+    steward_repo_ids = {
+        row["repo_id"] for row in repo_entity_edges if row.get("repo_id") in final_repo_ids
+    }
+    vendor_technology_ids = {
+        row["technology_id"] for row in technology_entity_edges if row.get("technology_id")
+    }
+    vendor_repo_ids = {
+        row["repo_id"]
+        for row in technology_edges
+        if row.get("repo_id") in final_repo_ids and row.get("technology_id") in vendor_technology_ids
+    }
+
+    repo_steward_counter: Counter[str] = Counter()
+    repo_steward_confidence_counter: Counter[str] = Counter()
+    for row in repo_entity_edges:
+        if row.get("repo_id") not in final_repo_ids:
+            continue
+        repo_steward_counter[str(row["entity_id"])] += 1
+        repo_steward_confidence_counter[str(row.get("confidence") or "unknown")] += 1
+
+    vendor_repo_counter: Counter[str] = Counter()
+    vendor_technology_counter: Counter[str] = Counter()
+    technology_to_entity = {
+        row["technology_id"]: row for row in technology_entity_edges if row.get("technology_id")
+    }
+    seen_vendor_pairs: set[tuple[int, str]] = set()
+    for row in technology_edges:
+        repo_id = row.get("repo_id")
+        if repo_id not in final_repo_ids:
+            continue
+        technology_id = row.get("technology_id")
+        if technology_id not in technology_to_entity:
+            continue
+        entity_id = str(technology_to_entity[technology_id]["entity_id"])
+        vendor_technology_counter[entity_id] += 1
+        pair = (int(repo_id), entity_id)
+        if pair not in seen_vendor_pairs:
+            vendor_repo_counter[entity_id] += 1
+            seen_vendor_pairs.add(pair)
+
+    entity_lookup = {entity.entity_id: entity for entity in runtime.entities.entities}
+    entity_type_counter = Counter(entity.entity_type for entity in runtime.entities.entities)
+
+    top_repo_stewards = [
+        {
+            "entity_id": entity_id,
+            "display_name": entity_lookup.get(entity_id).display_name if entity_id in entity_lookup else entity_id,
+            "entity_type": entity_lookup.get(entity_id).entity_type if entity_id in entity_lookup else "unknown",
+            "repo_count": count,
+            "repo_share": round(count / len(final_repo_ids), 4) if final_repo_ids else 0.0,
+        }
+        for entity_id, count in repo_steward_counter.most_common(top_n)
+    ]
+    top_technology_vendors = [
+        {
+            "entity_id": entity_id,
+            "display_name": entity_lookup.get(entity_id).display_name if entity_id in entity_lookup else entity_id,
+            "entity_type": entity_lookup.get(entity_id).entity_type if entity_id in entity_lookup else "unknown",
+            "repo_count": vendor_repo_counter.get(entity_id, 0),
+            "repo_share": round(vendor_repo_counter.get(entity_id, 0) / len(final_repo_ids), 4)
+            if final_repo_ids
+            else 0.0,
+            "technology_count": len(
+                {
+                    row["technology_id"]
+                    for row in technology_entity_edges
+                    if row.get("entity_id") == entity_id
+                }
+            ),
+        }
+        for entity_id, _ in vendor_repo_counter.most_common(top_n)
+    ]
+
+    return EntityReport(
+        entity_count=len(runtime.entities.entities),
+        steward_mapped_final_repo_count=len(steward_repo_ids),
+        steward_mapped_final_repo_share=round(
+            len(steward_repo_ids) / len(final_repo_ids), 4
+        )
+        if final_repo_ids
+        else 0.0,
+        vendor_mapped_technology_count=len(vendor_technology_ids),
+        vendor_mapped_final_repo_count=len(vendor_repo_ids),
+        vendor_mapped_final_repo_share=round(
+            len(vendor_repo_ids) / len(final_repo_ids), 4
+        )
+        if final_repo_ids
+        else 0.0,
+        entity_type_counts=[
+            {"entity_type": entity_type, "count": count}
+            for entity_type, count in entity_type_counter.most_common()
+        ],
+        top_repo_stewards=top_repo_stewards,
+        top_technology_vendors=top_technology_vendors,
+        repo_steward_confidence_counts=[
+            {"confidence": confidence, "repo_count": count}
+            for confidence, count in repo_steward_confidence_counter.most_common()
+        ],
     )
 
 
@@ -1520,6 +1735,74 @@ def build_suggested_discovery_inputs(
         key=lambda row: (-row["priority_score"], row["entry_type"], row["value"]),
     )
     return combined[:top_n]
+
+
+def match_repo_entity(
+    *,
+    full_name: str,
+    owner: str,
+    readme_text: str,
+    repo_lookup: dict[str, Any],
+    github_org_lookup: dict[str, Any],
+    entities: list[Any],
+) -> dict[str, Any] | None:
+    repo_match = repo_lookup.get(full_name.casefold())
+    if repo_match is not None:
+        return {
+            "entity_id": repo_match.entity_id,
+            "display_name": repo_match.display_name,
+            "entity_type": repo_match.entity_type,
+            "evidence_type": "repo_name",
+            "evidence_value": full_name,
+            "confidence": "high",
+        }
+    org_match = github_org_lookup.get(owner)
+    if org_match is not None:
+        return {
+            "entity_id": org_match.entity_id,
+            "display_name": org_match.display_name,
+            "entity_type": org_match.entity_type,
+            "evidence_type": "github_org",
+            "evidence_value": owner,
+            "confidence": "high",
+        }
+    return None
+
+
+def extract_domains_from_text(text: str) -> set[str]:
+    if not text:
+        return set()
+    matches = re.findall(r"https?://[^\s)>\"]+", text, flags=re.IGNORECASE)
+    domains = {
+        normalized
+        for normalized in (
+            normalize_domain(match)
+            for match in matches
+        )
+        if normalized
+    }
+    return domains
+
+
+def normalize_domain(value: str) -> str:
+    candidate = value.strip().casefold()
+    if not candidate:
+        return ""
+    if "://" not in candidate:
+        candidate = f"https://{candidate}"
+    try:
+        parsed = urlparse(candidate)
+    except ValueError:
+        return ""
+    host = parsed.netloc or parsed.path
+    host = host.split("/", 1)[0].strip().strip(".")
+    if host.startswith("www."):
+        host = host[4:]
+    return host
+
+
+def domain_matches(domain: str, canonical_domain: str) -> bool:
+    return domain == canonical_domain or domain.endswith(f".{canonical_domain}")
 
 
 def unique_ordered(values: list[str]) -> list[str]:

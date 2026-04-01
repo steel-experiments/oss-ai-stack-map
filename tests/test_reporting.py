@@ -11,6 +11,8 @@ from oss_ai_stack_map.config.loader import (
     BenchmarkThresholds,
     ClassificationConfig,
     DiscoveryConfig,
+    EntityConfig,
+    EntityRecord,
     EnvSettings,
     ExclusionConfig,
     HttpConfig,
@@ -23,6 +25,7 @@ from oss_ai_stack_map.config.loader import (
 )
 from oss_ai_stack_map.pipeline.reporting import (
     build_benchmark_recall_report,
+    build_entity_report,
     build_evidence_tier_report,
     build_gap_report,
     build_report_summary,
@@ -580,6 +583,176 @@ def test_build_gap_report_keeps_high_signal_prefixes_and_demotes_generic_familie
         "tree",
         "tauri",
     } <= commodity_prefixes
+
+
+def test_build_entity_report_maps_repo_stewards_and_technology_vendors(tmp_path: Path) -> None:
+    runtime = RuntimeConfig(
+        config_dir=Path("config"),
+        study=StudyConfig(
+            classification=ClassificationConfig(),
+            outputs=OutputConfig(write_csv=False),
+            http=HttpConfig(),
+        ),
+        discovery=DiscoveryConfig(topics=[], description_keywords=[], manual_seed_repos=[]),
+        exclusions=ExclusionConfig(
+            hard_keywords=[],
+            excluded_directories=[],
+            source_extensions=[".py"],
+            manifest_files=["pyproject.toml"],
+        ),
+        aliases=TechnologyAliasConfig(technologies=[]),
+        registry=TechnologyAliasConfig(technologies=[]),
+        benchmarks=BenchmarkConfig(entities=[]),
+        entities=EntityConfig(
+            entities=[
+                EntityRecord(
+                    entity_id="openai",
+                    display_name="OpenAI",
+                    entity_type="company",
+                    canonical_domains=["openai.com"],
+                    github_orgs=["openai"],
+                    technology_ids=["openai"],
+                ),
+                EntityRecord(
+                    entity_id="langchain",
+                    display_name="LangChain",
+                    entity_type="startup",
+                    canonical_domains=["langchain.com"],
+                    github_orgs=["langchain-ai"],
+                    technology_ids=["langchain"],
+                ),
+            ]
+        ),
+        segments=SegmentConfig(precedence=[], rules=[]),
+        env=EnvSettings(github_token="test-token"),
+    )
+
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "full_name": "openai/openai-python",
+                    "html_url": "https://github.com/openai/openai-python",
+                    "description": "OpenAI SDK",
+                    "owner_type": "Organization",
+                    "stars": 1000,
+                },
+                {
+                    "repo_id": 2,
+                    "full_name": "custom/app",
+                    "html_url": "https://github.com/custom/app",
+                    "description": "App using OpenAI and LangChain",
+                    "owner_type": "User",
+                    "stars": 500,
+                },
+                {
+                    "repo_id": 3,
+                    "full_name": "langchain-ai/langchain",
+                    "html_url": "https://github.com/langchain-ai/langchain",
+                    "description": "LangChain",
+                    "owner_type": "Organization",
+                    "stars": 700,
+                },
+            ]
+        ),
+        tmp_path / "repos.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {"repo_id": 1, "full_name": "openai/openai-python", "passed_major_filter": True},
+                {"repo_id": 2, "full_name": "custom/app", "passed_major_filter": True},
+                {"repo_id": 3, "full_name": "langchain-ai/langchain", "passed_major_filter": True},
+            ]
+        ),
+        tmp_path / "repo_inclusion_decisions.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {"repo_id": 1, "full_name": "openai/openai-python", "readme_text": ""},
+                {"repo_id": 2, "full_name": "custom/app", "readme_text": "Docs: https://platform.openai.com and https://langchain.com"},
+                {"repo_id": 3, "full_name": "langchain-ai/langchain", "readme_text": ""},
+            ]
+        ),
+        tmp_path / "repo_contexts.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {"repo_id": 1, "technology_id": "openai"},
+                {"repo_id": 2, "technology_id": "openai"},
+                {"repo_id": 2, "technology_id": "langchain"},
+                {"repo_id": 3, "technology_id": "langchain"},
+            ]
+        ),
+        tmp_path / "repo_technology_edges.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "repo_id": 1,
+                    "full_name": "openai/openai-python",
+                    "entity_id": "openai",
+                    "entity_display_name": "OpenAI",
+                    "entity_type": "company",
+                    "relationship_type": "stewarded_by",
+                    "evidence_type": "github_org",
+                    "evidence_value": "openai",
+                    "confidence": "high",
+                },
+                {
+                    "repo_id": 3,
+                    "full_name": "langchain-ai/langchain",
+                    "entity_id": "langchain",
+                    "entity_display_name": "LangChain",
+                    "entity_type": "startup",
+                    "relationship_type": "stewarded_by",
+                    "evidence_type": "github_org",
+                    "evidence_value": "langchain-ai",
+                    "confidence": "high",
+                },
+            ]
+        ),
+        tmp_path / "repo_entity_edges.parquet",
+    )
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "technology_id": "openai",
+                    "entity_id": "openai",
+                    "entity_display_name": "OpenAI",
+                    "entity_type": "company",
+                    "relationship_type": "vendor",
+                    "evidence_type": "curated_entity_config",
+                    "confidence": "high",
+                },
+                {
+                    "technology_id": "langchain",
+                    "entity_id": "langchain",
+                    "entity_display_name": "LangChain",
+                    "entity_type": "startup",
+                    "relationship_type": "vendor",
+                    "evidence_type": "curated_entity_config",
+                    "confidence": "high",
+                },
+            ]
+        ),
+        tmp_path / "technology_entity_edges.parquet",
+    )
+
+    report = build_entity_report(input_dir=tmp_path, runtime=runtime)
+
+    assert report.entity_count == 2
+    assert report.steward_mapped_final_repo_count == 2
+    assert report.vendor_mapped_final_repo_count == 3
+    assert report.vendor_mapped_technology_count == 2
+    assert {row["entity_id"] for row in report.top_repo_stewards} == {"openai", "langchain"}
+    assert all(row["repo_count"] == 1 for row in report.top_repo_stewards)
+    assert report.top_technology_vendors[0]["entity_id"] == "openai"
 
 
 def test_build_benchmark_recall_report_tracks_entity_coverage(tmp_path: Path) -> None:

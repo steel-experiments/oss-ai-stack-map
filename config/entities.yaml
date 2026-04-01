@@ -1,0 +1,154 @@
+entities:
+  - entity_id: openai
+    display_name: OpenAI
+    entity_type: company
+    canonical_domains: [openai.com]
+    github_orgs: [openai]
+    repo_names: [openai/openai-python, openai/openai-node]
+    technology_ids: [openai, openai-agents]
+  - entity_id: anthropic
+    display_name: Anthropic
+    entity_type: company
+    canonical_domains: [anthropic.com]
+    github_orgs: [anthropics, anthropic]
+    repo_names: [anthropics/anthropic-sdk-python, anthropics/anthropic-sdk-typescript]
+    technology_ids: [anthropic]
+  - entity_id: google
+    display_name: Google
+    entity_type: company
+    canonical_domains: [google.com, ai.google.dev]
+    github_orgs: [google, google-gemini]
+    technology_ids: [google-genai]
+  - entity_id: vercel
+    display_name: Vercel
+    entity_type: company
+    canonical_domains: [vercel.com]
+    github_orgs: [vercel]
+    repo_names: [vercel/ai]
+    technology_ids: [vercel-ai-sdk, vercel-sandbox]
+  - entity_id: langchain
+    display_name: LangChain
+    entity_type: startup
+    canonical_domains: [langchain.com]
+    github_orgs: [langchain-ai]
+    repo_names: [langchain-ai/langchain, langchain-ai/langgraph]
+    technology_ids: [langchain, langchain-openai, langchain-anthropic, langchain-google-genai, langgraph]
+  - entity_id: llamaindex
+    display_name: LlamaIndex
+    entity_type: startup
+    canonical_domains: [llamaindex.ai]
+    github_orgs: [run-llama]
+    repo_names: [run-llama/llama_index]
+    technology_ids: [llamaindex]
+  - entity_id: huggingface
+    display_name: Hugging Face
+    entity_type: company
+    canonical_domains: [huggingface.co]
+    github_orgs: [huggingface]
+    repo_names: [huggingface/transformers, huggingface/text-generation-inference]
+    technology_ids: [transformers, huggingface-hub, tokenizers, accelerate, tgi]
+  - entity_id: meta
+    display_name: Meta
+    entity_type: company
+    canonical_domains: [meta.com]
+    github_orgs: [meta-llama, facebookresearch]
+    technology_ids: [llama-cpp]
+    notes: "Vendor-level mapping is partial and repo stewardship varies by project."
+  - entity_id: modal
+    display_name: Modal
+    entity_type: startup
+    canonical_domains: [modal.com]
+    github_orgs: [modal-labs]
+    repo_names: [modal-labs/modal-client]
+    technology_ids: [modal]
+  - entity_id: e2b
+    display_name: E2B
+    entity_type: startup
+    canonical_domains: [e2b.dev]
+    github_orgs: [e2b-dev]
+    technology_ids: [e2b]
+  - entity_id: daytona
+    display_name: Daytona
+    entity_type: startup
+    canonical_domains: [daytona.io]
+    github_orgs: [daytonaio]
+    repo_names: [daytonaio/daytona]
+    technology_ids: [daytona]
+  - entity_id: runloop
+    display_name: Runloop
+    entity_type: startup
+    canonical_domains: [runloop.ai]
+    github_orgs: [runloopai]
+    technology_ids: [runloop]
+  - entity_id: cloudflare
+    display_name: Cloudflare
+    entity_type: company
+    canonical_domains: [cloudflare.com]
+    github_orgs: [cloudflare]
+    technology_ids: [cloudflare-agents, cloudflare-containers]
+  - entity_id: ollama
+    display_name: Ollama
+    entity_type: company
+    canonical_domains: [ollama.com]
+    github_orgs: [ollama]
+    repo_names: [ollama/ollama]
+    technology_ids: [ollama]
+  - entity_id: browserbase
+    display_name: Browserbase
+    entity_type: startup
+    canonical_domains: [browserbase.com]
+    github_orgs: [browserbase]
+    technology_ids: [browserbase]
+  - entity_id: hyperbrowser
+    display_name: Hyperbrowser
+    entity_type: startup
+    canonical_domains: [hyperbrowser.ai]
+    github_orgs: [hyperbrowserai]
+    technology_ids: [hyperbrowser]
+  - entity_id: steel
+    display_name: Steel
+    entity_type: startup
+    canonical_domains: [steel.dev]
+    github_orgs: [steel-dev]
+    technology_ids: [steel-browser]
+  - entity_id: qdrant
+    display_name: Qdrant
+    entity_type: startup
+    canonical_domains: [qdrant.tech]
+    github_orgs: [qdrant]
+    technology_ids: [qdrant]
+  - entity_id: chroma
+    display_name: Chroma
+    entity_type: startup
+    canonical_domains: [trychroma.com]
+    github_orgs: [chroma-core]
+    technology_ids: [chroma]
+  - entity_id: lancedb
+    display_name: LanceDB
+    entity_type: startup
+    canonical_domains: [lancedb.com]
+    github_orgs: [lancedb]
+    technology_ids: [lancedb]
+  - entity_id: mem0
+    display_name: Mem0
+    entity_type: startup
+    canonical_domains: [mem0.ai]
+    github_orgs: [mem0ai]
+  - entity_id: langfuse
+    display_name: Langfuse
+    entity_type: startup
+    canonical_domains: [langfuse.com]
+    github_orgs: [langfuse]
+    technology_ids: [langfuse]
+  - entity_id: arize
+    display_name: Arize
+    entity_type: startup
+    canonical_domains: [arize.com]
+    github_orgs: [Arize-ai]
+    technology_ids: [phoenix]
+  - entity_id: helicone
+    display_name: Helicone
+    entity_type: startup
+    canonical_domains: [helicone.ai]
+    github_orgs: [Helicone]
+    technology_ids: [helicone]

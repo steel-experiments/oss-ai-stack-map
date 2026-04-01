@@ -587,6 +587,7 @@ def build_report(input_dir: Path) -> str:
     gap_report = load_json(input_dir / "gap_report.json")
     benchmark_report = load_json(input_dir / "benchmark_recall_report.json")
     evidence_tier_report = load_json(input_dir / "evidence_tier_report.json")
+    entity_report = load_json(input_dir / "entity_report.json")
     validation_audit_report = load_json(input_dir / "validation_audit_report.json")
     robustness_report = load_json(input_dir / "robustness_report.json")
     technology_discovery_report = load_json(input_dir / "technology_discovery_report.json")
@@ -902,6 +903,16 @@ def build_report(input_dir: Path) -> str:
     validation_audit_false_positive_rate = float((validation_audit_report or {}).get("estimated_false_positive_rate", 0.0))
     validation_audit_false_positive_ci = (validation_audit_report or {}).get("estimated_false_positive_rate_ci95", {"lower": 0.0, "upper": 0.0})
     validation_audit_segments = (validation_audit_report or {}).get("segment_counts", [])
+    entity_count = int((entity_report or {}).get("entity_count", 0))
+    entity_steward_mapped_repos = int((entity_report or {}).get("steward_mapped_final_repo_count", 0))
+    entity_steward_mapped_share = float((entity_report or {}).get("steward_mapped_final_repo_share", 0.0))
+    entity_vendor_mapped_technology_count = int((entity_report or {}).get("vendor_mapped_technology_count", 0))
+    entity_vendor_mapped_repo_count = int((entity_report or {}).get("vendor_mapped_final_repo_count", 0))
+    entity_vendor_mapped_repo_share = float((entity_report or {}).get("vendor_mapped_final_repo_share", 0.0))
+    entity_type_counts = (entity_report or {}).get("entity_type_counts", [])
+    entity_repo_stewards = (entity_report or {}).get("top_repo_stewards", [])
+    entity_technology_vendors = (entity_report or {}).get("top_technology_vendors", [])
+    entity_confidence_counts = (entity_report or {}).get("repo_steward_confidence_counts", [])
     robustness_rule_only = (robustness_report or {}).get("rule_only", {})
     robustness_judge_adjusted = (robustness_report or {}).get("judge_adjusted", {})
     robustness_temporal = (robustness_report or {}).get("temporal_comparison")
@@ -1010,6 +1021,52 @@ def build_report(input_dir: Path) -> str:
         """
         for row in validation_audit_segments[:6]
     ) or '<div class="text-sm text-muted">No validation audit segment data in this snapshot.</div>'
+
+    entity_type_rows = "\n".join(
+        f"""
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">{escape(str(row['entity_type']))}</div>
+          <div class="font-mono text-xs text-muted">{fmt_int(int(row['count']))}</div>
+        </div>
+        """
+        for row in entity_type_counts[:6]
+    ) or '<div class="text-sm text-muted">No entity registry loaded for this snapshot.</div>'
+
+    entity_steward_rows = "\n".join(
+        f"""
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">{escape(str(row['display_name']))}</div>
+            <div class="mt-1 text-xs text-muted">{escape(str(row.get('entity_type', 'unknown')))}</div>
+          </div>
+          <div class="font-mono text-xs text-muted">{fmt_int(int(row['repo_count']))} / {100 * float(row.get('repo_share', 0.0)):.1f}%</div>
+        </div>
+        """
+        for row in entity_repo_stewards[:6]
+    ) or '<div class="text-sm text-muted">No steward-mapped repos in this snapshot.</div>'
+
+    entity_vendor_rows = "\n".join(
+        f"""
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">{escape(str(row['display_name']))}</div>
+            <div class="mt-1 text-xs text-muted">{fmt_int(int(row.get('technology_count', 0)))} mapped technologies</div>
+          </div>
+          <div class="font-mono text-xs text-muted">{fmt_int(int(row['repo_count']))} / {100 * float(row.get('repo_share', 0.0)):.1f}%</div>
+        </div>
+        """
+        for row in entity_technology_vendors[:6]
+    ) or '<div class="text-sm text-muted">No vendor-mapped technologies in this snapshot.</div>'
+
+    entity_confidence_rows = "\n".join(
+        f"""
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">{escape(str(row['confidence']))}</div>
+          <div class="font-mono text-xs text-muted">{fmt_int(int(row['repo_count']))}</div>
+        </div>
+        """
+        for row in entity_confidence_counts[:6]
+    ) or '<div class="text-sm text-muted">No repo steward confidence data in this snapshot.</div>'
 
     technology_candidate_rows = "\n".join(
         f"""
@@ -1289,6 +1346,45 @@ def build_report(input_dir: Path) -> str:
               <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-strong">[language mix]</div>
               <div class="mt-4 space-y-4">
                 {tech_bar_rows(top_language_rows, final_repos, 'from-tropic-coral to-tropic-papaya')}
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ entity mapping</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Who appears to steward repos, and which companies sit behind tracked technologies</h2>
+          <p class="mt-4 max-w-2xl text-sm leading-7 text-muted">This layer is separate from stack normalization. Repo steward mapping currently uses curated exact repo-name and GitHub org matches only. Technology vendor mapping is curated in config and should be read as product stewardship, not proof that every adopting repo is company-backed.</p>
+          <div class="mt-6 grid gap-4 sm:grid-cols-3">
+            {stat_card("Tracked entities", fmt_int(entity_count), "Curated company, startup, foundation, and individual entities loaded from the entity registry.")}
+            {stat_card("Steward-mapped repos", fmt_int(entity_steward_mapped_repos), f"{100 * entity_steward_mapped_share:.1f}% of final repos map to a steward entity via repo-name or GitHub org evidence.")}
+            {stat_card("Vendor-mapped repos", fmt_int(entity_vendor_mapped_repo_count), f"{100 * entity_vendor_mapped_repo_share:.1f}% of final repos use at least one technology tied to a curated vendor entity across {fmt_int(entity_vendor_mapped_technology_count)} tracked technologies.")}
+          </div>
+          <div class="mt-6 grid gap-4 lg:grid-cols-2">
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[top repo stewards]</div>
+              <div class="mt-4">
+                {entity_steward_rows}
+              </div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[top technology vendors]</div>
+              <div class="mt-4">
+                {entity_vendor_rows}
+              </div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[entity types]</div>
+              <div class="mt-4">
+                {entity_type_rows}
+              </div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[repo steward confidence]</div>
+              <div class="mt-4">
+                {entity_confidence_rows}
               </div>
             </div>
           </div>

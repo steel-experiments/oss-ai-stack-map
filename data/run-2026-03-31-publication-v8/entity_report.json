@@ -1,0 +1,178 @@
+{
+  "entity_count": 24,
+  "entity_type_counts": [
+    {
+      "count": 16,
+      "entity_type": "startup"
+    },
+    {
+      "count": 8,
+      "entity_type": "company"
+    }
+  ],
+  "repo_steward_confidence_counts": [
+    {
+      "confidence": "high",
+      "repo_count": 54
+    }
+  ],
+  "steward_mapped_final_repo_count": 54,
+  "steward_mapped_final_repo_share": 0.0549,
+  "top_repo_stewards": [
+    {
+      "display_name": "Hugging Face",
+      "entity_id": "huggingface",
+      "entity_type": "company",
+      "repo_count": 10,
+      "repo_share": 0.0102
+    },
+    {
+      "display_name": "LangChain",
+      "entity_id": "langchain",
+      "entity_type": "startup",
+      "repo_count": 8,
+      "repo_share": 0.0081
+    },
+    {
+      "display_name": "Google",
+      "entity_id": "google",
+      "entity_type": "company",
+      "repo_count": 7,
+      "repo_share": 0.0071
+    },
+    {
+      "display_name": "OpenAI",
+      "entity_id": "openai",
+      "entity_type": "company",
+      "repo_count": 5,
+      "repo_share": 0.0051
+    },
+    {
+      "display_name": "Meta",
+      "entity_id": "meta",
+      "entity_type": "company",
+      "repo_count": 4,
+      "repo_share": 0.0041
+    },
+    {
+      "display_name": "Qdrant",
+      "entity_id": "qdrant",
+      "entity_type": "startup",
+      "repo_count": 3,
+      "repo_share": 0.0031
+    },
+    {
+      "display_name": "LlamaIndex",
+      "entity_id": "llamaindex",
+      "entity_type": "startup",
+      "repo_count": 2,
+      "repo_share": 0.002
+    },
+    {
+      "display_name": "Browserbase",
+      "entity_id": "browserbase",
+      "entity_type": "startup",
+      "repo_count": 2,
+      "repo_share": 0.002
+    },
+    {
+      "display_name": "E2B",
+      "entity_id": "e2b",
+      "entity_type": "startup",
+      "repo_count": 2,
+      "repo_share": 0.002
+    },
+    {
+      "display_name": "Ollama",
+      "entity_id": "ollama",
+      "entity_type": "company",
+      "repo_count": 1,
+      "repo_share": 0.001
+    }
+  ],
+  "top_technology_vendors": [
+    {
+      "display_name": "OpenAI",
+      "entity_id": "openai",
+      "entity_type": "company",
+      "repo_count": 566,
+      "repo_share": 0.5758,
+      "technology_count": 2
+    },
+    {
+      "display_name": "Hugging Face",
+      "entity_id": "huggingface",
+      "entity_type": "company",
+      "repo_count": 487,
+      "repo_share": 0.4954,
+      "technology_count": 5
+    },
+    {
+      "display_name": "Anthropic",
+      "entity_id": "anthropic",
+      "entity_type": "company",
+      "repo_count": 292,
+      "repo_share": 0.297,
+      "technology_count": 1
+    },
+    {
+      "display_name": "LangChain",
+      "entity_id": "langchain",
+      "entity_type": "startup",
+      "repo_count": 256,
+      "repo_share": 0.2604,
+      "technology_count": 5
+    },
+    {
+      "display_name": "Google",
+      "entity_id": "google",
+      "entity_type": "company",
+      "repo_count": 215,
+      "repo_share": 0.2187,
+      "technology_count": 1
+    },
+    {
+      "display_name": "Ollama",
+      "entity_id": "ollama",
+      "entity_type": "company",
+      "repo_count": 129,
+      "repo_share": 0.1312,
+      "technology_count": 1
+    },
+    {
+      "display_name": "Vercel",
+      "entity_id": "vercel",
+      "entity_type": "company",
+      "repo_count": 103,
+      "repo_share": 0.1048,
+      "technology_count": 2
+    },
+    {
+      "display_name": "Chroma",
+      "entity_id": "chroma",
+      "entity_type": "startup",
+      "repo_count": 93,
+      "repo_share": 0.0946,
+      "technology_count": 1
+    },
+    {
+      "display_name": "Qdrant",
+      "entity_id": "qdrant",
+      "entity_type": "startup",
+      "repo_count": 88,
+      "repo_share": 0.0895,
+      "technology_count": 1
+    },
+    {
+      "display_name": "LlamaIndex",
+      "entity_id": "llamaindex",
+      "entity_type": "startup",
+      "repo_count": 51,
+      "repo_share": 0.0519,
+      "technology_count": 1
+    }
+  ],
+  "vendor_mapped_final_repo_count": 856,
+  "vendor_mapped_final_repo_share": 0.8708,
+  "vendor_mapped_technology_count": 34
+}

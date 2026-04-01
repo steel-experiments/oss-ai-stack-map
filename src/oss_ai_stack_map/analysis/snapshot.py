@@ -33,10 +33,14 @@ from oss_ai_stack_map.pipeline.registry_suggestions import build_registry_sugges
 from oss_ai_stack_map.pipeline.reporting import (
     build_benchmark_recall_report,
     build_evidence_tier_report,
+    build_entity_report,
+    build_entity_rows,
     build_gap_report,
+    build_repo_entity_edge_rows,
     build_report_summary,
     build_review_queue_report,
     build_robustness_report,
+    build_technology_entity_edge_rows,
     build_validation_audit_report,
 )
 from oss_ai_stack_map.pipeline.technology_discovery import build_technology_discovery_report
@@ -654,6 +658,35 @@ def _write_rebuilt_snapshot_outputs(
             technology_rows,
             write_csv=runtime.study.outputs.write_csv,
         )
+    entity_rows = build_entity_rows(runtime)
+    if entity_rows:
+        write_rows(
+            output_dir,
+            "entities",
+            entity_rows,
+            write_csv=runtime.study.outputs.write_csv,
+        )
+    repo_entity_edges = build_repo_entity_edge_rows(
+        runtime=runtime,
+        repos=[repo.to_row() for repo in repos],
+        decisions=[decision.to_row() for decision in decisions],
+        contexts=[context.to_row() for context in contexts],
+    )
+    if repo_entity_edges:
+        write_rows(
+            output_dir,
+            "repo_entity_edges",
+            repo_entity_edges,
+            write_csv=runtime.study.outputs.write_csv,
+        )
+    technology_entity_edges = build_technology_entity_edge_rows(runtime)
+    if technology_entity_edges:
+        write_rows(
+            output_dir,
+            "technology_entity_edges",
+            technology_entity_edges,
+            write_csv=runtime.study.outputs.write_csv,
+        )
     if existing_judge_decisions:
         write_rows(
             output_dir,
@@ -683,6 +716,9 @@ def _write_rebuilt_snapshot_outputs(
     if runtime.benchmarks.entities:
         benchmark_recall = build_benchmark_recall_report(input_dir=output_dir, runtime=runtime)
         _write_json(output_dir / "benchmark_recall_report.json", benchmark_recall.__dict__)
+    if runtime.entities.entities:
+        entity_report = build_entity_report(input_dir=output_dir, runtime=runtime)
+        _write_json(output_dir / "entity_report.json", entity_report.__dict__)
     review_queue_report = build_review_queue_report(input_dir=output_dir, runtime=runtime)
     _write_json(output_dir / "review_queue.json", review_queue_report.__dict__)
     robustness_report = build_robustness_report(

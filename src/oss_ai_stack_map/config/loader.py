@@ -205,6 +205,42 @@ class BenchmarkConfig(BaseModel):
     thresholds: BenchmarkThresholds = Field(default_factory=BenchmarkThresholds)
 
 
+class EntityRecord(BaseModel):
+    entity_id: str
+    display_name: str
+    entity_type: str = "company"
+    canonical_domains: list[str] = Field(default_factory=list)
+    github_orgs: list[str] = Field(default_factory=list)
+    repo_names: list[str] = Field(default_factory=list)
+    technology_ids: list[str] = Field(default_factory=list)
+    notes: str | None = None
+
+
+class EntityConfig(BaseModel):
+    entities: list[EntityRecord] = Field(default_factory=list)
+
+    def repo_lookup(self) -> dict[str, EntityRecord]:
+        lookup: dict[str, EntityRecord] = {}
+        for entity in self.entities:
+            for repo_name in entity.repo_names:
+                lookup[repo_name.casefold()] = entity
+        return lookup
+
+    def github_org_lookup(self) -> dict[str, EntityRecord]:
+        lookup: dict[str, EntityRecord] = {}
+        for entity in self.entities:
+            for github_org in entity.github_orgs:
+                lookup[github_org.casefold()] = entity
+        return lookup
+
+    def technology_lookup(self) -> dict[str, EntityRecord]:
+        lookup: dict[str, EntityRecord] = {}
+        for entity in self.entities:
+            for technology_id in entity.technology_ids:
+                lookup[technology_id] = entity
+        return lookup
+
+
 class EnvSettings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
@@ -220,6 +256,7 @@ class RuntimeConfig(BaseModel):
     aliases: TechnologyAliasConfig
     registry: TechnologyAliasConfig = Field(default_factory=TechnologyAliasConfig)
     benchmarks: BenchmarkConfig = Field(default_factory=BenchmarkConfig)
+    entities: EntityConfig = Field(default_factory=EntityConfig)
     segments: SegmentConfig
     env: EnvSettings
 
@@ -244,6 +281,10 @@ def load_runtime(config_dir: Path = Path("config")) -> RuntimeConfig:
     benchmarks = BenchmarkConfig.model_validate(
         _load_yaml(benchmarks_path) if benchmarks_path.exists() else {}
     )
+    entities_path = config_dir / "entities.yaml"
+    entities = EntityConfig.model_validate(
+        _load_yaml(entities_path) if entities_path.exists() else {}
+    )
     segments = SegmentConfig.model_validate(_load_yaml(config_dir / "segment_rules.yaml"))
     env = EnvSettings()
     runtime = RuntimeConfig(
@@ -254,6 +295,7 @@ def load_runtime(config_dir: Path = Path("config")) -> RuntimeConfig:
         aliases=aliases,
         registry=registry,
         benchmarks=benchmarks,
+        entities=entities,
         segments=segments,
         env=env,
     )
@@ -282,6 +324,13 @@ def collect_runtime_config_issues(runtime: RuntimeConfig) -> list[str]:
             "technology ids are duplicated across aliases and registry: "
             + ", ".join(overlapping_technology_ids)
         )
+
+    entity_ids = [entity.entity_id for entity in runtime.entities.entities]
+    duplicate_entity_ids = sorted(
+        entity_id for entity_id, count in Counter(entity_ids).items() if count > 1
+    )
+    if duplicate_entity_ids:
+        issues.append("entity ids are duplicated: " + ", ".join(duplicate_entity_ids))
 
     segment_rule_ids = [rule.segment_id for rule in runtime.segments.rules]
     duplicate_segment_rule_ids = sorted(
@@ -332,6 +381,38 @@ def collect_runtime_config_issues(runtime: RuntimeConfig) -> list[str]:
                 issues.append(
                     f"benchmark entity '{entity.entity_id}' has invalid repo name '{repo_name}'"
                 )
+
+    github_org_to_entity: dict[str, str] = {}
+    technology_to_entity: dict[str, str] = {}
+    for entity in runtime.entities.entities:
+        unknown_technology_ids = sorted(set(entity.technology_ids) - known_technology_ids)
+        if unknown_technology_ids:
+            issues.append(
+                f"entity '{entity.entity_id}' references unknown technology ids: "
+                + ", ".join(unknown_technology_ids)
+            )
+        for repo_name in entity.repo_names:
+            if not _looks_like_full_repo_name(repo_name):
+                issues.append(
+                    f"entity '{entity.entity_id}' has invalid repo name '{repo_name}'"
+                )
+        for github_org in entity.github_orgs:
+            normalized = github_org.casefold()
+            existing = github_org_to_entity.get(normalized)
+            if existing and existing != entity.entity_id:
+                issues.append(
+                    f"github org '{github_org}' is mapped to multiple entities: "
+                    f"{existing}, {entity.entity_id}"
+                )
+            github_org_to_entity[normalized] = entity.entity_id
+        for technology_id in entity.technology_ids:
+            existing = technology_to_entity.get(technology_id)
+            if existing and existing != entity.entity_id:
+                issues.append(
+                    f"technology id '{technology_id}' is mapped to multiple entities: "
+                    f"{existing}, {entity.entity_id}"
+                )
+            technology_to_entity[technology_id] = entity.entity_id
 
     for repo_name in runtime.discovery.manual_seed_repos:
         if not _looks_like_full_repo_name(repo_name):

@@ -61,7 +61,7 @@
             <div class="w-full max-w-full overflow-x-auto overscroll-x-contain">
               <pre class="inline-block whitespace-pre font-mono text-[10px] leading-5 text-muted-strong sm:text-[11px]">+--------------------------------------------------------------+
 | OSS AI STACK MAP :: SNAPSHOT REPORT                          |
-| SOURCE: data/run-2026-03-31-publication-v7                   |
+| SOURCE: data/run-2026-03-31-publication-v8                   |
 | LENS: major, active, public OSS AI repos on GitHub           |
 +--------------------------------------------------------------+</pre>
             </div>
@@ -69,7 +69,7 @@
               What major open source AI repos actually use.
             </h1>
             <p class="mt-6 max-w-3xl text-base leading-8 text-paper/80 sm:text-lg">
-              This report reads directly from <span class="break-all font-mono text-paper">data/run-2026-03-31-publication-v7</span> and summarizes the current
+              This report reads directly from <span class="break-all font-mono text-paper">data/run-2026-03-31-publication-v8</span> and summarizes the current
               stack choices across the project’s final GitHub AI set.
             </p>
             <p class="mt-5 max-w-3xl text-sm leading-7 text-muted-strong">
@@ -99,13 +99,13 @@
 
         <div class="flex flex-col gap-1 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div class="text-sm text-paper">Updated</div>
-          <div class="break-all font-mono text-xs text-muted-strong sm:max-w-[11rem] sm:text-right">2026-03-31 19:12:58.849353 UTC</div>
+          <div class="break-all font-mono text-xs text-muted-strong sm:max-w-[11rem] sm:text-right">2026-03-31 21:21:32.089804 UTC</div>
         </div>
         
 
         <div class="flex flex-col gap-1 border-t border-white/10 py-3 first:border-t-0 first:pt-0 last:pb-0 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div class="text-sm text-paper">Generated</div>
-          <div class="break-all font-mono text-xs text-muted-strong sm:max-w-[11rem] sm:text-right">2026-03-31 19:13 UTC</div>
+          <div class="break-all font-mono text-xs text-muted-strong sm:max-w-[11rem] sm:text-right">2026-03-31 21:21 UTC</div>
         </div>
         
             </div>
@@ -286,6 +286,185 @@
               </div>
             </div>
             
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-14 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+        <article class="border border-line bg-paper p-6">
+          <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ entity mapping</div>
+          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Who appears to steward repos, and which companies sit behind tracked technologies</h2>
+          <p class="mt-4 max-w-2xl text-sm leading-7 text-muted">This layer is separate from stack normalization. Repo steward mapping currently uses curated exact repo-name and GitHub org matches only. Technology vendor mapping is curated in config and should be read as product stewardship, not proof that every adopting repo is company-backed.</p>
+          <div class="mt-6 grid gap-4 sm:grid-cols-3">
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Tracked entities</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">24</div>
+      <div class="mt-2 text-sm leading-6 text-muted">Curated company, startup, foundation, and individual entities loaded from the entity registry.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Steward-mapped repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">54</div>
+      <div class="mt-2 text-sm leading-6 text-muted">5.5% of final repos map to a steward entity via repo-name or GitHub org evidence.</div>
+    </div>
+    
+            
+    <div class="border border-line bg-paper p-5">
+      <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">+ Vendor-mapped repos</div>
+      <div class="mt-3 text-3xl font-semibold tracking-tight text-ink">856</div>
+      <div class="mt-2 text-sm leading-6 text-muted">87.1% of final repos use at least one technology tied to a curated vendor entity across 34 tracked technologies.</div>
+    </div>
+    
+          </div>
+          <div class="mt-6 grid gap-4 lg:grid-cols-2">
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[top repo stewards]</div>
+              <div class="mt-4">
+                
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Hugging Face</div>
+            <div class="mt-1 text-xs text-muted">company</div>
+          </div>
+          <div class="font-mono text-xs text-muted">10 / 1.0%</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">LangChain</div>
+            <div class="mt-1 text-xs text-muted">startup</div>
+          </div>
+          <div class="font-mono text-xs text-muted">8 / 0.8%</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Google</div>
+            <div class="mt-1 text-xs text-muted">company</div>
+          </div>
+          <div class="font-mono text-xs text-muted">7 / 0.7%</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">OpenAI</div>
+            <div class="mt-1 text-xs text-muted">company</div>
+          </div>
+          <div class="font-mono text-xs text-muted">5 / 0.5%</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Meta</div>
+            <div class="mt-1 text-xs text-muted">company</div>
+          </div>
+          <div class="font-mono text-xs text-muted">4 / 0.4%</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Qdrant</div>
+            <div class="mt-1 text-xs text-muted">startup</div>
+          </div>
+          <div class="font-mono text-xs text-muted">3 / 0.3%</div>
+        </div>
+        
+              </div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[top technology vendors]</div>
+              <div class="mt-4">
+                
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">OpenAI</div>
+            <div class="mt-1 text-xs text-muted">2 mapped technologies</div>
+          </div>
+          <div class="font-mono text-xs text-muted">566 / 57.6%</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Hugging Face</div>
+            <div class="mt-1 text-xs text-muted">5 mapped technologies</div>
+          </div>
+          <div class="font-mono text-xs text-muted">487 / 49.5%</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Anthropic</div>
+            <div class="mt-1 text-xs text-muted">1 mapped technologies</div>
+          </div>
+          <div class="font-mono text-xs text-muted">292 / 29.7%</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">LangChain</div>
+            <div class="mt-1 text-xs text-muted">5 mapped technologies</div>
+          </div>
+          <div class="font-mono text-xs text-muted">256 / 26.0%</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Google</div>
+            <div class="mt-1 text-xs text-muted">1 mapped technologies</div>
+          </div>
+          <div class="font-mono text-xs text-muted">215 / 21.9%</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0">
+            <div class="break-words text-sm font-medium text-ink">Ollama</div>
+            <div class="mt-1 text-xs text-muted">1 mapped technologies</div>
+          </div>
+          <div class="font-mono text-xs text-muted">129 / 13.1%</div>
+        </div>
+        
+              </div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[entity types]</div>
+              <div class="mt-4">
+                
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">startup</div>
+          <div class="font-mono text-xs text-muted">16</div>
+        </div>
+        
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">company</div>
+          <div class="font-mono text-xs text-muted">8</div>
+        </div>
+        
+              </div>
+            </div>
+            <div class="border border-line bg-cloud p-5">
+              <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[repo steward confidence]</div>
+              <div class="mt-4">
+                
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-t border-line py-3 first:border-t-0 first:pt-0 last:pb-0">
+          <div class="min-w-0 break-all text-sm text-ink">high</div>
+          <div class="font-mono text-xs text-muted">54</div>
+        </div>
+        
               </div>
             </div>
           </div>
@@ -740,7 +919,7 @@
     
           </div>
           <div class="mt-6 border border-line bg-cloud p-5">
-            <p class="text-sm leading-7 text-muted">Rule-only yields 975 final repos. Judge adjustment yields 983. Direct-only evidence maps 941 repos, and reviewed fallback lifts that to 983. No temporal baseline comparison is available for this snapshot.</p>
+            <p class="text-sm leading-7 text-muted">Rule-only yields 975 final repos. Judge adjustment yields 983. Direct-only evidence maps 941 repos, and reviewed fallback lifts that to 983. Baseline comparison: /home/agent/oss-ai-stack-map/data/run-2026-03-31-publication-v7</p>
           </div>
         </article>
       </section>
@@ -2146,7 +2325,7 @@
             <div class="border border-line bg-cloud p-5">
               <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[betweenness vs prevalence]</div>
               <div class="mt-3 text-sm leading-6 text-muted">Points higher on the chart bridge otherwise different tool combinations. Point size reflects weighted co-occurrence strength.</div>
-              <div class="mt-4 overflow-x-auto"><svg viewBox="0 0 720 320" class="w-full" role="img" aria-label="Scatter plot"><rect x="0" y="0" width="720" height="320" fill="#FBFAF7" /><line x1="54" y1="278" x2="702" y2="278" stroke="#CBC3B7" /><line x1="54" y1="18" x2="54" y2="278" stroke="#CBC3B7" /><line x1="54.0" y1="18" x2="54.0" y2="278" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="54.0" y="294" fill="#766E64" font-size="10" text-anchor="middle">0</text><line x1="378.0" y1="18" x2="378.0" y2="278" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="378.0" y="294" fill="#766E64" font-size="10" text-anchor="middle">283</text><line x1="702.0" y1="18" x2="702.0" y2="278" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="702.0" y="294" fill="#766E64" font-size="10" text-anchor="middle">566</text><line x1="54" y1="278.0" x2="702" y2="278.0" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="48" y="282.0" fill="#766E64" font-size="10" text-anchor="end">0.000</text><line x1="54" y1="148.0" x2="702" y2="148.0" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="48" y="152.0" fill="#766E64" font-size="10" text-anchor="end">0.359</text><line x1="54" y1="18.0" x2="702" y2="18.0" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="48" y="22.0" fill="#766E64" font-size="10" text-anchor="end">0.719</text><circle cx="78.0" cy="278.0" r="4.7" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="58.6" cy="278.0" r="4.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="102.1" cy="268.7" r="5.2" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="111.3" y="261.4" fill="#1A1816" font-size="10">Langfuse</text><circle cx="56.3" cy="278.0" r="4.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="57.4" cy="278.0" r="4.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="336.8" cy="250.1" r="10.2" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="351.0" y="237.9" fill="#1A1816" font-size="10">LangChain</text><circle cx="146.7" cy="278.0" r="6.0" fill="#9EC3B5" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="201.7" cy="278.0" r="6.9" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="90.6" cy="278.0" r="5.3" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="103.2" cy="278.0" r="5.6" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="107.8" cy="278.0" r="5.2" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="62.0" cy="278.0" r="4.3" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="106.7" cy="278.0" r="5.5" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="78.0" cy="278.0" r="4.7" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="103.2" cy="278.0" r="5.4" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="293.3" cy="278.0" r="8.7" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="486.8" cy="223.4" r="11.4" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="502.2" y="209.9" fill="#1A1816" font-size="10">Transformers</text><circle cx="58.6" cy="278.0" r="4.1" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="92.9" cy="278.0" r="4.9" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="426.1" cy="277.0" r="10.5" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="112.4" cy="278.0" r="5.7" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="56.3" cy="278.0" r="4.1" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="373.4" cy="277.5" r="11.0" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="702.0" cy="18.0" r="14.0" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="720.0" y="2.0" fill="#1A1816" font-size="10">OpenAI SDK</text><circle cx="117.0" cy="278.0" r="5.6" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="56.3" cy="278.0" r="4.0" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="221.2" cy="277.8" r="8.2" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="72.3" cy="278.0" r="4.6" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="88.3" cy="278.0" r="5.3" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="67.7" cy="278.0" r="4.3" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="154.7" cy="268.8" r="6.8" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="165.5" y="260.0" fill="#1A1816" font-size="10">Qdrant</text><circle cx="56.3" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="60.9" cy="278.0" r="4.2" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="160.5" cy="278.0" r="7.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="59.7" cy="278.0" r="4.3" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="75.8" cy="268.9" r="4.6" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="84.4" y="262.3" fill="#1A1816" font-size="10">Modal</text><circle cx="171.9" cy="277.9" r="5.8" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="117.0" cy="278.0" r="5.1" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="71.2" cy="278.0" r="4.5" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="83.8" cy="278.0" r="4.7" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="185.7" cy="278.0" r="7.6" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="92.9" cy="278.0" r="5.1" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="186.8" cy="278.0" r="6.6" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="64.3" cy="278.0" r="4.3" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="121.5" cy="278.0" r="5.4" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="65.4" cy="278.0" r="4.4" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="79.2" cy="278.0" r="4.8" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="388.3" cy="268.1" r="10.3" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="402.6" y="255.8" fill="#1A1816" font-size="10">Anthropic SDK</text><circle cx="65.4" cy="278.0" r="4.3" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="67.7" cy="278.0" r="4.5" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="57.4" cy="278.0" r="4.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="190.2" cy="278.0" r="6.6" fill="#9EC3B5" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="202.8" cy="278.0" r="7.8" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="72.3" cy="278.0" r="4.8" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="336.8" cy="277.6" r="10.4" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="120.4" cy="278.0" r="5.9" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="59.7" cy="278.0" r="4.2" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="495.9" cy="259.5" r="10.5" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="510.4" y="247.1" fill="#1A1816" font-size="10">Model Context Protocol</text><circle cx="58.6" cy="278.0" r="4.1" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="113.5" cy="278.0" r="5.5" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="68.9" cy="278.0" r="4.4" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="300.1" cy="278.0" r="9.3" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="73.5" cy="278.0" r="4.6" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="67.7" cy="278.0" r="4.5" fill="#9EC3B5" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="56.3" cy="278.0" r="4.0" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="378.0" y="312" fill="#766E64" font-size="11" text-anchor="middle">Repo count</text><text x="14" y="148.0" fill="#766E64" font-size="11" text-anchor="middle" transform="rotate(-90 14 148.0)">Betweenness centrality</text></svg></div>
+              <div class="mt-4 overflow-x-auto"><svg viewBox="0 0 720 320" class="w-full" role="img" aria-label="Scatter plot"><rect x="0" y="0" width="720" height="320" fill="#FBFAF7" /><line x1="54" y1="278" x2="702" y2="278" stroke="#CBC3B7" /><line x1="54" y1="18" x2="54" y2="278" stroke="#CBC3B7" /><line x1="54.0" y1="18" x2="54.0" y2="278" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="54.0" y="294" fill="#766E64" font-size="10" text-anchor="middle">0</text><line x1="378.0" y1="18" x2="378.0" y2="278" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="378.0" y="294" fill="#766E64" font-size="10" text-anchor="middle">283</text><line x1="702.0" y1="18" x2="702.0" y2="278" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="702.0" y="294" fill="#766E64" font-size="10" text-anchor="middle">566</text><line x1="54" y1="278.0" x2="702" y2="278.0" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="48" y="282.0" fill="#766E64" font-size="10" text-anchor="end">0.000</text><line x1="54" y1="148.0" x2="702" y2="148.0" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="48" y="152.0" fill="#766E64" font-size="10" text-anchor="end">0.359</text><line x1="54" y1="18.0" x2="702" y2="18.0" stroke="#CBC3B7" stroke-dasharray="3 4" /><text x="48" y="22.0" fill="#766E64" font-size="10" text-anchor="end">0.719</text><circle cx="75.8" cy="268.9" r="4.6" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="84.4" y="262.3" fill="#1A1816" font-size="10">Modal</text><circle cx="56.3" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="57.4" cy="278.0" r="4.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="117.0" cy="278.0" r="5.1" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="56.3" cy="278.0" r="4.1" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="57.4" cy="278.0" r="4.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="90.6" cy="278.0" r="5.3" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="103.2" cy="278.0" r="5.4" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="702.0" cy="18.0" r="14.0" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="720.0" y="2.0" fill="#1A1816" font-size="10">OpenAI SDK</text><circle cx="78.0" cy="278.0" r="4.7" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="68.9" cy="278.0" r="4.4" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="58.6" cy="278.0" r="4.1" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="112.4" cy="278.0" r="5.7" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="56.3" cy="278.0" r="4.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="65.4" cy="278.0" r="4.4" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="65.4" cy="278.0" r="4.3" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="73.5" cy="278.0" r="4.6" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="495.9" cy="259.5" r="10.5" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="510.4" y="247.1" fill="#1A1816" font-size="10">Model Context Protocol</text><circle cx="67.7" cy="278.0" r="4.5" fill="#9EC3B5" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="72.3" cy="278.0" r="4.6" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="56.3" cy="278.0" r="4.0" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="102.1" cy="268.7" r="5.2" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="111.3" y="261.4" fill="#1A1816" font-size="10">Langfuse</text><circle cx="71.2" cy="278.0" r="4.5" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="92.9" cy="278.0" r="5.1" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="64.3" cy="278.0" r="4.3" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="60.9" cy="278.0" r="4.2" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="160.5" cy="278.0" r="7.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="336.8" cy="250.1" r="10.2" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="351.0" y="237.9" fill="#1A1816" font-size="10">LangChain</text><circle cx="171.9" cy="277.9" r="5.8" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="72.3" cy="278.0" r="4.8" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="58.6" cy="278.0" r="4.1" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="486.8" cy="223.4" r="11.4" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="502.2" y="209.9" fill="#1A1816" font-size="10">Transformers</text><circle cx="120.4" cy="278.0" r="5.9" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="78.0" cy="278.0" r="4.7" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="201.7" cy="278.0" r="6.9" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="186.8" cy="278.0" r="6.6" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="58.6" cy="278.0" r="4.1" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="293.3" cy="278.0" r="8.7" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="59.7" cy="278.0" r="4.2" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="113.5" cy="278.0" r="5.5" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="146.7" cy="278.0" r="6.0" fill="#9EC3B5" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="185.7" cy="278.0" r="7.6" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="388.3" cy="268.1" r="10.3" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="402.6" y="255.8" fill="#1A1816" font-size="10">Anthropic SDK</text><circle cx="67.7" cy="278.0" r="4.3" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="103.2" cy="278.0" r="5.6" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="300.1" cy="278.0" r="9.3" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="107.8" cy="278.0" r="5.2" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="56.3" cy="278.0" r="4.0" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="154.7" cy="268.8" r="6.8" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="165.5" y="260.0" fill="#1A1816" font-size="10">Qdrant</text><circle cx="83.8" cy="278.0" r="4.7" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="92.9" cy="278.0" r="4.9" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="121.5" cy="278.0" r="5.4" fill="#E5A36F" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="62.0" cy="278.0" r="4.3" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="373.4" cy="277.5" r="11.0" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="221.2" cy="277.8" r="8.2" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="67.7" cy="278.0" r="4.5" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="79.2" cy="278.0" r="4.8" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="117.0" cy="278.0" r="5.6" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="55.1" cy="278.0" r="4.0" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="106.7" cy="278.0" r="5.5" fill="#6FA7A3" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="202.8" cy="278.0" r="7.8" fill="#E78B72" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="88.3" cy="278.0" r="5.3" fill="#D7A0AA" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="190.2" cy="278.0" r="6.6" fill="#9EC3B5" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="426.1" cy="277.0" r="10.5" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="59.7" cy="278.0" r="4.3" fill="#D8BF6A" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><circle cx="336.8" cy="277.6" r="10.4" fill="#9EAF73" fill-opacity="0.72" stroke="#FBFAF7" stroke-width="1.5" /><text x="378.0" y="312" fill="#766E64" font-size="11" text-anchor="middle">Repo count</text><text x="14" y="148.0" fill="#766E64" font-size="11" text-anchor="middle" transform="rotate(-90 14 148.0)">Betweenness centrality</text></svg></div>
             </div>
             <div class="border border-line bg-cloud p-5">
               <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">[repo degree distribution]</div>
@@ -2214,7 +2393,7 @@
               <div class="mt-4">
                 <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">top categories</div>
                 <div class="mt-2 flex flex-wrap gap-2">
-                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Training (8)</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Serving (6)</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Eval (1)</span>
+                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Training (8)</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Serving (6)</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">sandbox_and_isolated_execution (1)</span>
                 </div>
               </div>
               <div class="mt-4">
@@ -2244,7 +2423,7 @@
               <div class="mt-4">
                 <div class="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">top categories</div>
                 <div class="mt-2 flex flex-wrap gap-2">
-                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Observability (1)</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">sandbox_and_isolated_execution (1)</span>
+                  <span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">sandbox_and_isolated_execution (1)</span><span class="border border-line bg-cloud px-2 py-1 text-[11px] text-ink">Observability (1)</span>
                 </div>
               </div>
               <div class="mt-4">
@@ -2266,12 +2445,12 @@
       </section>
 
       <footer class="mt-14 border border-line bg-paper px-6 py-5 text-sm leading-7 text-muted">
-        <span class="font-mono text-ink">[source]</span> staged Parquet outputs in <span class="break-all font-mono text-ink">data/run-2026-03-31-publication-v7</span>. This file is a static publication layer on top of the existing research pipeline, not a separate data source.
+        <span class="font-mono text-ink">[source]</span> staged Parquet outputs in <span class="break-all font-mono text-ink">data/run-2026-03-31-publication-v8</span>. This file is a static publication layer on top of the existing research pipeline, not a separate data source.
       </footer>
     </main>
     <script>
       (() => {
-        const buildId = "run-2026-03-31-publication-v7";
+        const buildId = "run-2026-03-31-publication-v8";
         const manifestPath = "report-latest.json";
         const stablePaths = new Set(["/", "/index.html", "/oss-ai-stack-report-latest.html"]);
         const pollMs = 15000;
