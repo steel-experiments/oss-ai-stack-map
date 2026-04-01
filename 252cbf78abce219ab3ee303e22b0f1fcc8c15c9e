@@ -1,0 +1,3 @@
+Adds a first-pass entity resolution layer separate from stack normalization.
+
+Includes curated config/entities.yaml, vendor mappings from technologies to entities, steward mappings from exact repo names and GitHub org ownership only, new snapshot outputs (entities.parquet, repo_entity_edges.parquet, technology_entity_edges.parquet, entity_report.json), and a publication section rendered from data/run-2026-03-31-publication-v8. README-domain steward inference was intentionally removed after it over-attributed vendor mentions as maintainers.
